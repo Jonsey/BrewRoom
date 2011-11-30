@@ -122,6 +122,18 @@ namespace Brewroom.Modules.Core.Spec
         }
 
         [Test]
+        public void ShouldCalculateBuGuRatioAsOneIfNoHops()
+        {
+            var grain1 = new Grain("Wheat");
+            var recipe = new Recipe();
+
+            recipe.SetBrewLength(1.Gallons());
+            recipe.AddGrain(grain1, 1.Pound(), 1.045M);
+
+            Assert.AreEqual(1M, recipe.GetGuBuRatio());
+        }
+
+        [Test]
         public void ShouldSetBrewLength()
         {
             var recipe = new Recipe();

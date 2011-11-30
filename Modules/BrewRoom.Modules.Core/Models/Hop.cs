@@ -7,7 +7,10 @@ namespace BrewRoom.Modules.Core.Models
         private HopOilCharacteristics _characteristics;
 
         #region Properties
-
+        public decimal AlphaAcid
+        {
+            get { return GetAlphaAcid(); }
+        }
         #endregion
 
         #region Ctor

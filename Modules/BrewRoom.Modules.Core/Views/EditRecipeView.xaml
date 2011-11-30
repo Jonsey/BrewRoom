@@ -15,19 +15,37 @@
         <DockPanel>
             <TabControl DockPanel.Dock="Left" Height="600" Width="300" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="2" Margin="10">
                 <TabItem Header="Grains">
-                    <ListBox  ItemsSource="{Binding Fermentables}" SelectedItem="{Binding SelectedFermentable}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <UniformGrid>
-                                    <TextBlock Text="{Binding Name}" />
-                                    <TextBlock Text="{Binding Pppg}" />
-                                </UniformGrid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    <DataGrid DockPanel.Dock="Left" 
+                      AutoGenerateColumns="False"
+                      GridLinesVisibility="None"
+                      ItemsSource="{Binding Fermentables}" 
+                      SelectedItem="{Binding SelectedFermentable}"
+                      Height="Auto" 
+                      HorizontalAlignment="Left" 
+                      Margin="10,10,0,0" 
+                      Padding="3"
+                      VerticalAlignment="Top"
+                      Width="270">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                            <DataGridTextColumn Binding="{Binding Pppg}" Header="Potential"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </TabItem>
                 <TabItem Header="Hops">
                     <ListBox  ItemsSource="{Binding Hops}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="30"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding AlphaAcid}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
                     </ListBox>
                 </TabItem>
                 <TabItem Header="Yeast">
@@ -141,12 +159,11 @@
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding RecipeBuGu}" Margin="3" Padding="3" VerticalAlignment="Center"/>
 
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Total Grain" Margin="3" Padding="3"/>
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding RecipeTotalGrainWeight}" Margin="3" Padding="3" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="3" Grid.Column="2" Text="kg" Margin="3" Padding="3"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RecipeTotalGrainWeight, Converter={StaticResource wieghtConverter}}" Margin="3" Padding="3" VerticalAlignment="Center"/>
+
 
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Total Hops" Margin="3" Padding="3"/>
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding RecipeTotalHopWeight}" Margin="3" Padding="3" VerticalAlignment="Center"/>
-                <TextBlock Grid.Row="4" Grid.Column="2" Text="grams" Margin="3" Padding="3"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding RecipeTotalHopWeight, Converter={StaticResource wieghtConverter}}" Margin="3" Padding="3" VerticalAlignment="Center"/>
             </Grid>
         </DockPanel>
     </Grid>

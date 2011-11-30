@@ -97,9 +97,11 @@ namespace BrewRoom.Modules.Core.Models
             return (w * u * a * 1000) / v;
         }
 
-        public object GetGuBuRatio()
+        public decimal GetGuBuRatio()
         {
-            return Math.Round(GetStartingGravity() / GetIBU(), 2);
+            var ibu = GetIBU();
+
+            return ibu > 0 ? Math.Round(GetStartingGravity() / ibu, 2) : 1;
         }
 
         public IList<RecipeGrain>  GetFermentables()
