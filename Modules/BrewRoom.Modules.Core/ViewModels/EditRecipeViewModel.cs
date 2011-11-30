@@ -10,11 +10,17 @@ namespace BrewRoom.Modules.Core.ViewModels
 {
     public class EditRecipeViewModel : NotificationObject
     {
+        #region Fields
         private readonly Recipe _recipe;
         private readonly List<Grain> _fermentables;
-        private readonly List<Hop> _hops;
+        private readonly List<Hop> _hops; 
+        #endregion
+
+        #region Properties
+        public List<VolumeUnit> VolumeUnits { get; private set; }
 
         public IList<Grain> Fermentables { get { return _fermentables; } }
+
         public IList<Hop> Hops { get { return _hops; } }
 
         public Decimal BrewLength
@@ -64,6 +70,10 @@ namespace BrewRoom.Modules.Core.ViewModels
 
         public Grain SelectedFermentable { get; set; }
 
+        public Hop SelectedHop { get; set; } 
+        #endregion
+
+        #region Ctor
         public EditRecipeViewModel()
         {
             VolumeUnits = new List<VolumeUnit> { VolumeUnit.Litres, VolumeUnit.Gallons };
@@ -91,25 +101,38 @@ namespace BrewRoom.Modules.Core.ViewModels
                         {
                             hop
                         };
-        }
+        } 
+        #endregion
 
-        public List<VolumeUnit> VolumeUnits { get; private set; }
-
+        #region Commands
         private DelegateCommand<Grain> _addFermentableCommand;
-
-
         public DelegateCommand<Grain> AddFermentableCommand
         {
             get { return _addFermentableCommand ?? (_addFermentableCommand = new DelegateCommand<Grain>(AddFermentable)); }
         }
 
-        private void AddFermentable(Grain fermentable)
+        private DelegateCommand<Hop> _addHopCommand;
+        public DelegateCommand<Hop> AddHopCommand
         {
-            if (SelectedFermentable != null)
-            {
-                _recipe.AddGrain(SelectedFermentable, 1.KiloGram());
-                UpdateRecipeProperties();
-            }
+            get { return _addHopCommand ?? (_addHopCommand = new DelegateCommand<Hop>(AddHop)); }
+        } 
+        #endregion
+
+        #region Private Methods
+        void AddHop(Hop hop)
+        {
+            if (SelectedHop == null) return;
+
+            _recipe.AddHop(SelectedHop, 1.KiloGram(), 60);
+            UpdateRecipeProperties();
+        }
+
+        void AddFermentable(Grain fermentable)
+        {
+            if (SelectedFermentable == null) return;
+
+            _recipe.AddGrain(SelectedFermentable, 1.KiloGram());
+            UpdateRecipeProperties();
         }
 
         void UpdateRecipeProperties()
@@ -118,6 +141,7 @@ namespace BrewRoom.Modules.Core.ViewModels
             RaisePropertyChanged("RecipePotential");
             RaisePropertyChanged("RecipeTotalGrainWeight");
             RaisePropertyChanged("RecipeBuGu");
-        }
+        } 
+        #endregion
     }
 }

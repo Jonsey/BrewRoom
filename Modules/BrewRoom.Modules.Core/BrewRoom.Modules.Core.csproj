@@ -52,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviours\MouseDoubleClickBehaviour.cs" />
     <Compile Include="Calculators\BoilingCalculator.cs" />
     <Compile Include="Calculators\MashCalculator.cs" />
     <Compile Include="Convertors\VolumeConverter.cs" />
