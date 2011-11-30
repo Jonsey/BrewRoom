@@ -69,20 +69,10 @@ namespace BrewRoom.Modules.Core.Models
         public decimal GetStartingGravity()
         {
             var result = 0M;
-            var gallons = _brewLength.ConvertTo(VolumeUnit.Gallons);
-            var extractionEfficiency = 1M;
-
             Parallel.ForEach(_grains, (grain) =>
                                           {
-                                              var points = grain.GravityContributionInPoints;
-                                              var pounds = grain.Weight.ConvertTo(MassUnit.Pounds);
-
-                                              result += points * extractionEfficiency;
-
-                                              //result += points / pounds.GetValue();
+                                              result += grain.GravityContributionInPoints;
                                           });
-
-            var gravityUnits = result * gallons.GetValue();
 
             return Math.Round(1M + result / 1000M, 3);
         }
@@ -109,7 +99,7 @@ namespace BrewRoom.Modules.Core.Models
 
         public object GetGuBuRatio()
         {
-            return GetStartingGravity() / GetIBU();
+            return Math.Round(GetStartingGravity() / GetIBU(), 2);
         }
 
         public IList<RecipeGrain>  GetFermentables()

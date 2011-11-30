@@ -79,12 +79,12 @@ namespace Brewroom.Modules.Core.Spec
             var grain3 = new Grain("Two-row");
 
             var recipe = new Recipe();
-            recipe.SetBrewLength(new Volume(5.5M, VolumeUnit.Gallons));
-            recipe.AddGrain(grain1, new Weight(1.87M, MassUnit.Pounds), 1.038M);
-            recipe.AddGrain(grain2, new Weight(1.46M, MassUnit.Pounds), 1.033M);
-            recipe.AddGrain(grain3, new Weight(5.92M, MassUnit.Pounds), 1.036M);
+            recipe.SetBrewLength(new Volume(3M, VolumeUnit.Gallons));
+            recipe.AddGrain(grain1, new Weight(1M, MassUnit.Pounds), 1.045M);
+            recipe.AddGrain(grain2, new Weight(1M, MassUnit.Pounds), 1.045M);
+            recipe.AddGrain(grain3, new Weight(1M, MassUnit.Pounds), 1.046M);
 
-            Assert.AreEqual(1.049M, recipe.GetStartingGravity());
+            Assert.AreEqual(1.045M, recipe.GetStartingGravity());
         }
 
         [Test]
@@ -98,7 +98,7 @@ namespace Brewroom.Modules.Core.Spec
         {
             var recipe = SimpleRecipe();
 
-            Assert.AreEqual(31.2M, recipe.GetIBU());
+            Assert.AreEqual(66M, recipe.GetIBU());
         }
 
         private static Recipe SimpleRecipe()
@@ -107,9 +107,9 @@ namespace Brewroom.Modules.Core.Spec
             var hop = new Hop("Saaz");
             var recipe = new Recipe();
 
-            recipe.SetBrewLength(6.Gallons());
+            recipe.SetBrewLength(1.Gallons());
             recipe.AddGrain(grain1, 1.Pound(), 1.045M);
-            recipe.AddHop(hop, new Weight(1/16M, MassUnit.Pounds), 60, 12.5M);
+            recipe.AddHop(hop, new Weight(10M, MassUnit.Grams), 60, 12.5M);
             return recipe;
         }
 
@@ -118,7 +118,7 @@ namespace Brewroom.Modules.Core.Spec
         {
             var recipe = SimpleRecipe();
 
-            Assert.AreEqual(0.81M, recipe.GetGuBuRatio());
+            Assert.AreEqual(0.02M, recipe.GetGuBuRatio());
         }
 
         [Test]

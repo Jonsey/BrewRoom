@@ -94,8 +94,7 @@ namespace BrewRoom.Modules.Core.Models
             var pounds = _weight.ConvertTo(MassUnit.Pounds).GetValue();
             var gallons = _recipe.GetBrewLength().ConvertTo(VolumeUnit.Gallons).GetValue();
 
-            //var calculatedGravityContribution = ((pounds * points) / gallons);
-            var calculatedGravityContribution = points * (pounds / gallons);
+            var calculatedGravityContribution = (pounds * points) / gallons;
             return Math.Round(calculatedGravityContribution, 3);
         }
 
