@@ -68,6 +68,16 @@ namespace BrewRoom.Modules.Core.ViewModels
             }
         }
 
+        public ObservableCollection<RecipeHop> RecipeHops
+        {
+            get
+            {
+                var recipeHops = _recipe.GetHops();
+
+                return new ObservableCollection<RecipeHop>(recipeHops);
+            }
+        }
+
         public Grain SelectedFermentable { get; set; }
 
         public Hop SelectedHop { get; set; } 
@@ -123,7 +133,7 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             if (SelectedHop == null) return;
 
-            _recipe.AddHop(SelectedHop, 1.KiloGram(), 60);
+            _recipe.AddHop(SelectedHop, 5.Grams(), 60);
             UpdateRecipeProperties();
         }
 
@@ -140,6 +150,7 @@ namespace BrewRoom.Modules.Core.ViewModels
             RaisePropertyChanged("RecipeFermentables");
             RaisePropertyChanged("RecipePotential");
             RaisePropertyChanged("RecipeTotalGrainWeight");
+            RaisePropertyChanged("RecipeHops");
             RaisePropertyChanged("RecipeBuGu");
         } 
         #endregion

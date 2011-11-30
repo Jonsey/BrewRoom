@@ -10,6 +10,16 @@ namespace BrewRoom.Modules.Core.Models
         private readonly int _boilTime;
         private readonly decimal _alphaAcid;
 
+        public String Name
+        {
+            get { return _hop.Name; }
+        }
+
+        public Weight Weight
+        {
+            get { return GetWeight(); }
+        }
+
         public RecipeHop(Hop hop, Weight weight, int boilTime)
         {
             _hop = hop;

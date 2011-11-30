@@ -51,7 +51,6 @@ namespace BrewRoom.Modules.Core.Models
             get
             {
                 return (_pppg - 1) * 1000;
-                //return ((CalculateGravityContribution() - 1) * 1000);
             }
         }
 

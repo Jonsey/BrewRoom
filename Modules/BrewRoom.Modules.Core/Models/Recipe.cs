@@ -106,7 +106,12 @@ namespace BrewRoom.Modules.Core.Models
 
         public IList<RecipeGrain>  GetFermentables()
         {
-            return this._grains;
+            return _grains;
+        }
+
+        public IList<RecipeHop> GetHops()
+        {
+            return _hops;
         }
     }
 }
