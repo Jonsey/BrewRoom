@@ -41,6 +41,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Zymurgy.Dymensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External\Zymurgy.Dymensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddingIngredients.cs" />
@@ -50,10 +54,6 @@
     <Compile Include="RecipeBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Zymurgy.Dimension\Zymurgy.Dymensions\Zymurgy.Dymensions.csproj">
-      <Project>{899EBBB0-1B39-40EE-9775-92323F6810AE}</Project>
-      <Name>Zymurgy.Dymensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BrewRoom.Modules.Core\BrewRoom.Modules.Core.csproj">
       <Project>{82884E4C-AD09-48B4-8C62-08B1790C3213}</Project>
       <Name>BrewRoom.Modules.Core</Name>

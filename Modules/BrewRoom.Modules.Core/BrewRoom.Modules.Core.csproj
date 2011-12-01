@@ -46,6 +46,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="Zymurgy.Dymensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External\Zymurgy.Dymensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calculators\BoilingCalculator.cs" />
@@ -74,12 +78,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Zymurgy.Dimension\Zymurgy.Dymensions\Zymurgy.Dymensions.csproj">
-      <Project>{899EBBB0-1B39-40EE-9775-92323F6810AE}</Project>
-      <Name>Zymurgy.Dymensions</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Page Include="Views\EditRecipeView.xaml">
       <SubType>Designer</SubType>
