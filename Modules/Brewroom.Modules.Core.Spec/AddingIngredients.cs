@@ -1,8 +1,7 @@
 ﻿using System;
-using BrewRoom.Modules.Core;
-using BrewRoom.Modules.Core.ValueObjects;
+using BrewRoom.Modules.Core.Models;
 using NUnit.Framework;
-using Brewroom.Modules.Core;
+using Zymurgy.Dymensions;
 
 namespace Brewroom.Modules.Core.Spec
 {

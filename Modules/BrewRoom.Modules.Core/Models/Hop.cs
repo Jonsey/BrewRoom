@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BrewRoom.Modules.Core
+namespace BrewRoom.Modules.Core.Models
 {
     public class Hop : Ingredient
     {

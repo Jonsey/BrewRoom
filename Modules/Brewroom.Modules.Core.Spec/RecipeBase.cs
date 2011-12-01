@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BrewRoom.Modules.Core;
-using BrewRoom.Modules.Core.ValueObjects;
+﻿using BrewRoom.Modules.Core.Models;
+using Zymurgy.Dymensions;
 
 namespace Brewroom.Modules.Core.Spec
 {

@@ -1,7 +1,7 @@
 using System;
-using BrewRoom.Modules.Core.ValueObjects;
+using Zymurgy.Dymensions;
 
-namespace BrewRoom.Modules.Core
+namespace BrewRoom.Modules.Core.Models
 {
     public class RecipeHop
     {

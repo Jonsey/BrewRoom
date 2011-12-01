@@ -1,4 +1,4 @@
-namespace BrewRoom.Modules.Core
+namespace BrewRoom.Modules.Core.Models
 {
     public struct HopOilCharacteristics
     {

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BrewRoom.Modules.Core;
-using BrewRoom.Modules.Core.ValueObjects;
+using BrewRoom.Modules.Core.Calculators;
+using BrewRoom.Modules.Core.Models;
 using NUnit.Framework;
+using Zymurgy.Dymensions;
 
 namespace Brewroom.Modules.Core.Spec
 {
@@ -12,7 +10,7 @@ namespace Brewroom.Modules.Core.Spec
     public class DoingMash : RecipeBase
     {
         [Test]
-        public void ShouldCalculateStrikeTemperature()
+        public void ShouldCalculateStrikeWaterTemperature()
         {
             var mashCalc = new MashCalculator();
 
@@ -28,10 +26,43 @@ namespace Brewroom.Modules.Core.Spec
         }
 
         [Test]
+        public void ShouldCalculateMyStrikeWaterTemperature()
+        {
+            var mashCalc = new MashCalculator();
+
+            var desiredStrikeTemp = 140;
+            var grainTemp = 60;
+            var ratio = 1M;
+
+            var infusionWaterTemp = mashCalc.GetStrikeTemp(desiredStrikeTemp, grainTemp, ratio, 8.KiloGrams());
+
+            Assert.AreEqual(156M, infusionWaterTemp);
+        }
+
+        [Test]
+        public void ShouldCalculateMyNextInfusionStep()
+        {
+            var desiredStrikeTemp = 140;
+            var grainTemp = 60;
+            var ratio = 1;
+
+            var mashCalc = new MashCalculator();
+
+            var strikeTemp = mashCalc.GetStrikeTemp(desiredStrikeTemp, grainTemp, ratio, 8.KiloGrams());
+
+            var grain = new Weight(8, MassUnit.KiloGrams);
+            var desiredInfusionTemp = 154M;
+            var liquorTemperature = 210M;
+
+            var amountOfWaterToAdd = mashCalc.GetInfusionAmount(ratio, grain, desiredInfusionTemp, liquorTemperature,
+                                                                desiredStrikeTemp);
+
+            Assert.AreEqual(5.0M, amountOfWaterToAdd);
+        }
+
+        [Test]
         public void ShouldCalculatenextInfusionStep()
         {
-            var recipe = CreateDefaultRecipe();
-
             var desiredStrikeTemp = 104;
             var grainTemp = 70;
             var ratio = 1;
@@ -51,80 +82,35 @@ namespace Brewroom.Modules.Core.Spec
         }
 
         [Test]
-        public void shouldSetTheRatioWhenConstructed()
+        public void RecipeGrainShouldCalculateGravityContribution()
         {
+            var recipe = CreateDefaultRecipe();
+            var fermentables = recipe.GetFermentables();
+            var gravityContribution = fermentables[0].GravityContribution;
 
-
-        }
-    }
-
-    public class MashCalculator
-    {
-        private decimal _grainAmount;
-        private decimal _liquorAmount;
-        private decimal _ratio;
-
-        public MashCalculator()
-        {
-
+            Assert.AreEqual(1.094M, gravityContribution);
         }
 
-        public MashCalculator(decimal grainAmount, decimal liquorAmount)
+        [Test]
+        public void RecipeGrainShouldTakePppgOfSelectedGrain()
         {
-            _grainAmount = grainAmount;
-            _liquorAmount = liquorAmount;
-            _ratio = CalculateRatio();
-            ;
+            var grain = new Grain("Pils Malt", 1.045M);
+            var recipe = new Recipe();
+
+            recipe.AddGrain(grain, 1.KiloGram());
+
+            Assert.AreEqual(1.045M, recipe.GetFermentables()[0].Pppg);
         }
 
-        private decimal CalculateRatio()
+        [Test]
+        public void RecipeGrainShouldBe100PercentOfMash()
         {
-            return _grainAmount / _liquorAmount;
-        }
+            var grain = new Grain("Pils Malt", 1.045M);
+            var recipe = new Recipe();
 
-        public decimal GetStrikeTemp(decimal desiredStrikeTemp, decimal grainTemp, decimal ratio, Weight grainAmount)
-        {
-            var tw = (0.2M / ratio) * (desiredStrikeTemp - grainTemp) + desiredStrikeTemp;
+            recipe.AddGrain(grain, 1.KiloGram());
 
-            _liquorAmount = (grainAmount * tw).ConvertTo(MassUnit.KiloGrams).GetValue();
-            _grainAmount = grainAmount.ConvertTo(MassUnit.KiloGrams).GetValue();
-
-            return tw;
-        }
-
-        public decimal GetInfusionAmount(Weight grain, decimal desiredInfusionTemp, decimal liquorTemperature, decimal strikeTemp)
-        {
-            ReCalcRatio();
-
-            decimal grainWeight = grain.ConvertTo(MassUnit.Pounds).GetValue();
-            var wm = _ratio * grainWeight;
-
-
-            var wa = (desiredInfusionTemp - strikeTemp) * ((0.2M * grainWeight) + wm) /
-                     (liquorTemperature - desiredInfusionTemp);
-
-            _liquorAmount += wa;
-
-            ReCalcRatio();
-
-            return Math.Round(wa);
-        }
-
-        public decimal GetInfusionAmount(decimal ratio, Weight grain, decimal desiredInfusionTemp, decimal liquorTemperature, decimal strikeTemp)
-        {
-            decimal grainWeight = grain.ConvertTo(MassUnit.Pounds).GetValue();
-            var wm = ratio * grainWeight;
-
-
-            var wa = (desiredInfusionTemp - strikeTemp) * ((0.2M * grainWeight) + wm) /
-                     (liquorTemperature - desiredInfusionTemp);
-
-            return Math.Round(wa);
-        }
-
-        private void ReCalcRatio()
-        {
-            _ratio = _grainAmount / _liquorAmount;
+            Assert.AreEqual(100M, recipe.GetFermentables()[0].PercentageOfMash);
         }
     }
 }

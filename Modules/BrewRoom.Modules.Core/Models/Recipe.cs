@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BrewRoom.Modules.Core.ValueObjects;
+using Zymurgy.Dymensions;
 
-namespace BrewRoom.Modules.Core
+namespace BrewRoom.Modules.Core.Models
 {
     public class Recipe
     {
@@ -23,13 +23,10 @@ namespace BrewRoom.Modules.Core
             _hops.Add(new RecipeHop(hop, weight, boilTime));
         }
 
-
         public void AddHop(Hop hop, Weight weight, int boilTime, decimal alphaAcid)
         {
             _hops.Add(new RecipeHop(hop, weight, boilTime, alphaAcid));
-
         }
-
 
         public Weight GetTotalHopWeight()
         {
@@ -42,19 +39,19 @@ namespace BrewRoom.Modules.Core
 
         public void AddGrain(Grain grain1, Weight weight)
         {
-            _grains.Add(new RecipeGrain(grain1, weight));
+            _grains.Add(new RecipeGrain(this, grain1, weight));
         }
 
         public void AddGrain(Grain grain, Weight weight, decimal pppg)
         {
-            _grains.Add(new RecipeGrain(grain, weight, pppg));
+            _grains.Add(new RecipeGrain(this, grain, weight, pppg));
         }
 
         public Weight GetTotalGrainWeight()
         {
             var result = new Weight(0, MassUnit.KiloGrams);
 
-            return _grains.Select(grain => grain.GetWeight())
+            return _grains.Select(grain => grain.Weight)
                 .AsParallel()
                 .Aggregate(result, (current, weight) => current + weight.ConvertTo(MassUnit.KiloGrams));
         }
@@ -73,13 +70,16 @@ namespace BrewRoom.Modules.Core
         {
             var result = 0M;
             var gallons = _brewLength.ConvertTo(VolumeUnit.Gallons);
+            var extractionEfficiency = 1M;
 
             Parallel.ForEach(_grains, (grain) =>
                                           {
-                                              var points = grain.GetExtractPoints();
-                                              var pounds = grain.GetWeight().ConvertTo(MassUnit.Pounds);
+                                              var points = grain.GravityContributionInPoints;
+                                              var pounds = grain.Weight.ConvertTo(MassUnit.Pounds);
 
-                                              result += points / pounds.GetValue();
+                                              result += points * extractionEfficiency;
+
+                                              //result += points / pounds.GetValue();
                                           });
 
             var gravityUnits = result * gallons.GetValue();
@@ -110,6 +110,11 @@ namespace BrewRoom.Modules.Core
         public object GetGuBuRatio()
         {
             return GetStartingGravity() / GetIBU();
+        }
+
+        public IList<RecipeGrain>  GetFermentables()
+        {
+            return this._grains;
         }
     }
 }
