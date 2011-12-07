@@ -2,74 +2,105 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BrewRoom.Modules.Core.Interfaces.Models;
 using Zymurgy.Dymensions;
 
 namespace BrewRoom.Modules.Core.Models
 {
     public class Recipe
     {
-        private readonly IList<RecipeHop> _hops;
-        private IList<RecipeGrain> _grains;
-        private Volume _brewLength;
+        #region Fields
+        private readonly IList<RecipeHop> hops;
+        private readonly IList<RecipeGrain> grains;
+        private Volume brewLength; 
+        #endregion
 
+        #region Ctors
         public Recipe()
         {
-            _hops = new List<RecipeHop>();
-            _grains = new List<RecipeGrain>();
+            hops = new List<RecipeHop>();
+            grains = new List<RecipeGrain>();
+        } 
+        #endregion
+
+        #region Properties
+        public IList<RecipeGrain> Fermentables
+        {
+            get { return grains; }
         }
 
-        public void AddHop(Hop hop, Weight weight, int boilTime)
+        public IList<RecipeHop> Hops
         {
-            _hops.Add(new RecipeHop(hop, weight, boilTime));
+            get { return hops; }
+        } 
+        #endregion
+
+        #region Public Methods
+
+        #region Hops
+        public void AddHop(IHop hop, Weight weight, int boilTime)
+        {
+            hops.Add(new RecipeHop(hop, weight, boilTime));
         }
 
-        public void AddHop(Hop hop, Weight weight, int boilTime, decimal alphaAcid)
+        public void AddHop(IHop hop, Weight weight, int boilTime, decimal alphaAcid)
         {
-            _hops.Add(new RecipeHop(hop, weight, boilTime, alphaAcid));
+            hops.Add(new RecipeHop(hop, weight, boilTime, alphaAcid));
         }
 
         public Weight GetTotalHopWeight()
         {
             var result = new Weight(0, MassUnit.Grams);
 
-            return _hops.Select(hop => hop.GetWeight())
+            return hops.Select(hop => hop.GetWeight())
                 .AsParallel()
                 .Aggregate(result, (current, weight) => current + weight.ConvertTo(MassUnit.Grams));
+        } 
+        #endregion
+
+        #region Grains
+        public void AddFermentable(IFermentable fermentable, Weight weight)
+        {
+            grains.Add(new RecipeGrain(this, fermentable, weight));
         }
 
-        public void AddGrain(Grain grain1, Weight weight)
+        public void AddFermentable(IFermentable fermentable, Weight weight, decimal pppg)
         {
-            _grains.Add(new RecipeGrain(this, grain1, weight));
+            grains.Add(new RecipeGrain(this, fermentable, weight, pppg));
         }
 
-        public void AddGrain(Grain grain, Weight weight, decimal pppg)
+        public void RemoveFermentable(RecipeGrain fermentable)
         {
-            _grains.Add(new RecipeGrain(this, grain, weight, pppg));
+            grains.Remove(fermentable);
         }
 
         public Weight GetTotalGrainWeight()
         {
             var result = new Weight(0, MassUnit.KiloGrams);
 
-            return _grains.Select(grain => grain.Weight)
+            return grains.Select(grain => grain.Weight)
                 .AsParallel()
                 .Aggregate(result, (current, weight) => current + weight.ConvertTo(MassUnit.KiloGrams));
-        }
+        } 
+        #endregion
 
+        #region Brew Length
         public void SetBrewLength(Volume volume)
         {
-            _brewLength = volume;
+            brewLength = volume;
         }
 
         public Volume GetBrewLength()
         {
-            return _brewLength;
-        }
+            return brewLength;
+        } 
+        #endregion
 
+        #region Gravity
         public decimal GetStartingGravity()
         {
             var result = 0M;
-            Parallel.ForEach(_grains, (grain) =>
+            Parallel.ForEach(grains, (grain) =>
                                           {
                                               result += grain.GravityContributionInPoints;
                                           });
@@ -77,17 +108,30 @@ namespace BrewRoom.Modules.Core.Models
             return Math.Round(1M + result / 1000M, 3);
         }
 
-        public decimal GetIBU()
+        public decimal GetStartingGravityPoints()
+        {
+            var result = 0M;
+            Parallel.ForEach(grains, (grain) =>
+            {
+                result += grain.GravityContributionInPoints;
+            });
+
+            return Math.Round(result, 0);
+        } 
+        #endregion
+
+        #region Bitterness
+        public decimal GetIbu()
         {
             decimal result = 0;
             decimal gravity = GetStartingGravity();
 
-            Parallel.ForEach(_hops, hop => result += GetHopIBUContribution(hop, gravity));
+            Parallel.ForEach(hops, hop => result += GetHopIbuContribution(hop, gravity));
 
             return Math.Round(result, 1);
         }
 
-        private decimal GetHopIBUContribution(RecipeHop hop, decimal gravity)
+        private decimal GetHopIbuContribution(RecipeHop hop, decimal gravity)
         {
             var w = hop.GetWeight().ConvertTo(MassUnit.Grams).GetValue();
             var u = hop.GetUtilization(gravity);
@@ -97,21 +141,14 @@ namespace BrewRoom.Modules.Core.Models
             return (w * u * a * 1000) / v;
         }
 
-        public decimal GetGuBuRatio()
+        public decimal GetBuGuRatio()
         {
-            var ibu = GetIBU();
+            var ibu = GetIbu();
 
-            return ibu > 0 ? Math.Round(GetStartingGravity() / ibu, 2) : 1;
+            return ibu > 0 ? Math.Round(ibu / GetStartingGravityPoints(), 2) : 0;
         }
+        #endregion
 
-        public IList<RecipeGrain>  GetFermentables()
-        {
-            return _grains;
-        }
-
-        public IList<RecipeHop> GetHops()
-        {
-            return _hops;
-        }
+        #endregion
     }
 }

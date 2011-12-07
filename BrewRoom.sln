@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrewRoom.Modules.Core.Spec"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrewRoom.Modules.Core", "Modules\BrewRoom.Modules.Core\BrewRoom.Modules.Core.csproj", "{82884E4C-AD09-48B4-8C62-08B1790C3213}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrewRoom.Modules.Core.Interfaces", "Modules\BrewRoom.Modules.Core.Interfaces\BrewRoom.Modules.Core.Interfaces.csproj", "{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,16 @@ Global
 		{82884E4C-AD09-48B4-8C62-08B1790C3213}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{82884E4C-AD09-48B4-8C62-08B1790C3213}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{82884E4C-AD09-48B4-8C62-08B1790C3213}.Release|x86.ActiveCfg = Release|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,5 +68,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7FDE60C3-FB46-4BD4-826F-4E9354FD6877} = {713D26D9-3538-45EA-AE60-CB752E2644EC}
 		{82884E4C-AD09-48B4-8C62-08B1790C3213} = {713D26D9-3538-45EA-AE60-CB752E2644EC}
+		{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15} = {713D26D9-3538-45EA-AE60-CB752E2644EC}
 	EndGlobalSection
 EndGlobal

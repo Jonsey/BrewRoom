@@ -35,6 +35,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\External\Prism 4\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -58,7 +59,9 @@
     <Compile Include="Convertors\VolumeConverter.cs" />
     <Compile Include="Convertors\VolumeUnitConverter.cs" />
     <Compile Include="Convertors\WeightConvertor.cs" />
-    <Compile Include="Models\Grain.cs" />
+    <Compile Include="CoreModule.cs" />
+    <Compile Include="Events\StockFermentableSelectedEvent.cs" />
+    <Compile Include="Models\Fermentable.cs" />
     <Compile Include="Models\Hop.cs" />
     <Compile Include="Models\HopOilCharacteristics.cs" />
     <Compile Include="Models\Ingredient.cs" />
@@ -66,7 +69,11 @@
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Models\RecipeGrain.cs" />
     <Compile Include="Models\RecipeHop.cs" />
+    <Compile Include="Repositories\StockItemsRepository.cs" />
+    <Compile Include="ViewModels\FermentableViewModel.cs" />
+    <Compile Include="ViewModels\HopViewModel.cs" />
     <Compile Include="ViewModels\MashDesignerViewModel.cs" />
+    <Compile Include="ViewModels\StockItemsViewModel.cs" />
     <Compile Include="Views\EditRecipeView.xaml.cs">
       <DependentUpon>EditRecipeView.xaml</DependentUpon>
     </Compile>
@@ -77,8 +84,16 @@
     <Compile Include="Views\SessionDesignerView.xaml.cs">
       <DependentUpon>SessionDesignerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\StockItemsView.xaml.cs">
+      <DependentUpon>StockItemsView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BrewRoom.Modules.Core.Interfaces\BrewRoom.Modules.Core.Interfaces.csproj">
+      <Project>{C96E9AB0-BCF5-4953-A07C-4530CB5E8A15}</Project>
+      <Name>BrewRoom.Modules.Core.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Views\EditRecipeView.xaml">
       <SubType>Designer</SubType>
@@ -89,6 +104,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SessionDesignerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StockItemsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,27 +12,37 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BrewRoom.Modules.Core.Interfaces.ViewModels;
-using BrewRoom.Modules.Core.Interfaces.Views;
+using BrewRoom.Modules.Core.Repositories;
 using BrewRoom.Modules.Core.ViewModels;
 using Microsoft.Practices.Unity;
 
 namespace BrewRoom.Modules.Core.Views
 {
     /// <summary>
-    /// Interaction logic for EditRecipeView.xaml
+    /// Interaction logic for StockItemsView.xaml
     /// </summary>
-    public partial class EditRecipeView : UserControl, IEditRecipeView
+    public partial class StockItemsView : UserControl
     {
-        public EditRecipeView()
+        public StockItemsView()
         {
             InitializeComponent();
         }
 
         [Dependency]
-        public IEditRecipeViewModel ViewModel
+        public IStockItemsViewModel ViewModel
         {
-            get { return DataContext as IEditRecipeViewModel; }
+            get { return DataContext as IStockItemsViewModel; }
             set { DataContext = value; }
+        }
+
+        private void Fermentables_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.SelectFermentables.Execute();
+        }
+
+        private void Hops_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ViewModel.SelectHops.Execute();
         }
     }
 }

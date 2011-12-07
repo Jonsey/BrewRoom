@@ -1,68 +1,68 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using BrewRoom.Modules.Core.Events;
+using BrewRoom.Modules.Core.Interfaces.Models;
+using BrewRoom.Modules.Core.Interfaces.ViewModels;
 using BrewRoom.Modules.Core.Models;
 using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.ViewModel;
 using Zymurgy.Dymensions;
 
 namespace BrewRoom.Modules.Core.ViewModels
 {
-    public class EditRecipeViewModel : NotificationObject
+    public class EditRecipeViewModel : NotificationObject, IEditRecipeViewModel
     {
+        public IStockItemsViewModel StockItemsViewModel { get; set; }
+
         #region Fields
-        private readonly Recipe _recipe;
-        private readonly List<Grain> _fermentables;
-        private readonly List<Hop> _hops; 
+        private readonly Recipe recipe;
         #endregion
 
         #region Properties
         public List<VolumeUnit> VolumeUnits { get; private set; }
 
-        public IList<Grain> Fermentables { get { return _fermentables; } }
-
-        public IList<Hop> Hops { get { return _hops; } }
-
         public Decimal BrewLength
         {
-            get { return _recipe.GetBrewLength().GetValue(); }
+            get { return recipe.GetBrewLength().GetValue(); }
             set
             {
-                _recipe.SetBrewLength(new Volume(value, BrewLengthUnit));
+                recipe.SetBrewLength(new Volume(value, BrewLengthUnit));
                 UpdateRecipeProperties();
             }
         }
 
         public VolumeUnit BrewLengthUnit
         {
-            get { return _recipe.GetBrewLength().GetUnit(); }
+            get { return recipe.GetBrewLength().GetUnit(); }
             set
             {
-                _recipe.SetBrewLength(new Volume(BrewLength, value));
+                recipe.SetBrewLength(new Volume(BrewLength, value));
                 UpdateRecipeProperties();
             }
         }
 
         public Weight RecipeTotalGrainWeight
         {
-            get { return _recipe.GetTotalGrainWeight(); }
+            get { return recipe.GetTotalGrainWeight(); }
         }
 
         public decimal RecipeBuGu
         {
-            get { return _recipe.GetGuBuRatio(); }
+            get { return recipe.GetBuGuRatio(); }
         }
 
         public Decimal RecipePotential
         {
-            get { return _recipe.GetStartingGravity(); }
+            get { return recipe.GetStartingGravity(); }
         }
 
         public ObservableCollection<RecipeGrain> RecipeFermentables
         {
             get
             {
-                var recipeGrains = _recipe.GetFermentables();
+                var recipeGrains = recipe.Fermentables;
 
                 return new ObservableCollection<RecipeGrain>(recipeGrains);
             }
@@ -72,76 +72,78 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             get
             {
-                var recipeHops = _recipe.GetHops();
+                var recipeHops = recipe.Hops;
 
                 return new ObservableCollection<RecipeHop>(recipeHops);
             }
         }
 
-        public Grain SelectedFermentable { get; set; }
+        public IFermentableViewModel SelectedStockFermentable { get; set; }
 
-        public Hop SelectedHop { get; set; } 
+        public RecipeGrain SelectedRecipeFermentable { get; set; }
+
+        public IHop SelectedHop { get; set; } 
         #endregion
 
         #region Ctor
-        public EditRecipeViewModel()
+        public EditRecipeViewModel(IEventAggregator eventAggregator, IStockItemsViewModel stockItemsViewModel)
         {
+            StockItemsViewModel = stockItemsViewModel;
+
             VolumeUnits = new List<VolumeUnit> { VolumeUnit.Litres, VolumeUnit.Gallons };
-            _recipe = new Recipe();
-            _recipe.SetBrewLength(20.Litres());
+            recipe = new Recipe();
+            recipe.SetBrewLength(20.Litres());
 
-            _fermentables = new List<Grain>();
-            var fermentable1 = new Grain("Marris Otter", 1.045M);
-            _fermentables.Add(fermentable1);
-            var fermentable2 = new Grain("Pils Malt", 1.038M);
-            _fermentables.Add(fermentable2);
+            eventAggregator.GetEvent<StockFermentableSelectedEvent>().Subscribe(StockFermentableSelectedEventHandler);
+        }
 
-            var hop = new Hop("Saaz");
-            hop.AddOilCharacteristics(new HopOilCharacteristics
-                                          {
-                                              Carophyllene = 20M,
-                                              Farnesene = 20M,
-                                              Humulene = 20M,
-                                              Myrcene = 20M,
-                                              OtherAcids = 20M,
-                                              PercentageOfTotalWeight = 20,
-                                              TotalAlphaAcid = 5M
-                                          });
-            _hops = new List<Hop>
-                        {
-                            hop
-                        };
-        } 
+        void StockFermentableSelectedEventHandler(IFermentableViewModel obj)
+        {
+            SelectedStockFermentable = obj;
+        }
+
         #endregion
 
         #region Commands
-        private DelegateCommand<Grain> _addFermentableCommand;
-        public DelegateCommand<Grain> AddFermentableCommand
+        private DelegateCommand _addFermentableCommand;
+        public DelegateCommand AddFermentableCommand
         {
-            get { return _addFermentableCommand ?? (_addFermentableCommand = new DelegateCommand<Grain>(AddFermentable)); }
+            get { return _addFermentableCommand ?? (_addFermentableCommand = new DelegateCommand(AddFermentable)); }
         }
 
         private DelegateCommand<Hop> _addHopCommand;
         public DelegateCommand<Hop> AddHopCommand
         {
             get { return _addHopCommand ?? (_addHopCommand = new DelegateCommand<Hop>(AddHop)); }
-        } 
-        #endregion
+        }
 
-        #region Private Methods
-        void AddHop(Hop hop)
+        public DelegateCommand RemoveFermentableCommand
         {
-            if (SelectedHop == null) return;
+            get { return new DelegateCommand(RemoveRecipeFermentable); }
+        }
 
-            _recipe.AddHop(SelectedHop, 5.Grams(), 60);
+        void RemoveRecipeFermentable()
+        {
+            recipe.RemoveFermentable(SelectedRecipeFermentable);
             UpdateRecipeProperties();
         }
 
-        void AddFermentable(Grain fermentable)
-        {
-            if (SelectedFermentable == null) return;
+        #endregion
 
-            _recipe.AddGrain(SelectedFermentable, 1.KiloGram());
+        #region Private Methods
+        void AddHop(IHop hop)
+        {
+            if (SelectedHop == null) return;
+
+            recipe.AddHop(SelectedHop, 5.Grams(), 60);
+            UpdateRecipeProperties();
+        }
+
+        void AddFermentable()
+        {
+            if (SelectedStockFermentable == null) return;
+
+            recipe.AddFermentable(SelectedStockFermentable.Model, 1.KiloGram());
             UpdateRecipeProperties();
         }
 

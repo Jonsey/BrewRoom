@@ -8,11 +8,11 @@ namespace BrewRoom.Modules.Core.Calculators
 {
     public class BoilingCalculator
     {
-        private readonly decimal _energy;
+        private readonly decimal energy;
 
         public BoilingCalculator(decimal energy)
         {
-            _energy = energy;
+            this.energy = energy;
         }
 
         public decimal GetTimeToTemperature(decimal fromTemp, decimal toTemp, Volume volume)

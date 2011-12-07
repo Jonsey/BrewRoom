@@ -1,9 +1,16 @@
 ﻿<Window x:Class="BrewRoom.Desktop.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Views="clr-namespace:BrewRoom.Modules.Core.Views;assembly=BrewRoom.Modules.Core" 
+        xmlns:Views="clr-namespace:BrewRoom.Modules.Core.Views;assembly=BrewRoom.Modules.Core"
+        xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism"
         Title="Brew Room" WindowState="Maximized">
     <Grid>
-        <Views:EditRecipeView />
+        <ItemsControl DockPanel.Dock="Top" Width="Auto" Height="Auto" prism:RegionManager.RegionName="MainRegion">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
     </Grid>
 </Window>

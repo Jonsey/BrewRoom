@@ -1,4 +1,5 @@
 using System;
+using BrewRoom.Modules.Core.Interfaces.Models;
 using Zymurgy.Dymensions;
 
 namespace BrewRoom.Modules.Core.Models
@@ -6,51 +7,51 @@ namespace BrewRoom.Modules.Core.Models
     public class RecipeGrain
     {
         #region Fields
-        private readonly Recipe _recipe;
-        private readonly Grain _grain;
-        private readonly Weight _weight;
-        private readonly decimal _pppg;
+        private readonly Recipe recipe;
+        private readonly IFermentable fermentable;
+        private readonly Weight weight;
+        private readonly decimal pppg;
         #endregion
 
         #region Ctors
-        public RecipeGrain(Recipe recipe, Grain grain, Weight weight)
+        public RecipeGrain(Recipe recipe, IFermentable fermentable, Weight weight)
         {
-            _recipe = recipe;
-            _grain = grain;
-            _weight = weight;
-            _pppg = _grain.Pppg;
+            this.recipe = recipe;
+            this.fermentable = fermentable;
+            this.weight = weight;
+            pppg = this.fermentable.Pppg;
         }
 
-        public RecipeGrain(Recipe recipe, Grain grain, Weight weight, decimal pppg)
+        public RecipeGrain(Recipe recipe, IFermentable fermentable, Weight weight, decimal pppg)
         {
-            _recipe = recipe;
-            _grain = grain;
-            _weight = weight;
-            _pppg = pppg;
+            this.recipe = recipe;
+            this.fermentable = fermentable;
+            this.weight = weight;
+            this.pppg = pppg;
         }
         #endregion
 
         #region Properties
         public string Name
         {
-            get { return _grain.Name; }
+            get { return fermentable.Name; }
         }
 
         public Weight Weight
         {
-            get { return _weight; }
+            get { return weight; }
         }
 
         public decimal Pppg
         {
-            get { return _pppg; }
+            get { return pppg; }
         }
 
         public decimal ExtractPoints
         {
             get
             {
-                return (_pppg - 1) * 1000;
+                return (pppg - 1) * 1000;
             }
         }
 
@@ -73,14 +74,14 @@ namespace BrewRoom.Modules.Core.Models
         #region Private Methods
         private decimal CalculatePercenatgeofMash()
         {
-            return (_weight / _recipe.GetTotalGrainWeight()).GetValue() * 100;
+            return (weight / recipe.GetTotalGrainWeight()).GetValue() * 100;
         }
 
         private decimal CalculateGravityContribution()
         {
-            var points = (_pppg - 1) * 1000;
-            var pounds = _weight.ConvertTo(MassUnit.Pounds).GetValue();
-            var gallons = _recipe.GetBrewLength().ConvertTo(VolumeUnit.Gallons).GetValue();
+            var points = (pppg - 1) * 1000;
+            var pounds = weight.ConvertTo(MassUnit.Pounds).GetValue();
+            var gallons = recipe.GetBrewLength().ConvertTo(VolumeUnit.Gallons).GetValue();
 
             var calculatedGravityContribution = (((pounds * points) / gallons) / 1000) + 1;
             return Math.Round(calculatedGravityContribution, 3);
@@ -89,9 +90,9 @@ namespace BrewRoom.Modules.Core.Models
 
         private decimal CalculateGravityContributionInPoints()
         {
-            var points = (_pppg - 1) * 1000;
-            var pounds = _weight.ConvertTo(MassUnit.Pounds).GetValue();
-            var gallons = _recipe.GetBrewLength().ConvertTo(VolumeUnit.Gallons).GetValue();
+            var points = (pppg - 1) * 1000;
+            var pounds = weight.ConvertTo(MassUnit.Pounds).GetValue();
+            var gallons = recipe.GetBrewLength().ConvertTo(VolumeUnit.Gallons).GetValue();
 
             var calculatedGravityContribution = (pounds * points) / gallons;
             return Math.Round(calculatedGravityContribution, 3);

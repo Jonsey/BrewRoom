@@ -6,9 +6,9 @@ namespace BrewRoom.Modules.Core.Calculators
     public class MashCalculator
     {
         #region Private Fields
-        private decimal _grainAmount;
-        private decimal _liquorAmount;
-        private decimal _ratio; 
+        private decimal grainAmount;
+        private decimal liquorAmount;
+        private decimal ratio; 
         #endregion
 
         #region Ctors
@@ -20,9 +20,9 @@ namespace BrewRoom.Modules.Core.Calculators
 
         public MashCalculator(decimal grainAmount, decimal liquorAmount)
         {
-            _grainAmount = grainAmount;
-            _liquorAmount = liquorAmount;
-            _ratio = CalculateRatio();
+            this.grainAmount = grainAmount;
+            this.liquorAmount = liquorAmount;
+            ratio = CalculateRatio();
         }
 
         #endregion
@@ -33,8 +33,8 @@ namespace BrewRoom.Modules.Core.Calculators
         {
             var tw = (0.2M / ratio) * (desiredStrikeTemp - grainTemp) + desiredStrikeTemp;
 
-            _liquorAmount = (grainAmount.ConvertTo(MassUnit.KiloGrams).GetValue() / ratio);
-            _grainAmount = grainAmount.ConvertTo(MassUnit.KiloGrams).GetValue();
+            liquorAmount = (grainAmount.ConvertTo(MassUnit.KiloGrams).GetValue() / ratio);
+            this.grainAmount = grainAmount.ConvertTo(MassUnit.KiloGrams).GetValue();
 
             return tw;
         }
@@ -44,13 +44,13 @@ namespace BrewRoom.Modules.Core.Calculators
             ReCalcRatio();
 
             decimal grainWeight = grain.ConvertTo(MassUnit.Pounds).GetValue();
-            var wm = _ratio * grainWeight;
+            var wm = ratio * grainWeight;
 
 
             var wa = (desiredInfusionTemp - strikeTemp) * ((0.2M * grainWeight) + wm) /
                      (liquorTemperature - desiredInfusionTemp);
 
-            _liquorAmount += wa;
+            liquorAmount += wa;
 
             ReCalcRatio();
 
@@ -75,12 +75,12 @@ namespace BrewRoom.Modules.Core.Calculators
 
         private decimal CalculateRatio()
         {
-            return _grainAmount / _liquorAmount;
+            return grainAmount / liquorAmount;
         }
 
         private void ReCalcRatio()
         {
-            _ratio = CalculateRatio();
+            ratio = CalculateRatio();
         } 
 
         #endregion

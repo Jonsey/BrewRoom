@@ -1,10 +1,12 @@
 ﻿using System;
+using BrewRoom.Modules.Core.Interfaces.Models;
+using BrewRoom.Modules.Core.ViewModels;
 
 namespace BrewRoom.Modules.Core.Models
 {
-    public class Hop : Ingredient
+    public class Hop : Ingredient, IHop
     {
-        private HopOilCharacteristics _characteristics;
+        private IHopOilCharacteristics characteristics;
 
         #region Properties
         public decimal AlphaAcid
@@ -22,22 +24,22 @@ namespace BrewRoom.Modules.Core.Models
 
         #endregion
 
-        public void AddOilCharacteristics(HopOilCharacteristics characteristics)
+        public void AddOilCharacteristics(IHopOilCharacteristics hopCharacteristics)
         {
-            if (!characteristics.AreValid())
+            if (!hopCharacteristics.AreValid())
                 throw new ArgumentException("Characteristics are invalid. See innerexception for details.");
             
-            _characteristics = characteristics;
+            this.characteristics = hopCharacteristics;
         }
 
-        public HopOilCharacteristics GetCharacteristics()
+        public IHopOilCharacteristics GetCharacteristics()
         {
-            return _characteristics;
+            return characteristics;
         }
 
         public decimal GetAlphaAcid()
         {
-            return _characteristics.TotalAlphaAcid;
+            return characteristics.TotalAlphaAcid;
         }
     }
 }

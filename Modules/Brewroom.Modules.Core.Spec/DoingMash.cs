@@ -85,7 +85,7 @@ namespace Brewroom.Modules.Core.Spec
         public void RecipeGrainShouldCalculateGravityContribution()
         {
             var recipe = CreateDefaultRecipe();
-            var fermentables = recipe.GetFermentables();
+            var fermentables = recipe.Fermentables;
             var gravityContribution = fermentables[0].GravityContribution;
 
             Assert.AreEqual(1.094M, gravityContribution);
@@ -94,23 +94,23 @@ namespace Brewroom.Modules.Core.Spec
         [Test]
         public void RecipeGrainShouldTakePppgOfSelectedGrain()
         {
-            var grain = new Grain("Pils Malt", 1.045M);
+            var grain = new Fermentable("Pils Malt", 1.045M);
             var recipe = new Recipe();
 
-            recipe.AddGrain(grain, 1.KiloGram());
+            recipe.AddFermentable(grain, 1.KiloGram());
 
-            Assert.AreEqual(1.045M, recipe.GetFermentables()[0].Pppg);
+            Assert.AreEqual(1.045M, recipe.Fermentables[0].Pppg);
         }
 
         [Test]
         public void RecipeGrainShouldBe100PercentOfMash()
         {
-            var grain = new Grain("Pils Malt", 1.045M);
+            var grain = new Fermentable("Pils Malt", 1.045M);
             var recipe = new Recipe();
 
-            recipe.AddGrain(grain, 1.KiloGram());
+            recipe.AddFermentable(grain, 1.KiloGram());
 
-            Assert.AreEqual(100M, recipe.GetFermentables()[0].PercentageOfMash);
+            Assert.AreEqual(100M, recipe.Fermentables[0].PercentageOfMash);
         }
     }
 }

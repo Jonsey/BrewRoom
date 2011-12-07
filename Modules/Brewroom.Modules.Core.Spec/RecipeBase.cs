@@ -7,12 +7,12 @@ namespace Brewroom.Modules.Core.Spec
     {
         public Recipe CreateDefaultRecipe()
         {
-            var grain = new Grain("Two-row");
+            var grain = new Fermentable("Two-row");
             var hop = new Hop("Saaz");
             var recipe = new Recipe();
 
             recipe.SetBrewLength(new Volume(20, VolumeUnit.Litres));
-            recipe.AddGrain(grain, 5.KiloGrams(), 1.045M);
+            recipe.AddFermentable(grain, 5.KiloGrams(), 1.045M);
             recipe.AddHop(hop, new Weight(200M, MassUnit.Grams), 60, 12.5M);
 
             return recipe;

@@ -1,6 +1,8 @@
+using BrewRoom.Modules.Core.Interfaces.Models;
+
 namespace BrewRoom.Modules.Core.Models
 {
-    public struct HopOilCharacteristics
+    public class HopOilCharacteristics : IHopOilCharacteristics
     {
         public decimal PercentageOfTotalWeight { get; set; }
 
