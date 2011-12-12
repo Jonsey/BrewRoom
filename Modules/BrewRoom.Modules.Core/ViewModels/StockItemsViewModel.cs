@@ -14,9 +14,10 @@ namespace BrewRoom.Modules.Core.ViewModels
     public class StockItemsViewModel : NotificationObject, IStockItemsViewModel
     {
         #region Fields
-
         readonly IEventAggregator eventAggregator;
         readonly IStockItemsRepository stockItemsRepository;
+
+        IIngredientViewModel selectedStockItem;
         #endregion
 
         #region Ctors
@@ -29,6 +30,11 @@ namespace BrewRoom.Modules.Core.ViewModels
         #endregion
 
         #region Properties
+
+        public bool IsFermentableDetailsVisible { get; private set; }
+
+        public bool IsHopDetailsVisible { get; private set; }
+
         public IList<IFermentableViewModel> Fermentables
         {
             get
@@ -55,46 +61,40 @@ namespace BrewRoom.Modules.Core.ViewModels
             }
         }
 
-        IFermentableViewModel selectedFermentable;
-        public IFermentableViewModel SelectedFermentable
+        public IIngredientViewModel SelectedStockItem
         {
-            get { return selectedFermentable; }
+            get { return selectedStockItem; }
             set
             {
-                selectedFermentable = value;
-                eventAggregator.GetEvent<StockFermentableSelectedEvent>().Publish(selectedFermentable);
-                RaisePropertyChanged("SelectedFermentable"); // TODO not tested
+                selectedStockItem = value;
+                eventAggregator.GetEvent<StockItemSelectedEvent>().Publish(selectedStockItem);
+                RaisePropertyChanged("selectedStockItem"); // TODO not tested
             }
         }
+        #endregion
 
-        IHopViewModel selectedHop;
-        public IHopViewModel SelectedHop
-        {
-            get { return selectedHop; }
-            set
-            {
-                selectedHop = value;
-                RaisePropertyChanged("SelectedHop"); // TODO not tested
-            }
-        }
-
+        #region Commands
         public DelegateCommand SelectHops
         {
             get { return new DelegateCommand(ShowHops); }
         }
 
+        public DelegateCommand SelectFermentables
+        {
+            get { return new DelegateCommand(ShowFermentables); }
+        }
+        #endregion
+
+        #region Private Methods
         void ShowHops()
         {
             IsHopDetailsVisible = true;
             IsFermentableDetailsVisible = false;
 
-            RaisePropertyChanged("IsFermentableDetailsVisible");
-            RaisePropertyChanged("IsHopDetailsVisible");
-        }
+            SelectedStockItem = null;
 
-        public DelegateCommand SelectFermentables
-        {
-            get { return new DelegateCommand(ShowFermentables); }
+            RaisePropertyChanged("IsFermentableDetailsVisible"); // TODO not tested
+            RaisePropertyChanged("IsHopDetailsVisible"); // TODO not tested
         }
 
         void ShowFermentables()
@@ -102,14 +102,11 @@ namespace BrewRoom.Modules.Core.ViewModels
             IsHopDetailsVisible = false;
             IsFermentableDetailsVisible = true;
 
-            RaisePropertyChanged("IsFermentableDetailsVisible");
-            RaisePropertyChanged("IsHopDetailsVisible");
+            SelectedStockItem = null;
+
+            RaisePropertyChanged("IsFermentableDetailsVisible"); // TODO not tested
+            RaisePropertyChanged("IsHopDetailsVisible"); // TODO not tested
         }
-
-        public bool IsFermentableDetailsVisible { get; private set; }
-
-        public bool IsHopDetailsVisible { get; private set; }
-
         #endregion
     }
 }

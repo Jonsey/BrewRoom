@@ -19,6 +19,10 @@ namespace BrewRoom.Modules.Core.ViewModels
             alphaAcid = hop.AlphaAcid;
         }
 
+        public IHop Model
+        {
+            get { return hop; }
+        }
 
         String name;
         public String Name
@@ -33,6 +37,8 @@ namespace BrewRoom.Modules.Core.ViewModels
             get { return alphaAcid; }
             set { alphaAcid = value; }
         }
+
+        
 
         #region Equality Members
         public override bool Equals(object obj)

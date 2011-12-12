@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using BrewRoom.Modules.Core.Events;
 using BrewRoom.Modules.Core.Interfaces.Models;
 using BrewRoom.Modules.Core.Interfaces.ViewModels;
@@ -48,9 +49,19 @@ namespace BrewRoom.Modules.Core.ViewModels
             get { return recipe.GetTotalGrainWeight(); }
         }
 
+        public Weight RecipeTotalHopWeight
+        {
+            get { return recipe.GetTotalHopWeight(); }
+        }
+
         public decimal RecipeBuGu
         {
             get { return recipe.GetBuGuRatio(); }
+        }
+
+        public decimal RecipeBitterness
+        {
+            get { return recipe.GetIbu(); }
         }
 
         public Decimal RecipePotential
@@ -58,31 +69,30 @@ namespace BrewRoom.Modules.Core.ViewModels
             get { return recipe.GetStartingGravity(); }
         }
 
-        public ObservableCollection<RecipeGrain> RecipeFermentables
+        public ObservableCollection<IRecipeFermentable> RecipeFermentables
         {
             get
             {
                 var recipeGrains = recipe.Fermentables;
 
-                return new ObservableCollection<RecipeGrain>(recipeGrains);
+                return new ObservableCollection<IRecipeFermentable>(recipeGrains);
             }
         }
 
-        public ObservableCollection<RecipeHop> RecipeHops
+        public ObservableCollection<IRecipeHop> RecipeHops
         {
             get
             {
                 var recipeHops = recipe.Hops;
 
-                return new ObservableCollection<RecipeHop>(recipeHops);
+                return new ObservableCollection<IRecipeHop>(recipeHops);
             }
         }
 
-        public IFermentableViewModel SelectedStockFermentable { get; set; }
+        public IRecipeFermentable SelectedRecipeFermentable { get; set; }
 
-        public RecipeGrain SelectedRecipeFermentable { get; set; }
+        public IIngredientViewModel SelectedStockItem { get; set; }
 
-        public IHop SelectedHop { get; set; } 
         #endregion
 
         #region Ctor
@@ -94,33 +104,59 @@ namespace BrewRoom.Modules.Core.ViewModels
             recipe = new Recipe();
             recipe.SetBrewLength(20.Litres());
 
-            eventAggregator.GetEvent<StockFermentableSelectedEvent>().Subscribe(StockFermentableSelectedEventHandler);
-        }
-
-        void StockFermentableSelectedEventHandler(IFermentableViewModel obj)
-        {
-            SelectedStockFermentable = obj;
+            eventAggregator.GetEvent<StockItemSelectedEvent>().Subscribe(StockItemSelectedEventHandler);
         }
 
         #endregion
 
         #region Commands
-        private DelegateCommand _addFermentableCommand;
-        public DelegateCommand AddFermentableCommand
-        {
-            get { return _addFermentableCommand ?? (_addFermentableCommand = new DelegateCommand(AddFermentable)); }
-        }
-
-        private DelegateCommand<Hop> _addHopCommand;
-        public DelegateCommand<Hop> AddHopCommand
-        {
-            get { return _addHopCommand ?? (_addHopCommand = new DelegateCommand<Hop>(AddHop)); }
-        }
-
         public DelegateCommand RemoveFermentableCommand
         {
             get { return new DelegateCommand(RemoveRecipeFermentable); }
         }
+
+        public DelegateCommand AddSelectedStockItemCommand
+        {
+            get
+            {
+                return new DelegateCommand(AddSelectedStockItem);
+            }
+        }
+        #endregion
+
+        #region Private Methods
+        void AddSelectedStockItem()
+        {
+            if (SelectedStockItem == null) return;
+
+            if (SelectedStockItem is IHopViewModel)
+            {
+                AddHop();
+            }
+            else if (SelectedStockItem is IFermentableViewModel)
+            {
+                AddFermentable();
+            }
+
+            UpdateRecipeProperties();
+        }
+
+        void AddHop()
+        {
+            var hopViewModel = SelectedStockItem as IHopViewModel;
+            var hop = hopViewModel.Model;
+
+            recipe.AddHop(hop, 5.Grams(), 60);
+        }
+
+        void AddFermentable()
+        {
+            var fermentableViewModel = SelectedStockItem as IFermentableViewModel;
+            var fermentable = fermentableViewModel.Model;
+
+            recipe.AddFermentable(fermentable, 1.KiloGram(), fermentableViewModel.Pppg);
+        }
+
 
         void RemoveRecipeFermentable()
         {
@@ -128,33 +164,21 @@ namespace BrewRoom.Modules.Core.ViewModels
             UpdateRecipeProperties();
         }
 
-        #endregion
-
-        #region Private Methods
-        void AddHop(IHop hop)
+        void StockItemSelectedEventHandler(IIngredientViewModel item)
         {
-            if (SelectedHop == null) return;
-
-            recipe.AddHop(SelectedHop, 5.Grams(), 60);
-            UpdateRecipeProperties();
-        }
-
-        void AddFermentable()
-        {
-            if (SelectedStockFermentable == null) return;
-
-            recipe.AddFermentable(SelectedStockFermentable.Model, 1.KiloGram());
-            UpdateRecipeProperties();
+            SelectedStockItem = item;
         }
 
         void UpdateRecipeProperties()
         {
             RaisePropertyChanged("RecipeFermentables");
-            RaisePropertyChanged("RecipePotential");
-            RaisePropertyChanged("RecipeTotalGrainWeight");
             RaisePropertyChanged("RecipeHops");
+            RaisePropertyChanged("RecipeTotalGrainWeight");
+            RaisePropertyChanged("RecipeTotalHopWeight");
+            RaisePropertyChanged("RecipePotential");
             RaisePropertyChanged("RecipeBuGu");
-        } 
+            RaisePropertyChanged("RecipeBitterness");
+        }
         #endregion
     }
 }

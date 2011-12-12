@@ -24,7 +24,7 @@
                         Orientation="Horizontal">
                 <Button Width="50"
                         Height="20"
-                        Command="{Binding AddFermentableCommand}"
+                        Command="{Binding AddSelectedStockItemCommand}"
                         Content="+" />
                 <Button Width="50"
                         Height="20"
@@ -48,7 +48,7 @@
                         <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                         <DataGridTextColumn Binding="{Binding GravityContribution}" Header="Potential" />
                         <DataGridTextColumn Binding="{Binding Weight, Converter={StaticResource wieghtConverter}}" Header="Amount" />
-                        <DataGridTextColumn Binding="{Binding PercentageOfMash}" Header="%" />
+                        <DataGridTextColumn Binding="{Binding PercentageOfMash, StringFormat={}#.##}" Header="%" />
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -63,9 +63,10 @@
                           ItemsSource="{Binding RecipeHops}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                        <DataGridTextColumn Binding="{Binding IBU}" Header="IBU" />
+                        <DataGridTextColumn Binding="{Binding Ibu}" Header="IBU" />
+                        <DataGridTextColumn Binding="{Binding Utilization}" Header="IBU" />
                         <DataGridTextColumn Binding="{Binding Weight, Converter={StaticResource wieghtConverter}}" Header="Amount" />
-                        <DataGridTextColumn Binding="{Binding BoilDuration}" Header="Boil Duration" />
+                        <DataGridTextColumn Binding="{Binding BoilTime}" Header="Boil Duration" />
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -77,7 +78,7 @@
                           VerticalAlignment="Top"
                           AutoGenerateColumns="False"
                           DockPanel.Dock="Left"
-                          ItemsSource="{Binding RecipeHops}">
+                          ItemsSource="{Binding RecipeOthers}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                         <DataGridTextColumn Binding="{Binding Weight, Converter={StaticResource wieghtConverter}}" Header="Amount" />
@@ -93,7 +94,7 @@
                           VerticalAlignment="Top"
                           AutoGenerateColumns="False"
                           DockPanel.Dock="Left"
-                          ItemsSource="{Binding RecipeHops}">
+                          ItemsSource="{Binding RecipeYeasts}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                         <DataGridTextColumn Binding="{Binding IBU}" Header="Amount" />
@@ -112,6 +113,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
+                    <RowDefinition Height="29" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
@@ -152,25 +154,36 @@
                            Margin="3"
                            Padding="3"
                            Text="pppg" />
-
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
                            Margin="3"
                            Padding="3"
-                           Text="Bu:Gu" />
+                           Text="Bitterness" />
                 <TextBlock Grid.Row="2"
                            Grid.Column="1"
                            Margin="3"
                            VerticalAlignment="Center"
                            Padding="3"
-                           Text="{Binding RecipeBuGu}" />
+                           Text="{Binding RecipeBitterness}" />
 
                 <TextBlock Grid.Row="3"
                            Grid.Column="0"
                            Margin="3"
                            Padding="3"
-                           Text="Total IFermentable" />
+                           Text="Bu:Gu" />
                 <TextBlock Grid.Row="3"
+                           Grid.Column="1"
+                           Margin="3"
+                           VerticalAlignment="Center"
+                           Padding="3"
+                           Text="{Binding RecipeBuGu, StringFormat={}#.##}" />
+
+                <TextBlock Grid.Row="4"
+                           Grid.Column="0"
+                           Margin="3"
+                           Padding="3"
+                           Text="Total Fermentable" />
+                <TextBlock Grid.Row="4"
                            Grid.Column="1"
                            Grid.ColumnSpan="2"
                            Margin="3"
@@ -180,12 +193,12 @@
                                           Converter={StaticResource wieghtConverter}}" />
 
 
-                <TextBlock Grid.Row="4"
+                <TextBlock Grid.Row="5"
                            Grid.Column="0"
                            Margin="3"
                            Padding="3"
                            Text="Total Hops" />
-                <TextBlock Grid.Row="4"
+                <TextBlock Grid.Row="5"
                            Grid.Column="1"
                            Grid.ColumnSpan="2"
                            Margin="3"

@@ -21,9 +21,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedFermentable = grainVMs[1];
+            vm.SelectedStockItem = grainVMs[1];
 
-            Assert.AreEqual("Amber Malt", vm.SelectedFermentable.Name);
+            Assert.AreEqual("Amber Malt", vm.SelectedStockItem.Name);
         }
 
         [Test]
@@ -31,8 +31,8 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedFermentable = grainVMs[1];
-            vm.SelectedFermentable.Name = "Amber Malt changed";
+            vm.SelectedStockItem = grainVMs[1];
+            vm.SelectedStockItem.Name = "Amber Malt changed";
 
             Assert.AreEqual("Amber Malt changed", grainVMs[1].Name);
         }
@@ -42,20 +42,32 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedFermentable = grainVMs[0];
+            vm.SelectedStockItem = grainVMs[0];
 
-            Assert.AreEqual(1.045, vm.SelectedFermentable.Pppg);
+            var selectedFermentable = vm.SelectedStockItem as IFermentableViewModel;
+            Assert.AreEqual(1.045, selectedFermentable.Pppg);
         } 
 
         [Test]
-        public void ShouldPublishFermentableSelectedEvent()
+        public void RecipeViewModelShouldPickUpSelectedStockFermentable()
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
             IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm);
 
-            vm.SelectedFermentable = grainVMs[0];
+            vm.SelectedStockItem = grainVMs[0];
 
-            Assert.AreEqual(grainVMs[0], recipeVm.SelectedStockFermentable);
+            Assert.AreEqual(grainVMs[0], recipeVm.SelectedStockItem);
+        }
+
+        [Test]
+        public void RecipeViewModelShouldPickUpSelectedStockHop()
+        {
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm);
+
+            vm.SelectedStockItem = hopVMs[0];
+
+            Assert.AreEqual(hopVMs[0], recipeVm.SelectedStockItem);
         }
         #endregion
     }

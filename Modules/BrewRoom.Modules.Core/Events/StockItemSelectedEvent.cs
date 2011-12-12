@@ -7,7 +7,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace BrewRoom.Modules.Core.Events
 {
-    public class StockFermentableSelectedEvent : CompositePresentationEvent<IFermentableViewModel>
+    public class StockItemSelectedEvent : CompositePresentationEvent<IIngredientViewModel>
     {
     }
 }

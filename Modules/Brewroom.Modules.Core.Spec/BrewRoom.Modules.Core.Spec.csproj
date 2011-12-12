@@ -55,6 +55,7 @@
     <Compile Include="AddingIngredients.cs" />
     <Compile Include="BoilingCalculationTests.cs" />
     <Compile Include="DoingMash.cs" />
+    <Compile Include="Models\RecipeHopSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecipeBase.cs" />
     <Compile Include="ViewModels\EditRecipeSpecs.cs" />

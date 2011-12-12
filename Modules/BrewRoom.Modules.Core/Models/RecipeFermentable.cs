@@ -4,25 +4,27 @@ using Zymurgy.Dymensions;
 
 namespace BrewRoom.Modules.Core.Models
 {
-    public class RecipeGrain
+    public class RecipeFermentable : Fermentable, IRecipeFermentable
     {
         #region Fields
         private readonly Recipe recipe;
         private readonly IFermentable fermentable;
-        private readonly Weight weight;
-        private readonly decimal pppg;
+        private Weight weight;
+        //private readonly decimal pppg;
         #endregion
 
         #region Ctors
-        public RecipeGrain(Recipe recipe, IFermentable fermentable, Weight weight)
+        public RecipeFermentable(Recipe recipe, IFermentable fermentable, Weight weight)
+            : base(fermentable.Name)
         {
             this.recipe = recipe;
             this.fermentable = fermentable;
             this.weight = weight;
-            pppg = this.fermentable.Pppg;
+            this.pppg = this.fermentable.Pppg;
         }
 
-        public RecipeGrain(Recipe recipe, IFermentable fermentable, Weight weight, decimal pppg)
+        public RecipeFermentable(Recipe recipe, IFermentable fermentable, Weight weight, decimal pppg) 
+            : base(fermentable.Name)
         {
             this.recipe = recipe;
             this.fermentable = fermentable;
@@ -32,28 +34,28 @@ namespace BrewRoom.Modules.Core.Models
         #endregion
 
         #region Properties
-        public string Name
-        {
-            get { return fermentable.Name; }
-        }
+        //public new string Name
+        //{
+        //    get { return fermentable.Name; }
+        //}
 
         public Weight Weight
         {
             get { return weight; }
         }
 
-        public decimal Pppg
-        {
-            get { return pppg; }
-        }
+        //public new decimal Pppg
+        //{
+        //    get { return pppg; }
+        //}
 
-        public decimal ExtractPoints
-        {
-            get
-            {
-                return (pppg - 1) * 1000;
-            }
-        }
+        //public decimal ExtractPoints
+        //{
+        //    get
+        //    {
+        //        return (pppg - 1) * 1000;
+        //    }
+        //}
 
         public decimal GravityContribution
         {
@@ -69,6 +71,12 @@ namespace BrewRoom.Modules.Core.Models
         {
             get { return CalculatePercenatgeofMash(); }
         }
+
+        public void IncreaseWeight(Weight weightToAdd)
+        {
+            this.weight += weightToAdd;
+        }
+
         #endregion
 
         #region Private Methods

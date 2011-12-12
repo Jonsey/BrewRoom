@@ -16,7 +16,11 @@ namespace BrewRoom.Modules.Core.Convertors
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            String stringValue = value as String;
+            var array = stringValue.Split(' ');
+
+            var unit = Enum.Parse(typeof (MassUnit), array[1]);
+            return new Weight(System.Convert.ToDecimal(array[0]), (MassUnit)unit);
         }
     }
 }

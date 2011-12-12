@@ -8,14 +8,12 @@ namespace BrewRoom.Modules.Core.Interfaces.ViewModels
         IList<IFermentableViewModel> Fermentables { get; }
         IList<IHopViewModel> Hops { get; }
 
-        IFermentableViewModel SelectedFermentable { get; set; }
-        IHopViewModel SelectedHop { get; set; }
-
         bool IsHopDetailsVisible { get; }
         bool IsFermentableDetailsVisible { get; }
         
         DelegateCommand SelectHops { get; }
         DelegateCommand SelectFermentables { get; }
-        
+
+        IIngredientViewModel SelectedStockItem { get; set; }
     }
 }

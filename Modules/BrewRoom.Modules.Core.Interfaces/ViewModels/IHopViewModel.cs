@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BrewRoom.Modules.Core.Interfaces.Models;
 
 namespace BrewRoom.Modules.Core.Interfaces.ViewModels
 {
-    public interface IHopViewModel
+    public interface IHopViewModel : IIngredientViewModel
     {
-        String Name  { get; set; }
         decimal AlphaAcid { get; set; }
+        IHop Model { get; }
     }
 }

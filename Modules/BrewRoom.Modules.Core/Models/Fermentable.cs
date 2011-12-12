@@ -4,7 +4,21 @@ namespace BrewRoom.Modules.Core.Models
 {
     public class Fermentable : Ingredient, IFermentable
     {
-        public decimal Pppg { get; protected set; }
+        protected decimal pppg;
+
+        public decimal Pppg
+        {
+            get { return pppg; }
+            protected set { pppg = value; }
+        }
+
+        public decimal ExtractPoints
+        {
+            get
+            {
+                return (pppg - 1) * 1000;
+            }
+        }
 
         public Fermentable(string name)
             : base(name)

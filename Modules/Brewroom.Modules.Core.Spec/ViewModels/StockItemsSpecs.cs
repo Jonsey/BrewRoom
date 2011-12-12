@@ -24,9 +24,22 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedFermentable = grainVMs[0];
+            vm.SelectedStockItem = grainVMs[0];
 
-            Assert.AreEqual(grainVMs[0], vm.SelectedFermentable);
+            Assert.AreEqual(grainVMs[0], vm.SelectedStockItem);
+        }
+
+        [Test]
+        public void ShouldUnSelectAnyStockItemsWhenChangingTabs()
+        {
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+
+            vm.SelectedStockItem = grainVMs[0];
+            Assert.IsNotNull(vm.SelectedStockItem, "Stock item was not selected.");
+
+            vm.SelectHops.Execute();
+
+            Assert.IsNull(vm.SelectedStockItem, "Stock item was not de-selected.");
         }
 
         [Test]
@@ -34,9 +47,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedFermentable = grainVMs[0];
+            vm.SelectedStockItem = grainVMs[0];
 
-            Assert.IsInstanceOf<IFermentableViewModel>(vm.SelectedFermentable);
+            Assert.IsInstanceOf<IFermentableViewModel>(vm.SelectedStockItem);
         }
 
         [Test]
@@ -59,7 +72,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         }
 
         [Test]
-        public void ShouldShowFewrmentableDetailsWhenFermentablesAreSelected()
+        public void ShouldShowFermentableDetailsWhenFermentablesAreSelected()
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
@@ -73,9 +86,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedHop = hopVMs[0];
+            vm.SelectedStockItem = hopVMs[0];
 
-            Assert.AreEqual("Saaz", vm.SelectedHop.Name);
+            Assert.AreEqual("Saaz", vm.SelectedStockItem.Name);
         }
 
         [Test]
@@ -83,9 +96,10 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedHop = hopVMs[0];
+            vm.SelectedStockItem = hopVMs[0];
 
-            Assert.AreEqual(5M, vm.SelectedHop.AlphaAcid);
+            var selectHop = vm.SelectedStockItem as IHopViewModel;
+            Assert.AreEqual(5M, selectHop.AlphaAcid);
         }
     }
 }

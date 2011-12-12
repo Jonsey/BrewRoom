@@ -10,26 +10,26 @@ namespace BrewRoom.Modules.Core.Models
     public class Recipe
     {
         #region Fields
-        private readonly IList<RecipeHop> hops;
-        private readonly IList<RecipeGrain> grains;
+        private readonly IList<IRecipeHop> hops;
+        private readonly IList<IRecipeFermentable> grains;
         private Volume brewLength; 
         #endregion
 
         #region Ctors
         public Recipe()
         {
-            hops = new List<RecipeHop>();
-            grains = new List<RecipeGrain>();
+            hops = new List<IRecipeHop>();
+            grains = new List<IRecipeFermentable>();
         } 
         #endregion
 
         #region Properties
-        public IList<RecipeGrain> Fermentables
+        public IList<IRecipeFermentable> Fermentables
         {
             get { return grains; }
         }
 
-        public IList<RecipeHop> Hops
+        public IEnumerable<IRecipeHop> Hops
         {
             get { return hops; }
         } 
@@ -40,47 +40,69 @@ namespace BrewRoom.Modules.Core.Models
         #region Hops
         public void AddHop(IHop hop, Weight weight, int boilTime)
         {
-            hops.Add(new RecipeHop(hop, weight, boilTime));
+            hops.Add(new RecipeHop(hop, weight, boilTime, this));
         }
 
         public void AddHop(IHop hop, Weight weight, int boilTime, decimal alphaAcid)
         {
-            hops.Add(new RecipeHop(hop, weight, boilTime, alphaAcid));
+            hops.Add(new RecipeHop(hop, weight, boilTime, alphaAcid, this));
         }
 
         public Weight GetTotalHopWeight()
         {
-            var result = new Weight(0, MassUnit.Grams);
-
-            return hops.Select(hop => hop.GetWeight())
+            var result = hops.Select(hop => hop.GetWeight())
                 .AsParallel()
-                .Aggregate(result, (current, weight) => current + weight.ConvertTo(MassUnit.Grams));
+                .Aggregate(new Weight(0, MassUnit.Grams),
+                           (current, weight) => current + weight.ConvertTo(MassUnit.Grams));
+
+            return result;
         } 
         #endregion
 
         #region Grains
         public void AddFermentable(IFermentable fermentable, Weight weight)
         {
-            grains.Add(new RecipeGrain(this, fermentable, weight));
+            if (grains.Count > 0)
+            {
+                var existing = grains.SingleOrDefault(x => x.Name == fermentable.Name);
+
+                if (existing != null)
+                    existing.IncreaseWeight(weight);
+                else
+                    grains.Add(new RecipeFermentable(this, fermentable, weight));
+            }
+            else
+                grains.Add(new RecipeFermentable(this, fermentable, weight));
         }
 
         public void AddFermentable(IFermentable fermentable, Weight weight, decimal pppg)
         {
-            grains.Add(new RecipeGrain(this, fermentable, weight, pppg));
+            if (grains.Count > 0)
+            {
+                var existing = grains.SingleOrDefault(x => x.Name == fermentable.Name && x.Pppg == pppg);
+
+                if (existing != null)
+                    existing.IncreaseWeight(weight);
+                else
+                    grains.Add(new RecipeFermentable(this, fermentable, weight, pppg));
+            }
+            else
+                grains.Add(new RecipeFermentable(this, fermentable, weight, pppg));
         }
 
-        public void RemoveFermentable(RecipeGrain fermentable)
+        public void RemoveFermentable(IRecipeFermentable fermentable)
         {
             grains.Remove(fermentable);
         }
 
         public Weight GetTotalGrainWeight()
         {
-            var result = new Weight(0, MassUnit.KiloGrams);
-
-            return grains.Select(grain => grain.Weight)
+            var result = grains.Select(grain => grain.Weight)
                 .AsParallel()
-                .Aggregate(result, (current, weight) => current + weight.ConvertTo(MassUnit.KiloGrams));
+                .Aggregate(new Weight(0, MassUnit.KiloGrams),
+                           (current, weight) => current + weight.ConvertTo(MassUnit.KiloGrams));
+
+            return result;
         } 
         #endregion
 
@@ -101,9 +123,9 @@ namespace BrewRoom.Modules.Core.Models
         {
             var result = 0M;
             Parallel.ForEach(grains, (grain) =>
-                                          {
-                                              result += grain.GravityContributionInPoints;
-                                          });
+                                         {
+                                             result += grain.GravityContributionInPoints;
+                                         });
 
             return Math.Round(1M + result / 1000M, 3);
         }
@@ -112,9 +134,9 @@ namespace BrewRoom.Modules.Core.Models
         {
             var result = 0M;
             Parallel.ForEach(grains, (grain) =>
-            {
-                result += grain.GravityContributionInPoints;
-            });
+                                         {
+                                             result += grain.GravityContributionInPoints;
+                                         });
 
             return Math.Round(result, 0);
         } 
@@ -123,29 +145,19 @@ namespace BrewRoom.Modules.Core.Models
         #region Bitterness
         public decimal GetIbu()
         {
-            decimal result = 0;
-            decimal gravity = GetStartingGravity();
-
-            Parallel.ForEach(hops, hop => result += GetHopIbuContribution(hop, gravity));
+            var result = hops.Sum(hop => hop.Ibu);
 
             return Math.Round(result, 1);
-        }
-
-        private decimal GetHopIbuContribution(RecipeHop hop, decimal gravity)
-        {
-            var w = hop.GetWeight().ConvertTo(MassUnit.Grams).GetValue();
-            var u = hop.GetUtilization(gravity);
-            var a = hop.GetAlphaAcid() / 100;
-            var v = GetBrewLength().ConvertTo(VolumeUnit.Litres).GetValue();
-
-            return (w * u * a * 1000) / v;
         }
 
         public decimal GetBuGuRatio()
         {
             var ibu = GetIbu();
+            var startingGravityPoints = GetStartingGravityPoints();
 
-            return ibu > 0 ? Math.Round(ibu / GetStartingGravityPoints(), 2) : 0;
+            var buGuRatio = startingGravityPoints > 0 ? Math.Round(ibu / startingGravityPoints, 2) : 0;
+            
+            return buGuRatio;
         }
         #endregion
 
