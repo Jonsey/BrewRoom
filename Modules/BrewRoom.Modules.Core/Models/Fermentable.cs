@@ -6,18 +6,22 @@ namespace BrewRoom.Modules.Core.Models
     {
         protected decimal pppg;
 
-        public decimal Pppg
+        public virtual decimal Pppg
         {
             get { return pppg; }
             protected set { pppg = value; }
         }
 
-        public decimal ExtractPoints
+        public virtual decimal ExtractPoints
         {
             get
             {
                 return (pppg - 1) * 1000;
             }
+        }
+
+        protected Fermentable()
+        {
         }
 
         public Fermentable(string name)

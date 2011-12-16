@@ -4,9 +4,9 @@
              xmlns:Behaviours="clr-namespace:BrewRoom.Modules.Core.Behaviours"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Width="700"
              d:DesignHeight="620"
              d:DesignWidth="700"
-             Width="700"
              mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConvertor" />
@@ -26,7 +26,9 @@
                     VerticalAlignment="Top"
                     DockPanel.Dock="Left"
                     Padding="2">
-            <TabItem x:Name="Fermentables" Header="IFermentables" PreviewMouseDown="Fermentables_PreviewMouseDown">
+            <TabItem x:Name="Fermentables"
+                     Header="Fermentables"
+                     PreviewMouseDown="Fermentables_PreviewMouseDown">
                 <DataGrid Width="270"
                           Height="Auto"
                           Margin="10,10,0,0"
@@ -50,7 +52,9 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem x:Name="Hops" Header="Hops" PreviewMouseDown="Hops_PreviewMouseDown">
+            <TabItem x:Name="Hops"
+                     Header="Hops"
+                     PreviewMouseDown="Hops_PreviewMouseDown">
                 <DataGrid Width="270"
                           Height="Auto"
                           Margin="10,10,0,0"
@@ -60,8 +64,8 @@
                           Behaviours:MouseDoubleClickBehaviour.DoubleClickCommand="{Binding SelectStockItemCommand}"
                           DockPanel.Dock="Left"
                           GridLinesVisibility="None"
-                          ItemsSource="{Binding Hops}"
                           IsSynchronizedWithCurrentItem="True"
+                          ItemsSource="{Binding Hops}"
                           Padding="3"
                           SelectedItem="{Binding SelectedStockItem}">
                     <DataGrid.Columns>
@@ -89,6 +93,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -137,6 +142,19 @@
                          VerticalAlignment="Top"
                          Text="{Binding SelectedStockItem.Description}"
                          VerticalScrollBarVisibility="Auto" />
+                
+                <StackPanel Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            Margin="0"
+                            Orientation="Horizontal">
+
+                    <Button Content="Save" Margin="3" Command="{Binding SaveFermentableCommand}"/>
+                    <Button Content="Delete" Margin="3"/>
+                    <Button Content="Add to Recipe" Margin="3"/>
+                </StackPanel>
 
             </Grid>
         </GroupBox>
@@ -152,6 +170,12 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -189,9 +213,93 @@
                            Grid.Column="0"
                            Margin="3.5"
                            HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Text="Myrcene" />
+                <TextBox Grid.Row="2"
+                         Grid.Column="1"
+                         Width="50"
+                         Margin="3.5"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Text="{Binding SelectedStockItem.Myrcene}" />
+
+                <TextBlock Grid.Row="3"
+                           Grid.Column="0"
+                           Margin="3.5"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Text="Carophyllene" />
+                <TextBox Grid.Row="3"
+                         Grid.Column="1"
+                         Width="50"
+                         Margin="3.5"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Text="{Binding SelectedStockItem.Carophyllene}" />
+
+                <TextBlock Grid.Row="4"
+                           Grid.Column="0"
+                           Margin="3.5"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Text="Humulene" />
+                <TextBox Grid.Row="4"
+                         Grid.Column="1"
+                         Width="50"
+                         Margin="3.5"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Text="{Binding SelectedStockItem.Humulene}" />
+
+                <TextBlock Grid.Row="5"
+                           Grid.Column="0"
+                           Margin="3.5"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Text="Farnesene" />
+                <TextBox Grid.Row="5"
+                         Grid.Column="1"
+                         Width="50"
+                         Margin="3.5"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Text="{Binding SelectedStockItem.Farnesene}" />
+
+                <TextBlock Grid.Row="6"
+                           Grid.Column="0"
+                           Margin="3.5"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Text="OtherAcids" />
+                <TextBox Grid.Row="6"
+                         Grid.Column="1"
+                         Width="50"
+                         Margin="3.5"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Text="{Binding SelectedStockItem.OtherAcids}" />
+
+                <TextBlock Grid.Row="7"
+                           Grid.Column="0"
+                           Margin="3.5"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Center"
+                           Text="Percentage of Total Weight" />
+                <TextBox Grid.Row="7"
+                         Grid.Column="1"
+                         Width="50"
+                         Margin="3.5"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Text="{Binding SelectedStockItem.PercentageOfTotalWeight}" />
+
+                <TextBlock Grid.Row="8"
+                           Grid.Column="0"
+                           Margin="3.5"
+                           HorizontalAlignment="Stretch"
                            VerticalAlignment="Top"
                            Text="Description" />
-                <TextBox Grid.Row="2"
+                <TextBox Grid.Row="8"
                          Grid.Column="1"
                          Width="260"
                          Height="90"

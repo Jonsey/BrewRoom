@@ -2,9 +2,13 @@ using System;
 
 namespace BrewRoom.Modules.Core.Models
 {
-    public abstract class Ingredient
+    public abstract class Ingredient : EntityBase
     {
-        public String Name { get; protected set; }
+        public virtual String Name { get; protected set; }
+
+        protected Ingredient()
+        {
+        }
 
         protected Ingredient(String name)
         {

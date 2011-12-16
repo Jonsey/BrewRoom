@@ -9,13 +9,18 @@ namespace BrewRoom.Modules.Core.Models
         private IHopOilCharacteristics characteristics;
 
         #region Properties
-        public decimal AlphaAcid
+        public virtual IHopOilCharacteristics Characteristics
         {
-            get { return GetAlphaAcid(); }
+            get { return characteristics; }
+            private set { characteristics = value; }
         }
+
         #endregion
 
         #region Ctor
+        protected Hop()
+        {
+        }
 
         public Hop(string name)
             : base(name)
@@ -24,7 +29,7 @@ namespace BrewRoom.Modules.Core.Models
 
         #endregion
 
-        public void AddOilCharacteristics(IHopOilCharacteristics hopCharacteristics)
+        public virtual void AddOilCharacteristics(IHopOilCharacteristics hopCharacteristics)
         {
             if (!hopCharacteristics.AreValid())
                 throw new ArgumentException("Characteristics are invalid. See innerexception for details.");
@@ -32,12 +37,12 @@ namespace BrewRoom.Modules.Core.Models
             this.characteristics = hopCharacteristics;
         }
 
-        public IHopOilCharacteristics GetCharacteristics()
+        public virtual IHopOilCharacteristics GetCharacteristics()
         {
             return characteristics;
         }
 
-        public decimal GetAlphaAcid()
+        public virtual decimal GetAlphaAcid()
         {
             return characteristics.TotalAlphaAcid;
         }

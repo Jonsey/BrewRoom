@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using BrewRoom.Modules.Core.Interfaces.Repositories;
@@ -11,27 +12,24 @@ using BrewRoom.Modules.Core.Views;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Unity;
+using Prism.Extensions.FluentNH;
 
 namespace BrewRoom.Modules.Core
 {
-    public class CoreModule : IModule
+    public class CoreModule : FluentModule<CoreModule>, IModule
     {
-        private readonly IUnityContainer container;
-        private readonly IRegionManager regionManager;
-
-        public CoreModule(IUnityContainer container, IRegionManager regionManager)
+        public CoreModule(IUnityContainer container, IRegionManager regionManager): base(container, regionManager)
         {
             this.container = container;
             this.regionManager = regionManager;
         }
 
-        public void Initialize()
+        protected override string GetConnectionString()
         {
-            RegisterTypesAndServices();
-            RegisterViewsWithRegions();
+            return ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
         }
 
-        void RegisterTypesAndServices()
+        protected override void RegisterTypesAndServices()
         {
             container
                 .RegisterType<IStockItemsRepository, StockItemsRepository>(new ContainerControlledLifetimeManager());
@@ -43,7 +41,7 @@ namespace BrewRoom.Modules.Core
                 .RegisterType<IFermentableViewModel, FermentableViewModel>(new ContainerControlledLifetimeManager());
         }
 
-        void RegisterViewsWithRegions()
+        protected override void RegisterViewsWithRegions()
         {
             regionManager.RegisterViewWithRegion("MainRegion", typeof(IEditRecipeView));
         }

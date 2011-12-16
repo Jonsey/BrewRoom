@@ -16,7 +16,7 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             this.hop = hop;
             name = hop.Name;
-            alphaAcid = hop.AlphaAcid;
+            alphaAcid = hop.GetAlphaAcid();
         }
 
         public IHop Model

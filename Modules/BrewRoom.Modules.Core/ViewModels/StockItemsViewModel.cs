@@ -83,6 +83,12 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             get { return new DelegateCommand(ShowFermentables); }
         }
+
+        public DelegateCommand SaveFermentableCommand
+        {
+            get { return new DelegateCommand(SaveFermentable); }
+        }
+
         #endregion
 
         #region Private Methods
@@ -107,6 +113,13 @@ namespace BrewRoom.Modules.Core.ViewModels
             RaisePropertyChanged("IsFermentableDetailsVisible"); // TODO not tested
             RaisePropertyChanged("IsHopDetailsVisible"); // TODO not tested
         }
+
+        void SaveFermentable()
+        {
+            var fermentable = selectedStockItem as IFermentableViewModel;
+            stockItemsRepository.Save(fermentable.Model);
+        }
+
         #endregion
     }
 }

@@ -31,15 +31,46 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.1.0.39271, Culture=neutral, PublicKeyToken=3a9cab8f8d22bfb7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External\nhibernate\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\External\nhibernate\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.DynamicProxy2">
+      <HintPath>..\..\External\nhibernate\Castle.DynamicProxy2.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate">
+      <HintPath>..\..\External\nhibernate\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External\nhibernate\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\External\Prism 4\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="NHibernate">
+      <HintPath>..\..\External\nhibernate\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\..\External\nhibernate\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Prism.Extensions.FluentNH, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External\Prism.Extensions.FluentNH.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -60,7 +91,16 @@
     <Compile Include="Convertors\VolumeUnitConverter.cs" />
     <Compile Include="Convertors\WeightConvertor.cs" />
     <Compile Include="CoreModule.cs" />
+    <Compile Include="Data\FermentableMap.cs" />
+    <Compile Include="Data\HopMap.cs" />
+    <Compile Include="Data\HopOilCharacteristicsMap.cs" />
+    <Compile Include="Data\RecipeHopMap.cs" />
+    <Compile Include="Data\RecipeMap.cs" />
+    <Compile Include="Data\RecipeFermentableMap.cs" />
+    <Compile Include="Data\VolumeMap.cs" />
+    <Compile Include="Data\WeightMap.cs" />
     <Compile Include="Events\StockItemSelectedEvent.cs" />
+    <Compile Include="Models\EntityBase.cs" />
     <Compile Include="Models\Fermentable.cs" />
     <Compile Include="Models\Hop.cs" />
     <Compile Include="Models\HopOilCharacteristics.cs" />
@@ -112,6 +152,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -7,11 +7,11 @@ using Zymurgy.Dymensions;
 
 namespace BrewRoom.Modules.Core.Models
 {
-    public class Recipe
+    public class Recipe : EntityBase
     {
         #region Fields
-        private readonly IList<IRecipeHop> hops;
-        private readonly IList<IRecipeFermentable> grains;
+        private IList<IRecipeHop> hops;
+        private IList<IRecipeFermentable> grains;
         private Volume brewLength; 
         #endregion
 
@@ -24,31 +24,36 @@ namespace BrewRoom.Modules.Core.Models
         #endregion
 
         #region Properties
-        public IList<IRecipeFermentable> Fermentables
+        public virtual IList<IRecipeFermentable> Fermentables
         {
             get { return grains; }
+            private set { grains = value; }
         }
 
-        public IEnumerable<IRecipeHop> Hops
+        public virtual IList<IRecipeHop> Hops
         {
             get { return hops; }
-        } 
+            private set { hops = value; }
+        }
+
+        public virtual String Name { get; private set; }
+
         #endregion
 
         #region Public Methods
 
         #region Hops
-        public void AddHop(IHop hop, Weight weight, int boilTime)
+        public virtual void AddHop(IHop hop, Weight weight, int boilTime)
         {
             hops.Add(new RecipeHop(hop, weight, boilTime, this));
         }
 
-        public void AddHop(IHop hop, Weight weight, int boilTime, decimal alphaAcid)
+        public virtual void AddHop(IHop hop, Weight weight, int boilTime, decimal alphaAcid)
         {
             hops.Add(new RecipeHop(hop, weight, boilTime, alphaAcid, this));
         }
 
-        public Weight GetTotalHopWeight()
+        public virtual Weight GetTotalHopWeight()
         {
             var result = hops.Select(hop => hop.GetWeight())
                 .AsParallel()
@@ -60,7 +65,7 @@ namespace BrewRoom.Modules.Core.Models
         #endregion
 
         #region Grains
-        public void AddFermentable(IFermentable fermentable, Weight weight)
+        public virtual void AddFermentable(IFermentable fermentable, Weight weight)
         {
             if (grains.Count > 0)
             {
@@ -75,7 +80,7 @@ namespace BrewRoom.Modules.Core.Models
                 grains.Add(new RecipeFermentable(this, fermentable, weight));
         }
 
-        public void AddFermentable(IFermentable fermentable, Weight weight, decimal pppg)
+        public virtual void AddFermentable(IFermentable fermentable, Weight weight, decimal pppg)
         {
             if (grains.Count > 0)
             {
@@ -90,12 +95,12 @@ namespace BrewRoom.Modules.Core.Models
                 grains.Add(new RecipeFermentable(this, fermentable, weight, pppg));
         }
 
-        public void RemoveFermentable(IRecipeFermentable fermentable)
+        public virtual void RemoveFermentable(IRecipeFermentable fermentable)
         {
             grains.Remove(fermentable);
         }
 
-        public Weight GetTotalGrainWeight()
+        public virtual Weight GetTotalGrainWeight()
         {
             var result = grains.Select(grain => grain.Weight)
                 .AsParallel()
@@ -107,19 +112,19 @@ namespace BrewRoom.Modules.Core.Models
         #endregion
 
         #region Brew Length
-        public void SetBrewLength(Volume volume)
+        public virtual void SetBrewLength(Volume volume)
         {
             brewLength = volume;
         }
 
-        public Volume GetBrewLength()
+        public virtual Volume GetBrewLength()
         {
             return brewLength;
         } 
         #endregion
 
         #region Gravity
-        public decimal GetStartingGravity()
+        public virtual decimal GetStartingGravity()
         {
             var result = 0M;
             Parallel.ForEach(grains, (grain) =>
@@ -130,7 +135,7 @@ namespace BrewRoom.Modules.Core.Models
             return Math.Round(1M + result / 1000M, 3);
         }
 
-        public decimal GetStartingGravityPoints()
+        public virtual decimal GetStartingGravityPoints()
         {
             var result = 0M;
             Parallel.ForEach(grains, (grain) =>
@@ -143,14 +148,14 @@ namespace BrewRoom.Modules.Core.Models
         #endregion
 
         #region Bitterness
-        public decimal GetIbu()
+        public virtual decimal GetIbu()
         {
             var result = hops.Sum(hop => hop.Ibu);
 
             return Math.Round(result, 1);
         }
 
-        public decimal GetBuGuRatio()
+        public virtual decimal GetBuGuRatio()
         {
             var ibu = GetIbu();
             var startingGravityPoints = GetStartingGravityPoints();

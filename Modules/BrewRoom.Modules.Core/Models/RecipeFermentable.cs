@@ -7,13 +7,16 @@ namespace BrewRoom.Modules.Core.Models
     public class RecipeFermentable : Fermentable, IRecipeFermentable
     {
         #region Fields
-        private readonly Recipe recipe;
+        private Recipe recipe;
         private readonly IFermentable fermentable;
         private Weight weight;
-        //private readonly decimal pppg;
         #endregion
 
         #region Ctors
+        protected RecipeFermentable()
+        {
+        }
+
         public RecipeFermentable(Recipe recipe, IFermentable fermentable, Weight weight)
             : base(fermentable.Name)
         {
@@ -34,47 +37,32 @@ namespace BrewRoom.Modules.Core.Models
         #endregion
 
         #region Properties
-        //public new string Name
-        //{
-        //    get { return fermentable.Name; }
-        //}
 
-        public Weight Weight
+        public virtual Recipe Recipe
         {
-            get { return weight; }
+            get { return recipe; }
+            private set { recipe = value; }
         }
 
-        //public new decimal Pppg
-        //{
-        //    get { return pppg; }
-        //}
+        public virtual Weight Weight
+        {
+            get { return weight; }
+            private set { weight = value; }
+        }
 
-        //public decimal ExtractPoints
-        //{
-        //    get
-        //    {
-        //        return (pppg - 1) * 1000;
-        //    }
-        //}
-
-        public decimal GravityContribution
+        public virtual decimal GravityContribution
         {
             get { return CalculateGravityContribution(); }
         }
 
-        public decimal GravityContributionInPoints
+        public virtual decimal GravityContributionInPoints
         {
             get { return CalculateGravityContributionInPoints(); }
         }
 
-        public decimal PercentageOfMash
+        public virtual decimal PercentageOfMash
         {
             get { return CalculatePercenatgeofMash(); }
-        }
-
-        public void IncreaseWeight(Weight weightToAdd)
-        {
-            this.weight += weightToAdd;
         }
 
         #endregion
@@ -95,7 +83,6 @@ namespace BrewRoom.Modules.Core.Models
             return Math.Round(calculatedGravityContribution, 3);
         }
 
-
         private decimal CalculateGravityContributionInPoints()
         {
             var points = (pppg - 1) * 1000;
@@ -106,7 +93,13 @@ namespace BrewRoom.Modules.Core.Models
             return Math.Round(calculatedGravityContribution, 3);
         }
 
+        #endregion
 
+        #region Public Methods
+        public virtual void IncreaseWeight(Weight weightToAdd)
+        {
+            this.weight += weightToAdd;
+        }
         #endregion
     }
 }

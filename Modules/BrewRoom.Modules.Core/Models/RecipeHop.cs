@@ -4,38 +4,58 @@ using Zymurgy.Dymensions;
 
 namespace BrewRoom.Modules.Core.Models
 {
-    public class RecipeHop : IRecipeHop
+    public class RecipeHop : Ingredient, IRecipeHop
     {
+        #region Fields
         private readonly IHop hop;
         private Weight weight;
         private int boilTime;
         private readonly decimal alphaAcid;
 
-        Recipe recipe;
+        Recipe recipe; 
+        #endregion
 
-        public String Name
+        #region Properties
+
+        public virtual Recipe Recipe
         {
-            get { return hop.Name; }
+            get { return recipe; }
+            private set { recipe = value; }
         }
 
-        public Weight Weight
+        public virtual Weight Weight
         {
             get { return weight; }
             set { weight = value; }
         }
 
-        public Decimal Ibu
+        public virtual Decimal Ibu
         {
             get { return GetIbuContribution(); }
         }
 
-        public int BoilTime
+        public virtual int BoilTime
         {
             get { return boilTime; }
             set { boilTime = value; }
         }
 
+        public virtual decimal Utilization
+        {
+            get
+            {
+                return GetUtilization();
+            }
+        }
+        #endregion
+
+        #region Ctors
+        protected RecipeHop()
+        {
+        }
+
         public RecipeHop(IHop hop, Weight weight, int boilTime, Recipe recipe)
+            : base(hop.Name)
         {
             this.hop = hop;
             this.weight = weight;
@@ -44,6 +64,7 @@ namespace BrewRoom.Modules.Core.Models
         }
 
         public RecipeHop(IHop hop, Weight weight, int boilTime, decimal alphaAcid, Recipe recipe)
+            : base(hop.Name)
         {
             this.hop = hop;
             this.weight = weight;
@@ -52,7 +73,10 @@ namespace BrewRoom.Modules.Core.Models
             this.recipe = recipe;
         }
 
-        public decimal GetAlphaAcid()
+        #endregion
+
+        #region Public Methods
+        public virtual decimal GetAlphaAcid()
         {
             if (alphaAcid != default(decimal))
                 return alphaAcid;
@@ -60,12 +84,23 @@ namespace BrewRoom.Modules.Core.Models
             return hop.GetAlphaAcid();
         }
 
-        public Weight GetWeight()
+        public virtual Weight GetWeight()
         {
             return weight;
+        } 
+        #endregion
+
+        #region Private Methods
+        decimal GetUtilization()
+        {
+            var gravity = recipe.GetStartingGravity();
+            var gravityFunction = 1.65 * Math.Pow(0.000125, ((double)gravity - 1));
+            var timeFunction = ((1 - Math.Exp(-0.04 * boilTime)) / 4.15);
+
+            return Math.Round((decimal)(gravityFunction * timeFunction), 1);
         }
 
-        private decimal GetIbuContribution()
+        decimal GetIbuContribution()
         {
             var w = weight.ConvertTo(MassUnit.Grams).GetValue();
             var u = Utilization;
@@ -73,26 +108,7 @@ namespace BrewRoom.Modules.Core.Models
             var v = recipe.GetBrewLength().ConvertTo(VolumeUnit.Litres).GetValue();
 
             return (w * u * a * 1000) / v;
-        }
-
-        public decimal GetUtilization(decimal gravity)
-        {
-            var gravityFunction = 1.65 * Math.Pow(0.000125, ((double)gravity - 1));
-            var timeFunction = ((1 - Math.Exp(-0.04 * boilTime)) / 4.15);
-
-            return Math.Round((decimal)(gravityFunction * timeFunction), 1);
-        }
-
-        public decimal Utilization
-        {
-            get
-            {
-                var gravity = recipe.GetStartingGravity();
-                var gravityFunction = 1.65 * Math.Pow(0.000125, ((double)gravity - 1));
-                var timeFunction = ((1 - Math.Exp(-0.04 * boilTime)) / 4.15);
-
-                return Math.Round((decimal)(gravityFunction * timeFunction), 1);
-            }
-        }
+        } 
+        #endregion
     }
 }

@@ -4,21 +4,21 @@ namespace BrewRoom.Modules.Core.Models
 {
     public class HopOilCharacteristics : IHopOilCharacteristics
     {
-        public decimal PercentageOfTotalWeight { get; set; }
+        public virtual decimal PercentageOfTotalWeight { get; set; }
 
-        public decimal Farnesene { get; set; }
+        public virtual decimal Farnesene { get; set; }
 
-        public decimal Carophyllene { get; set; }
+        public virtual decimal Carophyllene { get; set; }
 
-        public decimal Myrcene { get; set; }
+        public virtual decimal Myrcene { get; set; }
 
-        public decimal Humulene { get; set; }
+        public virtual decimal Humulene { get; set; }
 
-        public decimal OtherAcids { get; set; }
+        public virtual decimal OtherAcids { get; set; }
 
-        public decimal TotalAlphaAcid { get; set; }
+        public virtual decimal TotalAlphaAcid { get; set; }
 
-        public bool AreValid()
+        public virtual bool AreValid()
         {
             return (Farnesene + Carophyllene + Myrcene + Humulene + OtherAcids) == 100;
         }

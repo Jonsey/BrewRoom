@@ -70,5 +70,25 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
             Assert.AreEqual(hopVMs[0], recipeVm.SelectedStockItem);
         }
         #endregion
+
+        #region Save Fermentables
+
+        [Test]
+        public void ShouldSaveFermentable()
+        {
+            var id = Guid.NewGuid();
+            stockItemsRepository.Expect(x => x.Save(Arg<Fermentable>.Is.Anything)).Return(id);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+
+            vm.SelectedStockItem = grainVMs[0];
+            grainVMs[0].Name = "Changed name";
+
+            vm.SaveFermentableCommand.Execute();
+
+            stockItemsRepository.VerifyAllExpectations();
+        }
+
+
+        #endregion
     }
 }

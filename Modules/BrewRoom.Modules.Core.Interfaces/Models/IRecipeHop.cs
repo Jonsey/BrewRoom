@@ -12,8 +12,6 @@ namespace BrewRoom.Modules.Core.Interfaces.Models
         int BoilTime { get; set; }
 
         decimal GetAlphaAcid();
-        Weight GetWeight();
-        decimal GetUtilization(decimal gravity);
-        
+        Weight GetWeight();      
     }
 }

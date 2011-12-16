@@ -5,11 +5,19 @@ using System.Text;
 using BrewRoom.Modules.Core.Interfaces.Models;
 using BrewRoom.Modules.Core.Interfaces.Repositories;
 using BrewRoom.Modules.Core.Models;
+using NHibernate;
 
 namespace BrewRoom.Modules.Core.Repositories
 {
     public class StockItemsRepository : IStockItemsRepository
     {
+        ISession session;
+
+        public StockItemsRepository(ISessionFactory sessionFactory)
+        {
+            session = sessionFactory.OpenSession();
+        }
+
         public IEnumerable<IFermentable> GetGrains()
         {
             var fermentables = new List<IFermentable>();
@@ -56,6 +64,27 @@ namespace BrewRoom.Modules.Core.Repositories
                         };
 
             return hops;
+        }
+
+        public Guid Save(IFermentable fermentable)
+        {
+            using(var tran = session.BeginTransaction())
+            {
+                try
+                {
+                    session.SaveOrUpdate(fermentable);
+                    tran.Commit();
+                }
+                catch (Exception)
+                {
+                    tran.Rollback();
+                    session.Close();
+                    session.Dispose();
+                    session = null;
+                }
+            }
+
+            return fermentable.Id;
         }
     }
 }
