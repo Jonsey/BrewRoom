@@ -3,7 +3,10 @@
     <IncludeFilters>
       <Filter ModuleMask="*" ClassMask="*" FunctionMask="*" />
     </IncludeFilters>
-    <ExcludeFilters />
+    <ExcludeFilters>
+      <Filter ModuleMask="*.Spec" ClassMask="*" FunctionMask="*" />
+      <Filter ModuleMask="*" ClassMask="*View" FunctionMask="*" />
+    </ExcludeFilters>
   </CoverageFilters>
   <SnapshotDialog>
     <InitialDirectory>D:\Apps\brewing\BrewRoom</InitialDirectory>
