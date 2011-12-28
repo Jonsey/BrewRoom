@@ -21,9 +21,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedStockItem = grainVMs[1];
+            vm.SelectedFermentable = grainVMs[1];
 
-            Assert.AreEqual("Amber Malt", vm.SelectedStockItem.Name);
+            Assert.AreEqual("Amber Malt", vm.SelectedFermentable.Name);
         }
 
         [Test]
@@ -31,8 +31,8 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedStockItem = grainVMs[1];
-            vm.SelectedStockItem.Name = "Amber Malt changed";
+            vm.SelectedFermentable = grainVMs[1];
+            vm.SelectedFermentable.Name = "Amber Malt changed";
 
             Assert.AreEqual("Amber Malt changed", grainVMs[1].Name);
         }
@@ -42,9 +42,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedStockItem = grainVMs[0];
+            vm.SelectedFermentable = grainVMs[0];
 
-            var selectedFermentable = vm.SelectedStockItem as IFermentableViewModel;
+            var selectedFermentable = vm.SelectedFermentable;
             Assert.AreEqual(1.045, selectedFermentable.Pppg);
         } 
 
@@ -54,7 +54,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
             IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm);
 
-            vm.SelectedStockItem = grainVMs[0];
+            vm.SelectedFermentable = grainVMs[0];
 
             Assert.AreEqual(grainVMs[0], recipeVm.SelectedStockItem);
         }
@@ -65,7 +65,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
             IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm);
 
-            vm.SelectedStockItem = hopVMs[0];
+            vm.SelectedHop = hopVMs[0];
 
             Assert.AreEqual(hopVMs[0], recipeVm.SelectedStockItem);
         }
@@ -80,7 +80,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
             stockItemsRepository.Expect(x => x.Save(Arg<Fermentable>.Is.Anything)).Return(id);
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedStockItem = grainVMs[0];
+            vm.SelectedFermentable = grainVMs[0];
             grainVMs[0].Name = "Changed name";
 
             vm.SaveFermentableCommand.Execute();

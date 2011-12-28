@@ -15,7 +15,7 @@ namespace BrewRoom.Modules.Core.Interfaces.ViewModels
         DelegateCommand SelectFermentables { get; }
         DelegateCommand SaveFermentableCommand { get; }
 
-        IIngredientViewModel SelectedStockItem { get; set; }
-        
+        IStockFermentableViewModel SelectedFermentable { get; set; }
+        IStockHopViewModel SelectedHop { get; set; }
     }
 }

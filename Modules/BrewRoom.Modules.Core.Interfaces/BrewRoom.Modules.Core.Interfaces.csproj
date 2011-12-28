@@ -49,12 +49,15 @@
     <Compile Include="Models\IHopOilCharacteristics.cs" />
     <Compile Include="Models\IRecipeFermentable.cs" />
     <Compile Include="Models\IRecipeHop.cs" />
+    <Compile Include="Models\IStockFermentable.cs" />
     <Compile Include="Repositories\IStockItemsRepository.cs" />
     <Compile Include="ViewModels\IEditRecipeViewModel.cs" />
     <Compile Include="ViewModels\IFermentableViewModel.cs" />
     <Compile Include="Models\IHop.cs" />
     <Compile Include="ViewModels\IHopViewModel.cs" />
     <Compile Include="ViewModels\IIngredientViewModel.cs" />
+    <Compile Include="ViewModels\IStockFermentableViewModel.cs" />
+    <Compile Include="ViewModels\IStockHopViewModel.cs" />
     <Compile Include="ViewModels\IStockItemsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IEditRecipeView.xaml.cs" />

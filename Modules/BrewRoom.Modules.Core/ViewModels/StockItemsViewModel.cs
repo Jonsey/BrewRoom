@@ -17,7 +17,9 @@ namespace BrewRoom.Modules.Core.ViewModels
         readonly IEventAggregator eventAggregator;
         readonly IStockItemsRepository stockItemsRepository;
 
-        IIngredientViewModel selectedStockItem;
+        private IStockFermentableViewModel selectedFermentable;
+        private IStockHopViewModel selectedHop;
+
         #endregion
 
         #region Ctors
@@ -61,16 +63,28 @@ namespace BrewRoom.Modules.Core.ViewModels
             }
         }
 
-        public IIngredientViewModel SelectedStockItem
+        public IStockFermentableViewModel SelectedFermentable
         {
-            get { return selectedStockItem; }
+            get { return selectedFermentable; }
             set
             {
-                selectedStockItem = value;
-                eventAggregator.GetEvent<StockItemSelectedEvent>().Publish(selectedStockItem);
-                RaisePropertyChanged("selectedStockItem"); // TODO not tested
+                selectedFermentable = value;
+                eventAggregator.GetEvent<StockItemSelectedEvent>().Publish(selectedFermentable);
+                RaisePropertyChanged("SelectedFermentable"); // TODO not tested
             }
         }
+
+        public IStockHopViewModel SelectedHop
+        {
+            get { return selectedHop; }
+            set
+            {
+                selectedHop = value;
+                eventAggregator.GetEvent<StockItemSelectedEvent>().Publish(selectedHop);
+                RaisePropertyChanged("SelectedHop"); // TODO not tested
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -97,7 +111,7 @@ namespace BrewRoom.Modules.Core.ViewModels
             IsHopDetailsVisible = true;
             IsFermentableDetailsVisible = false;
 
-            SelectedStockItem = null;
+            SelectedFermentable = null;
 
             RaisePropertyChanged("IsFermentableDetailsVisible"); // TODO not tested
             RaisePropertyChanged("IsHopDetailsVisible"); // TODO not tested
@@ -108,7 +122,7 @@ namespace BrewRoom.Modules.Core.ViewModels
             IsHopDetailsVisible = false;
             IsFermentableDetailsVisible = true;
 
-            SelectedStockItem = null;
+            SelectedHop = null;
 
             RaisePropertyChanged("IsFermentableDetailsVisible"); // TODO not tested
             RaisePropertyChanged("IsHopDetailsVisible"); // TODO not tested
@@ -116,7 +130,7 @@ namespace BrewRoom.Modules.Core.ViewModels
 
         void SaveFermentable()
         {
-            var fermentable = selectedStockItem as IFermentableViewModel;
+            var fermentable = selectedFermentable;
             stockItemsRepository.Save(fermentable.Model);
         }
 

@@ -14,24 +14,24 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
     {
         protected IEventAggregator eventAggregator;
         protected IStockItemsRepository stockItemsRepository;
-        protected List<IFermentableViewModel> grainVMs;
-        protected List<IHopViewModel> hopVMs;
+        protected List<IStockFermentableViewModel> grainVMs;
+        protected List<IStockHopViewModel> hopVMs;
 
         void SetupFermentables()
         {
-            var grain1 = new Fermentable("Pils Malt", 1.045M);
-            var grain2 = new Fermentable("Amber Malt", 1.040M);
+            var grain1 = new StockFermentable("Pils Malt", 1.045M);
+            var grain2 = new StockFermentable("Amber Malt", 1.040M);
 
-            var grains = new List<IFermentable>
+            var grains = new List<IStockFermentable>
                              {
                                  grain1,
                                  grain2
                              };
 
-            grainVMs = new List<IFermentableViewModel>
+            grainVMs = new List<IStockFermentableViewModel>
                            {
-                               new FermentableViewModel(grains[0]),
-                               new FermentableViewModel(grains[1])
+                               new StockFermentableViewModel(grains[0]),
+                               new StockFermentableViewModel(grains[1])
                            };
 
             stockItemsRepository.Expect(x => x.GetGrains()).Return(grains).Repeat.Any();
@@ -56,9 +56,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
                             hop
                         };
 
-            hopVMs = new List<IHopViewModel>
+            hopVMs = new List<IStockHopViewModel>
                            {
-                               new HopViewModel(hops[0])
+                               new StockHopViewModel(hops[0])
                            };
 
             stockItemsRepository.Expect(x => x.GetHops()).Return(hops).Repeat.Any();

@@ -24,9 +24,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedStockItem = grainVMs[0];
+            vm.SelectedFermentable = grainVMs[0];
 
-            Assert.AreEqual(grainVMs[0], vm.SelectedStockItem);
+            Assert.AreEqual(grainVMs[0], vm.SelectedFermentable);
         }
 
         [Test]
@@ -34,12 +34,12 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedStockItem = grainVMs[0];
-            Assert.IsNotNull(vm.SelectedStockItem, "Stock item was not selected.");
+            vm.SelectedFermentable = grainVMs[0];
+            Assert.IsNotNull(vm.SelectedFermentable, "Stock item was not selected.");
 
             vm.SelectHops.Execute();
 
-            Assert.IsNull(vm.SelectedStockItem, "Stock item was not de-selected.");
+            Assert.IsNull(vm.SelectedFermentable, "Stock item was not de-selected.");
         }
 
         [Test]
@@ -47,9 +47,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedStockItem = grainVMs[0];
+            vm.SelectedFermentable = grainVMs[0];
 
-            Assert.IsInstanceOf<IFermentableViewModel>(vm.SelectedStockItem);
+            Assert.IsInstanceOf<IStockFermentableViewModel>(vm.SelectedFermentable);
         }
 
         [Test]
@@ -86,9 +86,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedStockItem = hopVMs[0];
+            vm.SelectedHop = hopVMs[0];
 
-            Assert.AreEqual("Saaz", vm.SelectedStockItem.Name);
+            Assert.AreEqual("Saaz", vm.SelectedHop.Name);
         }
 
         [Test]
@@ -96,10 +96,10 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
-            vm.SelectedStockItem = hopVMs[0];
+            vm.SelectedHop = hopVMs[0];
 
-            var selectHop = vm.SelectedStockItem as IHopViewModel;
-            Assert.AreEqual(5M, selectHop.AlphaAcid);
+            var selectedHop = vm.SelectedHop;
+            Assert.AreEqual(5M, selectedHop.AlphaAcid);
         }
     }
 }

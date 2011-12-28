@@ -111,7 +111,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.Name}" />
+                         Text="{Binding SelectedFermentable.Name}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
@@ -125,7 +125,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.Pppg}" />
+                         Text="{Binding SelectedFermentable.Pppg}" />
 
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
@@ -140,7 +140,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
-                         Text="{Binding SelectedStockItem.Description}"
+                         Text="{Binding SelectedFermentable.Description}"
                          VerticalScrollBarVisibility="Auto" />
                 
                 <StackPanel Grid.Row="3"
@@ -193,7 +193,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.Name}" />
+                         Text="{Binding SelectedHop.Name}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="0"
@@ -207,7 +207,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.AlphaAcid}" />
+                         Text="{Binding SelectedHop.AlphaAcid}" />
 
                 <TextBlock Grid.Row="2"
                            Grid.Column="0"
@@ -221,7 +221,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.Myrcene}" />
+                         Text="{Binding SelectedHop.Myrcene}" />
 
                 <TextBlock Grid.Row="3"
                            Grid.Column="0"
@@ -235,7 +235,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.Carophyllene}" />
+                         Text="{Binding SelectedHop.Carophyllene}" />
 
                 <TextBlock Grid.Row="4"
                            Grid.Column="0"
@@ -249,7 +249,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.Humulene}" />
+                         Text="{Binding SelectedHop.Humulene}" />
 
                 <TextBlock Grid.Row="5"
                            Grid.Column="0"
@@ -263,7 +263,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.Farnesene}" />
+                         Text="{Binding SelectedHop.Farnesene}" />
 
                 <TextBlock Grid.Row="6"
                            Grid.Column="0"
@@ -277,7 +277,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.OtherAcids}" />
+                         Text="{Binding SelectedHop.OtherAcids}" />
 
                 <TextBlock Grid.Row="7"
                            Grid.Column="0"
@@ -291,7 +291,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
-                         Text="{Binding SelectedStockItem.PercentageOfTotalWeight}" />
+                         Text="{Binding SelectedHop.PercentageOfTotalWeight}" />
 
                 <TextBlock Grid.Row="8"
                            Grid.Column="0"
@@ -306,7 +306,7 @@
                          Margin="3.5"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
-                         Text="{Binding SelectedStockItem.Description}"
+                         Text="{Binding SelectedHop.Description}"
                          VerticalScrollBarVisibility="Auto" />
 
             </Grid>
