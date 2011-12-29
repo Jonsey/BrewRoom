@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using BrewRoom.Modules.Core.Events;
 using BrewRoom.Modules.Core.Interfaces.Models;
+using BrewRoom.Modules.Core.Interfaces.Repositories;
 using BrewRoom.Modules.Core.Interfaces.ViewModels;
 using BrewRoom.Modules.Core.Models;
 using Microsoft.Practices.Prism.Commands;
@@ -15,6 +16,7 @@ namespace BrewRoom.Modules.Core.ViewModels
 {
     public class EditRecipeViewModel : NotificationObject, IEditRecipeViewModel
     {
+        readonly IRecipeRepository recipeRepository;
         public IStockItemsViewModel StockItemsViewModel { get; set; }
 
         #region Fields
@@ -96,8 +98,9 @@ namespace BrewRoom.Modules.Core.ViewModels
         #endregion
 
         #region Ctor
-        public EditRecipeViewModel(IEventAggregator eventAggregator, IStockItemsViewModel stockItemsViewModel)
+        public EditRecipeViewModel(IEventAggregator eventAggregator, IStockItemsViewModel stockItemsViewModel, IRecipeRepository recipeRepository)
         {
+            this.recipeRepository = recipeRepository;
             StockItemsViewModel = stockItemsViewModel;
 
             VolumeUnits = new List<VolumeUnit> { VolumeUnit.Litres, VolumeUnit.Gallons };
@@ -120,6 +123,14 @@ namespace BrewRoom.Modules.Core.ViewModels
             get
             {
                 return new DelegateCommand(AddSelectedStockItem);
+            }
+        }
+
+        public DelegateCommand SaveRecipeCommand
+        {
+            get
+            {
+                return new DelegateCommand(SaveRecipe);
             }
         }
         #endregion
@@ -162,6 +173,11 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             recipe.RemoveFermentable(SelectedRecipeFermentable);
             UpdateRecipeProperties();
+        }
+
+        void SaveRecipe()
+        {
+            recipeRepository.Save(recipe);
         }
 
         void StockItemSelectedEventHandler(IIngredientViewModel item)

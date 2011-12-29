@@ -32,7 +32,8 @@ namespace BrewRoom.Modules.Core
         protected override void RegisterTypesAndServices()
         {
             container
-                .RegisterType<IStockItemsRepository, StockItemsRepository>(new ContainerControlledLifetimeManager());
+                .RegisterType<IStockItemsRepository, StockItemsRepository>(new ContainerControlledLifetimeManager())
+                .RegisterType<IRecipeRepository, RecipeRepository>(new ContainerControlledLifetimeManager());
 
             container
                 .RegisterType<IEditRecipeView, EditRecipeView>(new ContainerControlledLifetimeManager())

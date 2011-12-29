@@ -7,7 +7,7 @@ using BrewRoom.Modules.Core.Interfaces.ViewModels;
 
 namespace BrewRoom.Modules.Core.ViewModels
 {
-    public class FermentableViewModel : IFermentableViewModel
+    public class  FermentableViewModel : IFermentableViewModel
     {
         #region Fields
         readonly IFermentable fermentable; 

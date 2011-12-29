@@ -9,7 +9,7 @@ namespace BrewRoom.Modules.Core.Models
         public virtual decimal Pppg
         {
             get { return pppg; }
-            protected set { pppg = value; }
+            set { pppg = value; }
         }
 
         public virtual decimal ExtractPoints

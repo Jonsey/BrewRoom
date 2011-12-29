@@ -14,6 +14,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
     {
         protected IEventAggregator eventAggregator;
         protected IStockItemsRepository stockItemsRepository;
+        protected IRecipeRepository recipeRepository;
         protected List<IStockFermentableViewModel> grainVMs;
         protected List<IStockHopViewModel> hopVMs;
 
@@ -67,15 +68,14 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [TestFixtureSetUp]
         public void SetupFixture()
         {
-            eventAggregator = new EventAggregator();
-
-            
+            eventAggregator = new EventAggregator();  
         }
 
         [SetUp]
         public void Init()
         {
             stockItemsRepository = MockRepository.GenerateMock<IStockItemsRepository>();
+            recipeRepository = MockRepository.GenerateMock<IRecipeRepository>();
 
             SetupFermentables();
             SetupHops();

@@ -7,7 +7,7 @@ using Zymurgy.Dymensions;
 
 namespace BrewRoom.Modules.Core.Models
 {
-    public class Recipe : EntityBase
+    public class Recipe : EntityBase, IRecipe
     {
         #region Fields
         private IList<IRecipeHop> hops;

@@ -47,9 +47,11 @@
   <ItemGroup>
     <Compile Include="Models\IFermentable.cs" />
     <Compile Include="Models\IHopOilCharacteristics.cs" />
+    <Compile Include="Models\IRecipe.cs" />
     <Compile Include="Models\IRecipeFermentable.cs" />
     <Compile Include="Models\IRecipeHop.cs" />
     <Compile Include="Models\IStockFermentable.cs" />
+    <Compile Include="Repositories\IRecipeRepository.cs" />
     <Compile Include="Repositories\IStockItemsRepository.cs" />
     <Compile Include="ViewModels\IEditRecipeViewModel.cs" />
     <Compile Include="ViewModels\IFermentableViewModel.cs" />

@@ -41,7 +41,7 @@
                           IsSynchronizedWithCurrentItem="True"
                           ItemsSource="{Binding Fermentables}"
                           Padding="3"
-                          SelectedItem="{Binding SelectedStockItem}">
+                          SelectedItem="{Binding SelectedFermentable}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Name}"
                                             Header="Name"
@@ -67,7 +67,7 @@
                           IsSynchronizedWithCurrentItem="True"
                           ItemsSource="{Binding Hops}"
                           Padding="3"
-                          SelectedItem="{Binding SelectedStockItem}">
+                          SelectedItem="{Binding SelectedHop}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Name}"
                                             Header="Name"

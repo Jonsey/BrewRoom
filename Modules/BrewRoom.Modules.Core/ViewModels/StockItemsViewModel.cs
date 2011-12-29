@@ -17,8 +17,8 @@ namespace BrewRoom.Modules.Core.ViewModels
         readonly IEventAggregator eventAggregator;
         readonly IStockItemsRepository stockItemsRepository;
 
-        private IStockFermentableViewModel selectedFermentable;
-        private IStockHopViewModel selectedHop;
+        private IFermentableViewModel selectedFermentable;
+        private IHopViewModel selectedHop;
 
         #endregion
 
@@ -63,7 +63,7 @@ namespace BrewRoom.Modules.Core.ViewModels
             }
         }
 
-        public IStockFermentableViewModel SelectedFermentable
+        public IFermentableViewModel SelectedFermentable
         {
             get { return selectedFermentable; }
             set
@@ -74,7 +74,7 @@ namespace BrewRoom.Modules.Core.ViewModels
             }
         }
 
-        public IStockHopViewModel SelectedHop
+        public IHopViewModel SelectedHop
         {
             get { return selectedHop; }
             set
@@ -131,7 +131,10 @@ namespace BrewRoom.Modules.Core.ViewModels
         void SaveFermentable()
         {
             var fermentable = selectedFermentable;
+            fermentable.Model.Name = fermentable.Name;
+            fermentable.Model.Pppg = fermentable.Pppg;
             stockItemsRepository.Save(fermentable.Model);
+            RaisePropertyChanged("Fermentables");
         }
 
         #endregion

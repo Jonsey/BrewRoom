@@ -101,6 +101,7 @@
                         <DataGridTextColumn Binding="{Binding IBU}" Header="Optimal Temp." />
                     </DataGrid.Columns>
                 </DataGrid>
+                <Button Content="Save" Command="{Binding SaveRecipeCommand}" Padding="3" Margin="3" HorizontalAlignment="Right"/>
             </StackPanel>
 
 

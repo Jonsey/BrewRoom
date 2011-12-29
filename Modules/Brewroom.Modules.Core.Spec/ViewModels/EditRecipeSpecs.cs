@@ -17,7 +17,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         public void ShouldBeAbleToAddTheSelectedFermentableToTheRecipe()
         {
             var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
 
             editRecipeVm.SelectedStockItem = grainVMs[0];
 
@@ -30,7 +30,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         public void ShouldBeAbleToAddTheSelectedHopToTheRecipe()
         {
             var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
             editRecipeVm.SelectedStockItem = hopVMs[0];
 
             editRecipeVm.AddSelectedStockItemCommand.Execute();
@@ -42,7 +42,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         public void ShouldBeAbleToremoveTheSelectedFermentableFromTheRecipe()
         {
             var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
             
             editRecipeVm.SelectedStockItem = grainVMs[0];
             editRecipeVm.AddSelectedStockItemCommand.Execute();
@@ -60,7 +60,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         public void ShouldAggregateFermentablesWhenAdded()
         {
             var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
 
             editRecipeVm.SelectedStockItem = grainVMs[0];
             editRecipeVm.AddSelectedStockItemCommand.Execute();
@@ -74,7 +74,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         public void ShouldNotAggregateFermentablesWhenAddedWithAlteredPppg()
         {
             var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
 
             editRecipeVm.SelectedStockItem = grainVMs[0];
             editRecipeVm.AddSelectedStockItemCommand.Execute();

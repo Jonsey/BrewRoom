@@ -52,7 +52,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         public void RecipeViewModelShouldPickUpSelectedStockFermentable()
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
-            IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm);
+            IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
 
             vm.SelectedFermentable = grainVMs[0];
 
@@ -63,7 +63,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         public void RecipeViewModelShouldPickUpSelectedStockHop()
         {
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
-            IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm);
+            IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
 
             vm.SelectedHop = hopVMs[0];
 

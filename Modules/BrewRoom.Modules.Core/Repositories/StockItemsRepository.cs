@@ -6,29 +6,20 @@ using BrewRoom.Modules.Core.Interfaces.Models;
 using BrewRoom.Modules.Core.Interfaces.Repositories;
 using BrewRoom.Modules.Core.Models;
 using NHibernate;
+using NHibernate.Linq;
 
 namespace BrewRoom.Modules.Core.Repositories
 {
-    public class StockItemsRepository : IStockItemsRepository
+    public class StockItemsRepository : Repository, IStockItemsRepository
     {
-        ISession session;
-
         public StockItemsRepository(ISessionFactory sessionFactory)
+            : base(sessionFactory)
         {
-            session = sessionFactory.OpenSession();
         }
 
         public IEnumerable<IFermentable> GetGrains()
         {
-            var fermentables = new List<IFermentable>();
-
-            var fermentable1 = new Fermentable("Marris Otter", 1.045M);
-            var fermentable2 = new Fermentable("Pils Malt", 1.038M);
-
-            fermentables.Add(fermentable1);
-            fermentables.Add(fermentable2);
-
-            return fermentables;
+            return session.Linq<Fermentable>();
         }
 
         public IEnumerable<IHop> GetHops()

@@ -59,6 +59,9 @@
     <Reference Include="NHibernate.ByteCode.Castle">
       <HintPath>..\..\External\nhibernate\NHibernate.ByteCode.Castle.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate.Linq">
+      <HintPath>..\..\External\nhibernate\NHibernate.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Prism.Extensions.FluentNH, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -110,7 +113,9 @@
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Models\RecipeFermentable.cs" />
     <Compile Include="Models\RecipeHop.cs" />
+    <Compile Include="Repositories\RecipeRepository.cs" />
     <Compile Include="Repositories\StockItemsRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
     <Compile Include="ViewModels\FermentableViewModel.cs" />
     <Compile Include="ViewModels\HopViewModel.cs" />
     <Compile Include="ViewModels\MashDesignerViewModel.cs" />

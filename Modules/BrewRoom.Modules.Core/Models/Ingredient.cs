@@ -4,7 +4,7 @@ namespace BrewRoom.Modules.Core.Models
 {
     public abstract class Ingredient : EntityBase
     {
-        public virtual String Name { get; protected set; }
+        public virtual String Name { get; set; }
 
         protected Ingredient()
         {
