@@ -11,12 +11,12 @@ namespace BrewRoom.Modules.Core.ViewModels
     public class HopViewModel : IHopViewModel
     {
         readonly IHop hop;
+        IHopOilCharacteristics hopOilCharacteristics;
 
         public HopViewModel(IHop hop)
         {
             this.hop = hop;
-            name = hop.Name;
-            alphaAcid = hop.GetAlphaAcid();
+            hopOilCharacteristics = this.hop.GetCharacteristics();
         }
 
         public IHop Model
@@ -24,52 +24,110 @@ namespace BrewRoom.Modules.Core.ViewModels
             get { return hop; }
         }
 
-        String name;
         public String Name
         {
-            get { return name; }
-            set { name = value; }
+            get
+            {
+                return hop.Name;
+            }
+            set
+            {
+                hop.Name = value;
+            }
         }
 
-        decimal alphaAcid;
+        public string Description
+        {
+            get { return hop.Description; }
+            set { hop.Description = value; }
+        }
+
+        public decimal PercentageOfTotalWeight
+        {
+            get
+            {
+                return hopOilCharacteristics.PercentageOfTotalWeight;
+            }
+            set
+            {
+                hopOilCharacteristics.PercentageOfTotalWeight = value;
+            }
+        }
+
+        public decimal Farnesene
+        {
+            get
+            {
+                return hopOilCharacteristics.Farnesene;
+            }
+            set
+            {
+                hopOilCharacteristics.Farnesene = value;
+            }
+        }
+
+        public decimal Carophyllene
+        {
+            get
+            {
+                return hopOilCharacteristics.Carophyllene;
+            }
+            set
+            {
+                hopOilCharacteristics.Carophyllene = value;
+            }
+        }
+
+        public decimal Myrcene
+        {
+            get
+            {
+                return hopOilCharacteristics.Myrcene;
+            }
+            set
+            {
+                hopOilCharacteristics.Myrcene = value;
+            }
+        }
+
+        public decimal Humulene
+        {
+            get
+            {
+                return hopOilCharacteristics.Humulene;
+            }
+            set
+            {
+                hopOilCharacteristics.Humulene = value;
+            }
+        }
+
+        public decimal OtherAcids
+        {
+            get
+            {
+                return hopOilCharacteristics.OtherAcids;
+            }
+            set
+            {
+                hopOilCharacteristics.OtherAcids = value;
+            }
+        }
+
         public decimal AlphaAcid
         {
-            get { return alphaAcid; }
-            set { alphaAcid = value; }
+            get
+            {
+                return hopOilCharacteristics.TotalAlphaAcid;
+            }
+            set
+            {
+                hopOilCharacteristics.TotalAlphaAcid = value;
+            }
         }
-
-        
 
         #region Equality Members
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(HopViewModel)) return false;
-            return Equals((HopViewModel)obj);
-        }
 
-        public bool Equals(HopViewModel other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.name, name);
-        }
-
-        public override int GetHashCode()
-        {
-            return (name != null ? name.GetHashCode() : 0);
-        }
-
-        public static bool operator ==(HopViewModel left, HopViewModel right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(HopViewModel left, HopViewModel right)
-        {
-            return !Equals(left, right);
-        } 
         #endregion
     }
 }

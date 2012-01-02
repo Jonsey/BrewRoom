@@ -159,7 +159,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Height="300"
+        <GroupBox Height="500"
                   Header="Hop Details"
                   Style="{StaticResource GroupBoxStyle}"
                   Visibility="{Binding IsHopDetailsVisible,
@@ -170,6 +170,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -308,6 +309,19 @@
                          VerticalAlignment="Top"
                          Text="{Binding SelectedHop.Description}"
                          VerticalScrollBarVisibility="Auto" />
+
+                <StackPanel Grid.Row="9"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            Margin="0"
+                            Orientation="Horizontal">
+
+                    <Button Content="Save" Margin="3" Command="{Binding SaveHopCommand}"/>
+                    <Button Content="Delete" Margin="3"/>
+                    <Button Content="Add to Recipe" Margin="3"/>
+                </StackPanel>
 
             </Grid>
         </GroupBox>

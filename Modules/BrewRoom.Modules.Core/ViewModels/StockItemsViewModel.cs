@@ -103,6 +103,12 @@ namespace BrewRoom.Modules.Core.ViewModels
             get { return new DelegateCommand(SaveFermentable); }
         }
 
+        public DelegateCommand SaveHopCommand
+        {
+            get { return new DelegateCommand(SaveHop); }
+        }
+
+
         #endregion
 
         #region Private Methods
@@ -135,6 +141,11 @@ namespace BrewRoom.Modules.Core.ViewModels
             fermentable.Model.Pppg = fermentable.Pppg;
             stockItemsRepository.Save(fermentable.Model);
             RaisePropertyChanged("Fermentables");
+        }
+
+        void SaveHop()
+        {
+            stockItemsRepository.Save(selectedHop.Model);
         }
 
         #endregion

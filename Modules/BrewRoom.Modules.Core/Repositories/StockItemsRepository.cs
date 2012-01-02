@@ -57,6 +57,27 @@ namespace BrewRoom.Modules.Core.Repositories
             return hops;
         }
 
+        public Guid Save(IHop hop)
+        {
+            using (var tran = session.BeginTransaction())
+            {
+                try
+                {
+                    session.SaveOrUpdate(hop);
+                    tran.Commit();
+                }
+                catch (Exception)
+                {
+                    tran.Rollback();
+                    session.Close();
+                    session.Dispose();
+                    session = null;
+                }
+            }
+
+            return hop.Id;
+        }
+
         public Guid Save(IFermentable fermentable)
         {
             using(var tran = session.BeginTransaction())

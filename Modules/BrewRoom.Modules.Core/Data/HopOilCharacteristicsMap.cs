@@ -19,7 +19,6 @@ namespace BrewRoom.Modules.Core.Data
             Map(x => x.OtherAcids);
             Map(x => x.PercentageOfTotalWeight);
             Map(x => x.TotalAlphaAcid);
-
         }
     }
 }

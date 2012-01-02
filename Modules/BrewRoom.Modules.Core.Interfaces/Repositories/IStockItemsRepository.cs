@@ -9,5 +9,6 @@ namespace BrewRoom.Modules.Core.Interfaces.Repositories
         IEnumerable<IFermentable> GetGrains();
         IEnumerable<IHop> GetHops();
         Guid Save(IFermentable fermentable);
+        Guid Save(IHop hop);
     }
 }

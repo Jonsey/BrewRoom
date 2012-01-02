@@ -15,6 +15,8 @@ namespace BrewRoom.Modules.Core.Models
             private set { characteristics = value; }
         }
 
+        public virtual string Description { get; set; }
+
         #endregion
 
         #region Ctor
