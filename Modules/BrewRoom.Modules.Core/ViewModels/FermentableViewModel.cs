@@ -4,43 +4,57 @@ using System.Linq;
 using System.Text;
 using BrewRoom.Modules.Core.Interfaces.Models;
 using BrewRoom.Modules.Core.Interfaces.ViewModels;
+using BrewRoom.Modules.Core.Models;
 
 namespace BrewRoom.Modules.Core.ViewModels
 {
     public class  FermentableViewModel : IFermentableViewModel
     {
         #region Fields
-        readonly IFermentable fermentable; 
+        readonly IFermentable _fermentable; 
         #endregion
 
         #region Ctors
+        public FermentableViewModel()
+        {
+            this._fermentable = new Fermentable("");
+        }
+
         public FermentableViewModel(IFermentable fermentable)
         {
-            this.fermentable = fermentable;
-            name = fermentable.Name;
-            pppg = fermentable.Pppg;
+            _fermentable = fermentable;
+            _name = fermentable.Name;
+            _pppg = fermentable.Pppg;
         } 
         #endregion
 
         #region Properties
 
-        string name;
+        string _name;
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get { return _name; }
+            set { _name = value; }
         }
 
-        decimal pppg;
+        decimal _pppg;
+
         public decimal Pppg
         {
-            get { return pppg; }
-            set { pppg = value; }
+            get { return _pppg; }
+            set { _pppg = value; }
         }
 
         public IFermentable Model
         {
-            get { return fermentable; }
+            get { return _fermentable; }
+        }
+
+        private string _description;
+        public string Description
+        {
+            get { return _description; }
+            set { _description = value; }
         }
 
         #endregion
@@ -58,7 +72,7 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.name, name) && other.pppg == pppg;
+            return Equals(other._name, _name) && other._pppg == _pppg;
         }
 
         /// <summary>
@@ -72,7 +86,7 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             unchecked
             {
-                return ((name != null ? name.GetHashCode() : 0) * 397) ^ pppg.GetHashCode();
+                return ((_name != null ? _name.GetHashCode() : 0) * 397) ^ _pppg.GetHashCode();
             }
         }
 

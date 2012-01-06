@@ -8,17 +8,17 @@ using FluentNHibernate.Mapping;
 
 namespace BrewRoom.Modules.Core.Data
 {
-    public class HopOilCharacteristicsMap : ComponentMap<IHopOilCharacteristics>
-    {
-        public HopOilCharacteristicsMap()
-        {
-            Map(x => x.Carophyllene);
-            Map(x => x.Farnesene);
-            Map(x => x.Humulene);
-            Map(x => x.Myrcene);
-            Map(x => x.OtherAcids);
-            Map(x => x.PercentageOfTotalWeight);
-            Map(x => x.TotalAlphaAcid);
-        }
-    }
+    //public class HopOilCharacteristicsMap : ComponentMap<HopOilCharacteristics>
+    //{
+    //    public HopOilCharacteristicsMap()
+    //    {
+    //        Map(x => x.Carophyllene);
+    //        Map(x => x.Farnesene);
+    //        Map(x => x.Humulene);
+    //        Map(x => x.Myrcene);
+    //        Map(x => x.OtherAcids);
+    //        Map(x => x.PercentageOfTotalWeight);
+    //        Map(x => x.TotalAlphaAcid);
+    //    }
+    //}
 }

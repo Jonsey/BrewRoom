@@ -5,6 +5,7 @@ using System.Text;
 using BrewRoom.Modules.Core.Events;
 using BrewRoom.Modules.Core.Interfaces.Repositories;
 using BrewRoom.Modules.Core.Interfaces.ViewModels;
+using BrewRoom.Modules.Core.Models;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Events;
 using Microsoft.Practices.Prism.ViewModel;
@@ -108,6 +109,11 @@ namespace BrewRoom.Modules.Core.ViewModels
             get { return new DelegateCommand(SaveHop); }
         }
 
+        public DelegateCommand NewFermentableCommand
+        {
+            get{return new DelegateCommand(NewFermentable);}
+        }
+
 
         #endregion
 
@@ -136,9 +142,12 @@ namespace BrewRoom.Modules.Core.ViewModels
 
         void SaveFermentable()
         {
+            if (selectedFermentable == null) return;
+
             var fermentable = selectedFermentable;
             fermentable.Model.Name = fermentable.Name;
             fermentable.Model.Pppg = fermentable.Pppg;
+            fermentable.Model.Description = fermentable.Description;
             stockItemsRepository.Save(fermentable.Model);
             RaisePropertyChanged("Fermentables");
         }
@@ -146,6 +155,11 @@ namespace BrewRoom.Modules.Core.ViewModels
         void SaveHop()
         {
             stockItemsRepository.Save(selectedHop.Model);
+        }
+
+        void NewFermentable()
+        {
+            SelectedFermentable = new FermentableViewModel();
         }
 
         #endregion

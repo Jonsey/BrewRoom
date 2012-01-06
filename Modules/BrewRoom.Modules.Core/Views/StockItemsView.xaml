@@ -29,7 +29,10 @@
             <TabItem x:Name="Fermentables"
                      Header="Fermentables"
                      PreviewMouseDown="Fermentables_PreviewMouseDown">
-                <DataGrid Width="270"
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    Margin="0">
+                    <DataGrid Width="270"
                           Height="Auto"
                           Margin="10,10,0,0"
                           HorizontalAlignment="Left"
@@ -42,15 +45,18 @@
                           ItemsSource="{Binding Fermentables}"
                           Padding="3"
                           SelectedItem="{Binding SelectedFermentable}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Name}"
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}"
                                             Header="Name"
                                             IsReadOnly="True" />
-                        <DataGridTextColumn Binding="{Binding Pppg}"
+                            <DataGridTextColumn Binding="{Binding Pppg}"
                                             Header="Potential"
                                             IsReadOnly="True" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="New" Margin="3" Command="{Binding NewFermentableCommand}"/>
+                </StackPanel>
+
             </TabItem>
             <TabItem x:Name="Hops"
                      Header="Hops"
@@ -142,7 +148,7 @@
                          VerticalAlignment="Top"
                          Text="{Binding SelectedFermentable.Description}"
                          VerticalScrollBarVisibility="Auto" />
-                
+
                 <StackPanel Grid.Row="3"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"

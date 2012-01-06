@@ -6,5 +6,6 @@ namespace BrewRoom.Modules.Core.Interfaces.ViewModels
     {
         decimal Pppg { get; set; }
         IFermentable Model { get; }
+        string Description { get; set; }
     }
 }

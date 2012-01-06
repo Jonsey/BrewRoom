@@ -14,6 +14,7 @@ namespace BrewRoom.Modules.Core.Data
             Id(x => x.Id);
             Map(x => x.Name);
             Map(x => x.Pppg);
+            Map(x => x.Description);
         }
     }
 }

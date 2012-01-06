@@ -24,7 +24,7 @@ namespace BrewRoom.Desktop
             return shell;
         }
 
-        protected override void ConfigureContainer()
+        protected override void ConfigureContainer() 
         {
             base.ConfigureContainer();
 

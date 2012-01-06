@@ -31,11 +31,12 @@ namespace BrewRoom.Modules.Core.Models
 
         #endregion
 
+        #region Public methods
         public virtual void AddOilCharacteristics(IHopOilCharacteristics hopCharacteristics)
         {
             if (!hopCharacteristics.AreValid())
                 throw new ArgumentException("Characteristics are invalid. See innerexception for details.");
-            
+
             this.characteristics = hopCharacteristics;
         }
 
@@ -47,6 +48,7 @@ namespace BrewRoom.Modules.Core.Models
         public virtual decimal GetAlphaAcid()
         {
             return characteristics.TotalAlphaAcid;
-        }
+        } 
+        #endregion
     }
 }

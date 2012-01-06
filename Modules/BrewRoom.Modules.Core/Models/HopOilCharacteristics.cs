@@ -2,8 +2,10 @@ using BrewRoom.Modules.Core.Interfaces.Models;
 
 namespace BrewRoom.Modules.Core.Models
 {
-    public class HopOilCharacteristics : IHopOilCharacteristics
+    public class HopOilCharacteristics : EntityBase, IHopOilCharacteristics
     {
+        public virtual IHop Hop { get; set; }
+        
         public virtual decimal PercentageOfTotalWeight { get; set; }
 
         public virtual decimal Farnesene { get; set; }

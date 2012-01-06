@@ -7,5 +7,7 @@ namespace BrewRoom.Modules.Core.Interfaces.Models
         string Name { get; set; }
         decimal Pppg { get; set; }
         Guid Id { get; }
+        decimal ExtractPoints { get; }
+        string Description { get; set; }
     }
 }

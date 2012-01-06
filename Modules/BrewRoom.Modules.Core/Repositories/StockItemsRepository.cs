@@ -24,37 +24,7 @@ namespace BrewRoom.Modules.Core.Repositories
 
         public IEnumerable<IHop> GetHops()
         {
-            IHop hop1 = new Hop("Saaz");
-            hop1.AddOilCharacteristics(new HopOilCharacteristics
-            {
-                Carophyllene = 20M,
-                Farnesene = 20M,
-                Humulene = 20M,
-                Myrcene = 20M,
-                OtherAcids = 20M,
-                PercentageOfTotalWeight = 20,
-                TotalAlphaAcid = 5M
-            });
-
-            IHop hop2 = new Hop("Cascade");
-            hop2.AddOilCharacteristics(new HopOilCharacteristics
-            {
-                Carophyllene = 20M,
-                Farnesene = 20M,
-                Humulene = 20M,
-                Myrcene = 20M,
-                OtherAcids = 20M,
-                PercentageOfTotalWeight = 20,
-                TotalAlphaAcid = 6.5M
-            });
-
-            var hops = new List<IHop>
-                        {
-                            hop1,
-                            hop2
-                        };
-
-            return hops;
+            return session.Linq<Hop>();
         }
 
         public Guid Save(IHop hop)

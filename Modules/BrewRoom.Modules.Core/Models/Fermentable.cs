@@ -20,6 +20,8 @@ namespace BrewRoom.Modules.Core.Models
             }
         }
 
+        public virtual string Description { get; set; }
+
         protected Fermentable()
         {
         }
