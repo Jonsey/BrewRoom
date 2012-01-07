@@ -26,7 +26,7 @@ namespace BrewRoom.Modules.Core
 
         protected override string GetConnectionString()
         {
-            return ConfigurationManager.ConnectionStrings["cnn"].ConnectionString;
+            return ConfigurationManager.ConnectionStrings[Environment.MachineName + "-cnn"].ConnectionString;
         }
 
         protected override void RegisterTypesAndServices()

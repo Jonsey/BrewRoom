@@ -32,7 +32,7 @@ namespace BrewRoom.Desktop
             Container.RegisterType<ISessionFactory>();
             Container.RegisterType<ISession>();
 
-            var sessionFactory = Session.CreateSessionFactory(Container, ConfigurationManager.ConnectionStrings["cnn"].ConnectionString, true);
+            var sessionFactory = Session.CreateSessionFactory(Container, ConfigurationManager.ConnectionStrings[Environment.MachineName + "-cnn"].ConnectionString, true);
             Container.RegisterInstance(sessionFactory, new ContainerControlledLifetimeManager());
         
         }
