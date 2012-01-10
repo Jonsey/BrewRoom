@@ -118,7 +118,7 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             get
             {
-                return hopOilCharacteristics.TotalAlphaAcid;
+                return Math.Round(hopOilCharacteristics.TotalAlphaAcid, 1);
             }
             set
             {

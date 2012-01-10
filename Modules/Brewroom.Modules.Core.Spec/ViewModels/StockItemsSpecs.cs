@@ -49,7 +49,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
 
             vm.SelectedFermentable = grainVMs[0];
 
-            Assert.IsInstanceOf<IStockFermentableViewModel>(vm.SelectedFermentable);
+            Assert.IsInstanceOf<FermentableViewModel>(vm.SelectedFermentable);
         }
 
         [Test]
@@ -58,7 +58,10 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
             IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
 
             Assert.IsNotNull(vm.Hops, "View model hops is null.");
-            Assert.AreEqual(hopVMs, vm.Hops);
+            for(int i = 0; i < hopVMs.Count; i++)
+            {
+                Assert.AreEqual(hopVMs[i].Name , vm.Hops[i].Name);
+            }
         }
 
         [Test]

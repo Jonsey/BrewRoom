@@ -44,6 +44,9 @@
     <Reference Include="FluentNHibernate">
       <HintPath>..\..\External\nhibernate\FluentNHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\..\External\HtmlAgilityPack\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\External\nhibernate\Iesi.Collections.dll</HintPath>
@@ -116,12 +119,14 @@
     <Compile Include="Repositories\RecipeRepository.cs" />
     <Compile Include="Repositories\StockItemsRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="ViewModels\Admin\StockItemInfoViewModel.cs" />
     <Compile Include="ViewModels\FermentableViewModel.cs" />
     <Compile Include="ViewModels\HopViewModel.cs" />
     <Compile Include="ViewModels\MashDesignerViewModel.cs" />
-    <Compile Include="ViewModels\StockFermentableViewModel.cs" />
-    <Compile Include="ViewModels\StockHopViewModel.cs" />
     <Compile Include="ViewModels\StockItemsViewModel.cs" />
+    <Compile Include="Views\AdminView.xaml.cs">
+      <DependentUpon>AdminView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EditRecipeView.xaml.cs">
       <DependentUpon>EditRecipeView.xaml</DependentUpon>
     </Compile>
@@ -143,6 +148,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\AdminView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EditRecipeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

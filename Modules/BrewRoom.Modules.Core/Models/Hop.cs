@@ -22,6 +22,7 @@ namespace BrewRoom.Modules.Core.Models
         #region Ctor
         protected Hop()
         {
+            characteristics = new HopOilCharacteristics();
         }
 
         public Hop(string name)

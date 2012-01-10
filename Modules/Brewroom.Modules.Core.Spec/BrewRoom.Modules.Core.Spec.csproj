@@ -58,6 +58,7 @@
     <Compile Include="Models\RecipeHopSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecipeBase.cs" />
+    <Compile Include="ViewModels\Admin\StockItemInfoViewModelSpecs.cs" />
     <Compile Include="ViewModels\EditRecipeSpecs.cs" />
     <Compile Include="ViewModels\StockItemsSpecs.cs" />
     <Compile Include="ViewModels\StockListFermentablesSpecs.cs" />

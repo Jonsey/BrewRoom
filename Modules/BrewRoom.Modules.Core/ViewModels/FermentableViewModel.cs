@@ -33,16 +33,16 @@ namespace BrewRoom.Modules.Core.ViewModels
         string _name;
         public string Name
         {
-            get { return _name; }
-            set { _name = value; }
+            get { return _fermentable.Name; }
+            set { _fermentable.Name = value; }
         }
 
         decimal _pppg;
 
         public decimal Pppg
         {
-            get { return _pppg; }
-            set { _pppg = value; }
+            get { return _fermentable.Pppg; }
+            set { _fermentable.Pppg = value; }
         }
 
         public IFermentable Model
@@ -53,8 +53,8 @@ namespace BrewRoom.Modules.Core.ViewModels
         private string _description;
         public string Description
         {
-            get { return _description; }
-            set { _description = value; }
+            get { return _fermentable.Description; }
+            set { _fermentable.Description = value; }
         }
 
         #endregion
@@ -72,7 +72,7 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other._name, _name) && other._pppg == _pppg;
+            return Equals(other.Name, _fermentable.Name) && other.Pppg == _fermentable.Pppg;
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             unchecked
             {
-                return ((_name != null ? _name.GetHashCode() : 0) * 397) ^ _pppg.GetHashCode();
+                return ((_fermentable.Name != null ? _fermentable.Name.GetHashCode() : 0) * 397) ^ _fermentable.Pppg.GetHashCode();
             }
         }
 

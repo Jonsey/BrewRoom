@@ -15,24 +15,24 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         protected IEventAggregator eventAggregator;
         protected IStockItemsRepository stockItemsRepository;
         protected IRecipeRepository recipeRepository;
-        protected List<IStockFermentableViewModel> grainVMs;
-        protected List<IStockHopViewModel> hopVMs;
+        protected IList<IFermentableViewModel> grainVMs;
+        protected IList<IHopViewModel> hopVMs;
 
         void SetupFermentables()
         {
-            var grain1 = new StockFermentable("Pils Malt", 1.045M);
-            var grain2 = new StockFermentable("Amber Malt", 1.040M);
+            var grain1 = new Fermentable("Pils Malt", 1.045M);
+            var grain2 = new Fermentable("Amber Malt", 1.040M);
 
-            var grains = new List<IStockFermentable>
+            var grains = new List<IFermentable>
                              {
                                  grain1,
                                  grain2
                              };
 
-            grainVMs = new List<IStockFermentableViewModel>
+            grainVMs = new List<IFermentableViewModel>
                            {
-                               new StockFermentableViewModel(grains[0]),
-                               new StockFermentableViewModel(grains[1])
+                               new FermentableViewModel(grains[0]),
+                               new FermentableViewModel(grains[1])
                            };
 
             stockItemsRepository.Expect(x => x.GetGrains()).Return(grains).Repeat.Any();
@@ -57,9 +57,9 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
                             hop
                         };
 
-            hopVMs = new List<IStockHopViewModel>
+            hopVMs = new List<IHopViewModel>
                            {
-                               new StockHopViewModel(hops[0])
+                               new HopViewModel(hops[0])
                            };
 
             stockItemsRepository.Expect(x => x.GetHops()).Return(hops).Repeat.Any();

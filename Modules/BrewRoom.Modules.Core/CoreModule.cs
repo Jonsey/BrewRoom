@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using BrewRoom.Modules.Core.Interfaces.Repositories;
 using BrewRoom.Modules.Core.Interfaces.ViewModels;
+using BrewRoom.Modules.Core.Interfaces.ViewModels.Admin;
 using BrewRoom.Modules.Core.Interfaces.Views;
 using BrewRoom.Modules.Core.Repositories;
 using BrewRoom.Modules.Core.ViewModels;
+using BrewRoom.Modules.Core.ViewModels.Admin;
 using BrewRoom.Modules.Core.Views;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
@@ -37,14 +39,17 @@ namespace BrewRoom.Modules.Core
 
             container
                 .RegisterType<IEditRecipeView, EditRecipeView>(new ContainerControlledLifetimeManager())
+                .RegisterType<IAdminView, AdminView>(new ContainerControlledLifetimeManager())
                 .RegisterType<IEditRecipeViewModel, EditRecipeViewModel>(new ContainerControlledLifetimeManager())
                 .RegisterType<IStockItemsViewModel, StockItemsViewModel>(new ContainerControlledLifetimeManager())
-                .RegisterType<IFermentableViewModel, FermentableViewModel>(new ContainerControlledLifetimeManager());
+                .RegisterType<IFermentableViewModel, FermentableViewModel>(new ContainerControlledLifetimeManager())
+                .RegisterType<IStockItemInfoViewModel, StockItemInfoViewModel>(new ContainerControlledLifetimeManager());
         }
 
         protected override void RegisterViewsWithRegions()
         {
-            regionManager.RegisterViewWithRegion("MainRegion", typeof(IEditRecipeView));
+            //regionManager.RegisterViewWithRegion("MainRegion", typeof(IEditRecipeView));
+            regionManager.RegisterViewWithRegion("MainRegion", typeof(IAdminView));
         }
     }
 }

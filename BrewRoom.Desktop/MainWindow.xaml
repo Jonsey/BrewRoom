@@ -5,6 +5,9 @@
         xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Regions;assembly=Microsoft.Practices.Prism"
         Title="Brew Room" WindowState="Maximized">
     <Grid>
+        <Menu>
+            <MenuItem Command="">Admin</MenuItem>
+        </Menu>
         <ItemsControl DockPanel.Dock="Top" Width="Auto" Height="Auto" prism:RegionManager.RegionName="MainRegion">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

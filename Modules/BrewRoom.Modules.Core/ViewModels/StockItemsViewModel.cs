@@ -144,16 +144,18 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             if (selectedFermentable == null) return;
 
-            var fermentable = selectedFermentable;
-            fermentable.Model.Name = fermentable.Name;
-            fermentable.Model.Pppg = fermentable.Pppg;
-            fermentable.Model.Description = fermentable.Description;
-            stockItemsRepository.Save(fermentable.Model);
+            //var fermentable = selectedFermentable;
+            //fermentable.Model.Name = fermentable.Name;
+            //fermentable.Model.Pppg = fermentable.Pppg;
+            //fermentable.Model.Description = fermentable.Description;
+            stockItemsRepository.Save(selectedFermentable.Model);
             RaisePropertyChanged("Fermentables");
         }
 
         void SaveHop()
         {
+            if (selectedHop == null) return;
+
             stockItemsRepository.Save(selectedHop.Model);
         }
 

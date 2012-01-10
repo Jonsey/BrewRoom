@@ -4,7 +4,7 @@
              xmlns:Behaviours="clr-namespace:BrewRoom.Modules.Core.Behaviours"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             Width="700"
+             
              d:DesignHeight="620"
              d:DesignWidth="700"
              mc:Ignorable="d">
@@ -79,7 +79,7 @@
                                             Header="Name"
                                             IsReadOnly="True" />
                         <DataGridTextColumn Binding="{Binding AlphaAcid}"
-                                            Header="Alpha Acid"
+                                            Header="AA"
                                             IsReadOnly="True" />
                     </DataGrid.Columns>
                 </DataGrid>
@@ -88,7 +88,7 @@
                 <ListBox ItemsSource="{Binding Yeasts}" />
             </TabItem>
         </TabControl>
-        <GroupBox Height="300"
+        <GroupBox Height="300" Padding="3"
                   Header="Fermentable Details"
                   Style="{StaticResource GroupBoxStyle}"
                   Visibility="{Binding IsFermentableDetailsVisible,
@@ -144,6 +144,7 @@
                          Width="260"
                          Height="90"
                          Margin="3.5"
+                         TextWrapping="Wrap"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Text="{Binding SelectedFermentable.Description}"
@@ -165,7 +166,7 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Height="500"
+        <GroupBox Height="500" Padding="3"
                   Header="Hop Details"
                   Style="{StaticResource GroupBoxStyle}"
                   Visibility="{Binding IsHopDetailsVisible,
@@ -291,7 +292,7 @@
                            Margin="3.5"
                            HorizontalAlignment="Stretch"
                            VerticalAlignment="Center"
-                           Text="Percentage of Total Weight" />
+                           Text="% of Total Weight" />
                 <TextBox Grid.Row="7"
                          Grid.Column="1"
                          Width="50"
