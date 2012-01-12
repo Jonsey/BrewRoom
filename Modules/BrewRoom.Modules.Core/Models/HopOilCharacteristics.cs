@@ -22,6 +22,7 @@ namespace BrewRoom.Modules.Core.Models
 
         public virtual bool AreValid()
         {
+            return true; // Todo: decide what to do
             return (Farnesene + Carophyllene + Myrcene + Humulene + OtherAcids) == 100;
         }
     }

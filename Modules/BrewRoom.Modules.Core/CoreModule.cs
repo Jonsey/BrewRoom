@@ -48,8 +48,8 @@ namespace BrewRoom.Modules.Core
 
         protected override void RegisterViewsWithRegions()
         {
-            //regionManager.RegisterViewWithRegion("MainRegion", typeof(IEditRecipeView));
-            regionManager.RegisterViewWithRegion("MainRegion", typeof(IAdminView));
+            regionManager.RegisterViewWithRegion("MainRegion", typeof(IEditRecipeView));
+            //regionManager.RegisterViewWithRegion("MainRegion", typeof(IAdminView));
         }
     }
 }

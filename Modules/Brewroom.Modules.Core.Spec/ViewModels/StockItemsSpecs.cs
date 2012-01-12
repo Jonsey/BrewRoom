@@ -104,5 +104,8 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
             var selectedHop = vm.SelectedHop;
             Assert.AreEqual(5M, selectedHop.AlphaAcid);
         }
+
+        [Test]
+        public void ShouldAddSelectedFermentableToCurrentRecipe()
     }
 }

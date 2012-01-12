@@ -25,7 +25,7 @@ namespace BrewRoom.Modules.Core.Models
             characteristics = new HopOilCharacteristics();
         }
 
-        public Hop(string name)
+       public Hop(string name)
             : base(name)
         {
         }
@@ -39,6 +39,7 @@ namespace BrewRoom.Modules.Core.Models
                 throw new ArgumentException("Characteristics are invalid. See innerexception for details.");
 
             this.characteristics = hopCharacteristics;
+            this.characteristics.Hop = this;
         }
 
         public virtual IHopOilCharacteristics GetCharacteristics()

@@ -36,12 +36,14 @@ namespace BrewRoom.Modules.Core.Repositories
                     session.SaveOrUpdate(hop);
                     tran.Commit();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     tran.Rollback();
                     session.Close();
                     session.Dispose();
                     session = null;
+
+                    throw ex;
                 }
             }
 
