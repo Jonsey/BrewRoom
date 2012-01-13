@@ -36,7 +36,7 @@ namespace BrewRoom.Modules.Core.Models
             private set { hops = value; }
         }
 
-        public virtual String Name { get; private set; }
+        public virtual String Name { get; set; }
 
         #endregion
 

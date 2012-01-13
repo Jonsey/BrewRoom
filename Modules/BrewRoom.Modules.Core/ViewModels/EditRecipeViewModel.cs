@@ -16,66 +16,73 @@ namespace BrewRoom.Modules.Core.ViewModels
 {
     public class EditRecipeViewModel : NotificationObject, IEditRecipeViewModel
     {
-        readonly IRecipeRepository recipeRepository;
-        public IStockItemsViewModel StockItemsViewModel { get; set; }
-
         #region Fields
-        private readonly Recipe recipe;
+        readonly IRecipeRepository _recipeRepository;
+        private readonly Recipe _recipe;
         #endregion
 
         #region Properties
+
+        public string Name
+        {
+            get { return _recipe.Name; }
+            set { _recipe.Name = value; }
+        }
+
+        public IStockItemsViewModel StockItemsViewModel { get; set; }
+
         public List<VolumeUnit> VolumeUnits { get; private set; }
 
         public Decimal BrewLength
         {
-            get { return recipe.GetBrewLength().GetValue(); }
+            get { return _recipe.GetBrewLength().GetValue(); }
             set
             {
-                recipe.SetBrewLength(new Volume(value, BrewLengthUnit));
+                _recipe.SetBrewLength(new Volume(value, BrewLengthUnit));
                 UpdateRecipeProperties();
             }
         }
 
         public VolumeUnit BrewLengthUnit
         {
-            get { return recipe.GetBrewLength().GetUnit(); }
+            get { return _recipe.GetBrewLength().GetUnit(); }
             set
             {
-                recipe.SetBrewLength(new Volume(BrewLength, value));
+                _recipe.SetBrewLength(new Volume(BrewLength, value));
                 UpdateRecipeProperties();
             }
         }
 
         public Weight RecipeTotalGrainWeight
         {
-            get { return recipe.GetTotalGrainWeight(); }
+            get { return _recipe.GetTotalGrainWeight(); }
         }
 
         public Weight RecipeTotalHopWeight
         {
-            get { return recipe.GetTotalHopWeight(); }
+            get { return _recipe.GetTotalHopWeight(); }
         }
 
         public decimal RecipeBuGu
         {
-            get { return recipe.GetBuGuRatio(); }
+            get { return _recipe.GetBuGuRatio(); }
         }
 
         public decimal RecipeBitterness
         {
-            get { return recipe.GetIbu(); }
+            get { return _recipe.GetIbu(); }
         }
 
         public Decimal RecipePotential
         {
-            get { return recipe.GetStartingGravity(); }
+            get { return _recipe.GetStartingGravity(); }
         }
 
         public ObservableCollection<IRecipeFermentable> RecipeFermentables
         {
             get
             {
-                var recipeGrains = recipe.Fermentables;
+                var recipeGrains = _recipe.Fermentables;
 
                 return new ObservableCollection<IRecipeFermentable>(recipeGrains);
             }
@@ -85,29 +92,73 @@ namespace BrewRoom.Modules.Core.ViewModels
         {
             get
             {
-                var recipeHops = recipe.Hops;
+                var recipeHops = _recipe.Hops;
 
                 return new ObservableCollection<IRecipeHop>(recipeHops);
             }
         }
 
-        public IRecipeFermentable SelectedRecipeFermentable { get; set; }
+        private IRecipeFermentable _selectedFermentable;
+        public IRecipeFermentable SelectedFermentable
+        {
+            get { return _selectedFermentable; }
+            set
+            {
+                _selectedFermentable = value;
+                RaisePropertyChanged("SelectedFermentable");
+                ShowFermentableDetails();
+            }
+        }
 
-        public IIngredientViewModel SelectedStockItem { get; set; }
+        private IRecipeHop _selectedHop;
+        public IRecipeHop SelectedHop
+        {
+            get { return _selectedHop; }
+            set
+            {
+                _selectedHop = value;
+                RaisePropertyChanged("SelectedHop");
+                ShowHopDetails();
+            }
+        }
+
+        private void ShowFermentableDetails()
+        {
+            IsFermentableDetailsVisible = true;
+            IsHopDetailsVisible = false;
+
+            RaisePropertyChanged("IsFermentableDetailsVisible"); // TODO not tested
+            RaisePropertyChanged("IsHopDetailsVisible"); // TODO not tested
+        }
+
+        private void ShowHopDetails()
+        {
+            IsFermentableDetailsVisible = false;
+            IsHopDetailsVisible = true;
+
+            RaisePropertyChanged("IsFermentableDetailsVisible"); // TODO not tested
+            RaisePropertyChanged("IsHopDetailsVisible"); // TODO not tested
+        }
+
+        public bool IsFermentableDetailsVisible { get; private set; }
+
+        public bool IsHopDetailsVisible { get; private set; }
 
         #endregion
 
         #region Ctor
         public EditRecipeViewModel(IEventAggregator eventAggregator, IStockItemsViewModel stockItemsViewModel, IRecipeRepository recipeRepository)
         {
-            this.recipeRepository = recipeRepository;
+            this._recipeRepository = recipeRepository;
             StockItemsViewModel = stockItemsViewModel;
 
             VolumeUnits = new List<VolumeUnit> { VolumeUnit.Litres, VolumeUnit.Gallons };
-            recipe = new Recipe();
-            recipe.SetBrewLength(20.Litres());
+            _recipe = new Recipe();
+            _recipe.SetBrewLength(20.Litres());
 
-            eventAggregator.GetEvent<StockItemSelectedEvent>().Subscribe(StockItemSelectedEventHandler);
+            //eventAggregator.GetEvent<StockItemSelectedEvent>().Subscribe(StockItemSelectedEventHandler);
+            eventAggregator.GetEvent<AddHopToRecipeEvent>().Subscribe(AddHop);
+            eventAggregator.GetEvent<AddFermentableToRecipeEvent>().Subscribe(AddFermentable);
         }
 
         #endregion
@@ -116,14 +167,6 @@ namespace BrewRoom.Modules.Core.ViewModels
         public DelegateCommand RemoveFermentableCommand
         {
             get { return new DelegateCommand(RemoveRecipeFermentable); }
-        }
-
-        public DelegateCommand AddSelectedStockItemCommand
-        {
-            get
-            {
-                return new DelegateCommand(AddSelectedStockItem);
-            }
         }
 
         public DelegateCommand SaveRecipeCommand
@@ -136,53 +179,33 @@ namespace BrewRoom.Modules.Core.ViewModels
         #endregion
 
         #region Private Methods
-        void AddSelectedStockItem()
+
+        private void AddHop(IHopViewModel hopViewModel)
         {
-            if (SelectedStockItem == null) return;
-
-            if (SelectedStockItem is IHopViewModel)
-            {
-                AddHop();
-            }
-            else if (SelectedStockItem is IFermentableViewModel)
-            {
-                AddFermentable();
-            }
-
-            UpdateRecipeProperties();
-        }
-
-        void AddHop()
-        {
-            var hopViewModel = SelectedStockItem as IHopViewModel;
             var hop = hopViewModel.Model;
+            _recipe.AddHop(hop, 5.Grams(), 60);
 
-            recipe.AddHop(hop, 5.Grams(), 60);
+            UpdateRecipeProperties(); // todo: not covered
         }
 
-        void AddFermentable()
+
+        void AddFermentable(IFermentableViewModel fermentableViewModel)
         {
-            var fermentableViewModel = SelectedStockItem as IFermentableViewModel;
             var fermentable = fermentableViewModel.Model;
+            _recipe.AddFermentable(fermentable, 1.KiloGram(), fermentableViewModel.Pppg);
 
-            recipe.AddFermentable(fermentable, 1.KiloGram(), fermentableViewModel.Pppg);
+            UpdateRecipeProperties(); // todo: not covered
         }
-
 
         void RemoveRecipeFermentable()
         {
-            recipe.RemoveFermentable(SelectedRecipeFermentable);
+            _recipe.RemoveFermentable(SelectedFermentable);
             UpdateRecipeProperties();
         }
 
         void SaveRecipe()
         {
-            recipeRepository.Save(recipe);
-        }
-
-        void StockItemSelectedEventHandler(IIngredientViewModel item)
-        {
-            SelectedStockItem = item;
+            _recipeRepository.Save(_recipe);
         }
 
         void UpdateRecipeProperties()

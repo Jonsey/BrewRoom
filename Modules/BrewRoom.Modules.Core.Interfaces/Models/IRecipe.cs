@@ -8,6 +8,8 @@ namespace BrewRoom.Modules.Core.Interfaces.Models
 {
     public interface IRecipe
     {
+        Guid Id { get; }
+
         IList<IRecipeFermentable> Fermentables { get; }
         IList<IRecipeHop> Hops { get; }
         String Name { get; }

@@ -15,10 +15,10 @@ namespace BrewRoom.Modules.Core.ViewModels
         #endregion
 
         #region Ctors
-        public FermentableViewModel()
-        {
-            this._fermentable = new Fermentable("");
-        }
+        //public FermentableViewModel()
+        //{
+        //    this._fermentable = new Fermentable("");
+        //}
 
         public FermentableViewModel(IFermentable fermentable)
         {

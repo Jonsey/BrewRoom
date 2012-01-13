@@ -47,28 +47,6 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
             var selectedFermentable = vm.SelectedFermentable;
             Assert.AreEqual(1.045, selectedFermentable.Pppg);
         } 
-
-        [Test]
-        public void RecipeViewModelShouldPickUpSelectedStockFermentable()
-        {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
-            IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
-
-            vm.SelectedFermentable = grainVMs[0];
-
-            Assert.AreEqual(grainVMs[0], recipeVm.SelectedStockItem);
-        }
-
-        [Test]
-        public void RecipeViewModelShouldPickUpSelectedStockHop()
-        {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
-            IEditRecipeViewModel recipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
-
-            vm.SelectedHop = hopVMs[0];
-
-            Assert.AreEqual(hopVMs[0], recipeVm.SelectedStockItem);
-        }
         #endregion
 
         #region Save Fermentables

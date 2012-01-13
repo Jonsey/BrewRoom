@@ -7,7 +7,7 @@ using FluentNHibernate.Mapping;
 
 namespace BrewRoom.Modules.Core.Data
 {
-    public class FermentableMap : ClassMap<Fermentable>
+    public class FermentableMap : ClassMap<StockFermentable>
     {
         public FermentableMap()
         {

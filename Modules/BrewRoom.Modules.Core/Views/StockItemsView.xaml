@@ -4,7 +4,7 @@
              xmlns:Behaviours="clr-namespace:BrewRoom.Modules.Core.Behaviours"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DesignHeight="620"
+             xmlns:views="clr-namespace:BrewRoom.Modules.Core.Views" d:DesignHeight="620"
              d:DesignWidth="700"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -19,10 +19,10 @@
 
     <DockPanel>
         <TabControl Width="300"
-                    Height="600"
+                    
                     Margin="10"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
+                    VerticalAlignment="Stretch"
                     DockPanel.Dock="Left"
                     Padding="2">
             <TabItem x:Name="Fermentables"
@@ -33,9 +33,9 @@
                               Height="Auto"
                               Margin="10,10,0,0"
                               HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
+                              VerticalAlignment="Stretch"
                               AutoGenerateColumns="False"
-                              Behaviours:MouseDoubleClickBehaviour.DoubleClickCommand="{Binding SelectStockItemCommand}"
+                              Behaviours:MouseDoubleClickBehaviour.DoubleClickCommand="{Binding SelectFermentableCommand}"
                               DockPanel.Dock="Left"
                               GridLinesVisibility="None"
                               IsSynchronizedWithCurrentItem="True"
@@ -101,56 +101,11 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="Name" />
-                <TextBox Grid.Row="0"
-                         Grid.Column="1"
-                         Width="260"
-                         Margin="3.5"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Text="{Binding SelectedFermentable.Name}" />
+                <views:FermentableDetailsView />
 
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="Potential" />
-                <TextBox Grid.Row="1"
-                         Grid.Column="1"
-                         Width="50"
-                         Margin="3.5"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Text="{Binding SelectedFermentable.Pppg}" />
-
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Top"
-                           Text="Description" />
-                <TextBox Grid.Row="2"
-                         Grid.Column="1"
-                         Width="260"
-                         Height="90"
-                         Margin="3.5"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Text="{Binding SelectedFermentable.Description}"
-                         TextWrapping="Wrap"
-                         VerticalScrollBarVisibility="Auto" />
-
-                <StackPanel Grid.Row="3"
+                <StackPanel Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Height="30"
@@ -162,7 +117,9 @@
                             Command="{Binding SaveFermentableCommand}"
                             Content="Save" />
                     <Button Margin="3" Content="Delete" />
-                    <Button Margin="3" Content="Add to Recipe" />
+                    <Button Margin="3"
+                            Command="{Binding AddFermentableToRecipeCommand}"
+                            Content="Add to Recipe" />
                 </StackPanel>
 
             </Grid>
@@ -182,176 +139,11 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="Name" />
-                <TextBox Grid.Row="0"
-                         Grid.Column="1"
-                         Width="260"
-                         Margin="3.5"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Text="{Binding SelectedHop.Name}" />
+                <views:HopDetailsView />
 
-                <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="Alpha Acid" />
                 <StackPanel Grid.Row="1"
-                            Grid.Column="1"
-                            Orientation="Horizontal">
-                    <TextBox Width="50"
-                             Margin="3.5"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
-                             Text="{Binding SelectedHop.AlphaAcid}" />
-
-                    <ProgressBar Value="{Binding SelectedHop.AlphaAcid}"  Width="200" BorderThickness="0" Maximum="20"/>
-                </StackPanel>
-
-
-                <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="Myrcene" />
-                <StackPanel Grid.Row="2"
-                            Grid.Column="1"
-                            Orientation="Horizontal">
-                    <TextBox Width="50"
-                             Margin="3.5"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
-                             Text="{Binding SelectedHop.Myrcene}" />
-                    <ProgressBar Value="{Binding SelectedHop.Myrcene}" Width="200" BorderThickness="0"/>
-                </StackPanel>
-
-
-                <TextBlock Grid.Row="3"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="Carophyllene" />
-                <StackPanel Grid.Row="3"
-                            Grid.Column="1"
-                            Orientation="Horizontal">
-                    <TextBox Width="50"
-                             Margin="3.5"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
-                             Text="{Binding SelectedHop.Carophyllene}" />
-                    <ProgressBar Value="{Binding SelectedHop.Carophyllene}"  Width="200" BorderThickness="0"/>
-                </StackPanel>
-
-
-                <TextBlock Grid.Row="4"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="Humulene" />
-                <StackPanel Grid.Row="4"
-                            Grid.Column="1"
-                            Orientation="Horizontal">
-                    <TextBox Width="50"
-                             Margin="3.5"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
-                             Text="{Binding SelectedHop.Humulene}" />
-                    <ProgressBar Value="{Binding SelectedHop.Humulene}"  Width="200" BorderThickness="0"/>
-                </StackPanel>
-
-
-                <TextBlock Grid.Row="5"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="Farnesene" />
-                <StackPanel Grid.Row="5"
-                            Grid.Column="1"
-                            Orientation="Horizontal">
-                    <TextBox Width="50"
-                             Margin="3.5"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
-                             Text="{Binding SelectedHop.Farnesene}" />
-                    <ProgressBar Value="{Binding SelectedHop.Farnesene}"  Width="200" BorderThickness="0"/>
-                </StackPanel>
-
-
-                <TextBlock Grid.Row="6"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="OtherAcids" />
-                <StackPanel Grid.Row="6"
-                            Grid.Column="1"
-                            Orientation="Horizontal">
-                    <TextBox Width="50"
-                             Margin="3.5"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
-                             Text="{Binding SelectedHop.OtherAcids}" />
-
-                    <ProgressBar Value="{Binding SelectedHop.OtherAcids}"  Width="200" BorderThickness="0"/>
-                </StackPanel>
-
-
-                <TextBlock Grid.Row="7"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Center"
-                           Text="% of Total Weight" />
-                <StackPanel Grid.Row="7"
-                            Grid.Column="1"
-                            Orientation="Horizontal">
-                    <TextBox Width="50"
-                             Margin="3.5"
-                             HorizontalAlignment="Left"
-                             VerticalAlignment="Center"
-                             Text="{Binding SelectedHop.PercentageOfTotalWeight}" />
-
-                    <ProgressBar Value="{Binding SelectedHop.PercentageOfTotalWeight}"  Width="200" BorderThickness="0" Maximum="10"/>
-                </StackPanel>
-
-
-                <TextBlock Grid.Row="8"
-                           Grid.Column="0"
-                           Margin="3.5"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Top"
-                           Text="Description" />
-                <TextBox Grid.Row="8"
-                         Grid.Column="1"
-                         Width="260"
-                         Height="90"
-                         Margin="3.5"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Top"
-                         Text="{Binding SelectedHop.Description}"
-                         VerticalScrollBarVisibility="Auto" TextWrapping="WrapWithOverflow" />
-
-                <StackPanel Grid.Row="9"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Height="30"
@@ -363,7 +155,9 @@
                             Command="{Binding SaveHopCommand}"
                             Content="Save" />
                     <Button Margin="3" Content="Delete" />
-                    <Button Margin="3" Content="Add to Recipe" />
+                    <Button Margin="3" 
+                            Command="{Binding AddHopToRecipeCommand}"
+                            Content="Add to Recipe" />
                 </StackPanel>
 
             </Grid>

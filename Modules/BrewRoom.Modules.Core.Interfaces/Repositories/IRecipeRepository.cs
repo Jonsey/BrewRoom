@@ -8,6 +8,6 @@ namespace BrewRoom.Modules.Core.Interfaces.Repositories
 {
     public interface IRecipeRepository
     {
-        void Save(IRecipe recipe);
+        Guid Save(IRecipe recipe);
     }
 }

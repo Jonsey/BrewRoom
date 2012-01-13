@@ -107,5 +107,16 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
 
         [Test]
         public void ShouldAddSelectedFermentableToCurrentRecipe()
+        {
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
+
+            vm.SelectedHop = hopVMs[0];
+            vm.AddHopToRecipeCommand.Execute();
+
+            var recipeHops = editRecipeVm.RecipeHops;
+
+            Assert.AreEqual(hopVMs[0].Name, recipeHops[0].Name);
+        }
     }
 }

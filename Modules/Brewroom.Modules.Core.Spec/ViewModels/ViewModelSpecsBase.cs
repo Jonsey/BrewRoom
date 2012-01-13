@@ -20,8 +20,8 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
 
         void SetupFermentables()
         {
-            var grain1 = new Fermentable("Pils Malt", 1.045M);
-            var grain2 = new Fermentable("Amber Malt", 1.040M);
+            var grain1 = new StockFermentable("Pils Malt", 1.045M);
+            var grain2 = new StockFermentable("Amber Malt", 1.040M);
 
             var grains = new List<IFermentable>
                              {

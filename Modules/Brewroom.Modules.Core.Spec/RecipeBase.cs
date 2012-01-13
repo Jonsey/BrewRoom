@@ -7,7 +7,7 @@ namespace Brewroom.Modules.Core.Spec
     {
         public Recipe CreateDefaultRecipe()
         {
-            var grain = new Fermentable("Two-row");
+            var grain = new StockFermentable("Two-row", 1.045M);
             var hop = new Hop("Saaz");
             var recipe = new Recipe();
 

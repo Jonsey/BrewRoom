@@ -9,7 +9,7 @@ namespace BrewRoom.Modules.Core.Interfaces.ViewModels
 {
     public interface IEditRecipeViewModel
     {
-        IIngredientViewModel SelectedStockItem { get; set; }
+        //IIngredientViewModel SelectedStockItem { get; set; }
         IStockItemsViewModel StockItemsViewModel { get; set; }
         List<VolumeUnit> VolumeUnits { get; }
         Decimal BrewLength { get; set; }
@@ -19,9 +19,8 @@ namespace BrewRoom.Modules.Core.Interfaces.ViewModels
         Decimal RecipePotential { get; }
         ObservableCollection<IRecipeFermentable> RecipeFermentables { get; }
         ObservableCollection<IRecipeHop> RecipeHops { get; }
-        IRecipeFermentable SelectedRecipeFermentable { get; set; }
+        IRecipeFermentable SelectedFermentable { get; set; }
         DelegateCommand RemoveFermentableCommand { get; }
-        DelegateCommand AddSelectedStockItemCommand { get; }
         Weight RecipeTotalHopWeight { get; }
         decimal RecipeBitterness { get; }
     }

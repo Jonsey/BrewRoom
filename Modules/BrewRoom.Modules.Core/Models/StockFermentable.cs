@@ -11,5 +11,9 @@ namespace BrewRoom.Modules.Core.Models
         public StockFermentable(string name, decimal pppg) : base(name, pppg)
         {
         }
+
+        public StockFermentable()
+        {
+        }
     }
 }

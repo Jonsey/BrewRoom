@@ -15,8 +15,8 @@ namespace BrewRoom.Modules.Core.Data
             Id(x => x.Id);
             Map(x => x.Name);
 
-            HasMany<RecipeHop>(x => x.Hops);
-            HasMany<RecipeFermentable>(x => x.Fermentables);
+            HasMany<RecipeHop>(x => x.Hops).Cascade.AllDeleteOrphan();
+            HasMany<RecipeFermentable>(x => x.Fermentables).Cascade.AllDeleteOrphan();
         }
     }
 }

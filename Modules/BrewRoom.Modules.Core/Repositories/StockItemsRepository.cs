@@ -19,7 +19,7 @@ namespace BrewRoom.Modules.Core.Repositories
 
         public IEnumerable<IFermentable> GetGrains()
         {
-            return session.Linq<Fermentable>();
+            return session.Linq<StockFermentable>();
         }
 
         public IEnumerable<IHop> GetHops()

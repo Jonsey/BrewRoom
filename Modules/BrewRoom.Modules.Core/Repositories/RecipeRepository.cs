@@ -14,9 +14,27 @@ namespace BrewRoom.Modules.Core.Repositories
             : base(sessionFactory)
         {
         }
-        public void Save(IRecipe recipe)
+        public Guid Save(IRecipe recipe)
         {
-            throw new NotImplementedException();
+            using (var tran = session.BeginTransaction())
+            {
+                try
+                {
+                    session.SaveOrUpdate(recipe);
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    session.Close();
+                    session.Dispose();
+                    session = null;
+
+                    throw ex;
+                }
+            }
+
+            return recipe.Id;
         }
     }
 }

@@ -51,6 +51,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\External\nhibernate\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Kent.Boogaart.Converters, Version=1.2.0.0, Culture=neutral, PublicKeyToken=cc96fa93a217f7a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External\Convertors\Kent.Boogaart.Converters.dll</HintPath>
+    </Reference>
+    <Reference Include="Kent.Boogaart.HelperTrinity, Version=1.4.0.0, Culture=neutral, PublicKeyToken=cc96fa93a217f7a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External\Convertors\Kent.Boogaart.HelperTrinity.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\External\Prism 4\Microsoft.Practices.Prism.dll</HintPath>
@@ -131,6 +139,12 @@
       <DependentUpon>EditRecipeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\EditRecipeViewModel.cs" />
+    <Compile Include="Views\FermentableDetailsView.xaml.cs">
+      <DependentUpon>FermentableDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HopDetailsView.xaml.cs">
+      <DependentUpon>HopDetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MashDesignerView.xaml.cs">
       <DependentUpon>MashDesignerView.xaml</DependentUpon>
     </Compile>
@@ -153,6 +167,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditRecipeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FermentableDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HopDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

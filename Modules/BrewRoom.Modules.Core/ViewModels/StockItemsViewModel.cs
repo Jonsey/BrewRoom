@@ -109,11 +109,20 @@ namespace BrewRoom.Modules.Core.ViewModels
             get { return new DelegateCommand(SaveHop); }
         }
 
+        public DelegateCommand AddHopToRecipeCommand
+        {
+            get { return new DelegateCommand(AddSelectedHopToRecipe); }
+        }
+
+        public DelegateCommand AddFermentableToRecipeCommand
+        {
+            get { return new DelegateCommand(AddSelectedFermentableToRecipe); }
+        }
+
         public DelegateCommand NewFermentableCommand
         {
             get{return new DelegateCommand(NewFermentable);}
         }
-
 
         #endregion
 
@@ -140,14 +149,20 @@ namespace BrewRoom.Modules.Core.ViewModels
             RaisePropertyChanged("IsHopDetailsVisible"); // TODO not tested
         }
 
+        private void AddSelectedHopToRecipe()
+        {
+            eventAggregator.GetEvent<AddHopToRecipeEvent>().Publish(selectedHop);
+        }
+
+        private void AddSelectedFermentableToRecipe()
+        {
+            eventAggregator.GetEvent<AddFermentableToRecipeEvent>().Publish(selectedFermentable);
+        }
+
         void SaveFermentable()
         {
             if (selectedFermentable == null) return;
 
-            //var fermentable = selectedFermentable;
-            //fermentable.Model.Name = fermentable.Name;
-            //fermentable.Model.Pppg = fermentable.Pppg;
-            //fermentable.Model.Description = fermentable.Description;
             stockItemsRepository.Save(selectedFermentable.Model);
             RaisePropertyChanged("Fermentables");
         }
@@ -157,11 +172,12 @@ namespace BrewRoom.Modules.Core.ViewModels
             if (selectedHop == null) return;
 
             stockItemsRepository.Save(selectedHop.Model);
+            RaisePropertyChanged("Hops");
         }
 
         void NewFermentable()
         {
-            SelectedFermentable = new FermentableViewModel();
+            SelectedFermentable = new FermentableViewModel(new StockFermentable());
         }
 
         #endregion

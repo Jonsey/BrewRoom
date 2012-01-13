@@ -13,43 +13,20 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
     [TestFixture]
     public class EditRecipeSpecs : ViewModelSpecsBase
     {
-        [Test]
-        public void ShouldBeAbleToAddTheSelectedFermentableToTheRecipe()
-        {
-            var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
-
-            editRecipeVm.SelectedStockItem = grainVMs[0];
-
-            editRecipeVm.AddSelectedStockItemCommand.Execute();
-
-            Assert.AreEqual(grainVMs[0].Name, editRecipeVm.RecipeFermentables[0].Name);
-        }
-
-        [Test]
-        public void ShouldBeAbleToAddTheSelectedHopToTheRecipe()
-        {
-            var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
-            editRecipeVm.SelectedStockItem = hopVMs[0];
-
-            editRecipeVm.AddSelectedStockItemCommand.Execute();
-
-            Assert.AreEqual(hopVMs[0].Name, editRecipeVm.RecipeHops[0].Name);
-        }
+        
 
         [Test]
         public void ShouldBeAbleToremoveTheSelectedFermentableFromTheRecipe()
         {
-            var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
-            
-            editRecipeVm.SelectedStockItem = grainVMs[0];
-            editRecipeVm.AddSelectedStockItemCommand.Execute();
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
+
+            vm.SelectedFermentable = grainVMs[0];
+            vm.AddFermentableToRecipeCommand.Execute();
 
             Assert.AreEqual(1, editRecipeVm.RecipeFermentables.Count);
 
-            editRecipeVm.SelectedRecipeFermentable = editRecipeVm.RecipeFermentables[0];
+            editRecipeVm.SelectedFermentable = editRecipeVm.RecipeFermentables[0];
 
             editRecipeVm.RemoveFermentableCommand.Execute();
 
@@ -59,12 +36,12 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldAggregateFermentablesWhenAdded()
         {
-            var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
 
-            editRecipeVm.SelectedStockItem = grainVMs[0];
-            editRecipeVm.AddSelectedStockItemCommand.Execute();
-            editRecipeVm.AddSelectedStockItemCommand.Execute();
+            vm.SelectedFermentable = grainVMs[0];
+            vm.AddFermentableToRecipeCommand.Execute();
+            vm.AddFermentableToRecipeCommand.Execute();
 
             Assert.AreEqual(1, editRecipeVm.RecipeFermentables.Count);
             Assert.AreEqual(2.KiloGrams(), editRecipeVm.RecipeTotalGrainWeight);
@@ -73,13 +50,13 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldNotAggregateFermentablesWhenAddedWithAlteredPppg()
         {
-            var stockItemsViewModel = MockRepository.GenerateMock<IStockItemsViewModel>();
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, stockItemsViewModel, recipeRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
 
-            editRecipeVm.SelectedStockItem = grainVMs[0];
-            editRecipeVm.AddSelectedStockItemCommand.Execute();
-            grainVMs[0].Pppg = 1.010M;
-            editRecipeVm.AddSelectedStockItemCommand.Execute();
+            vm.SelectedFermentable = grainVMs[0];
+            vm.AddFermentableToRecipeCommand.Execute();
+            vm.SelectedFermentable.Pppg = 1.010M;
+            vm.AddFermentableToRecipeCommand.Execute();
 
             Assert.AreEqual(2, editRecipeVm.RecipeFermentables.Count);
             Assert.AreEqual(2.KiloGrams(), editRecipeVm.RecipeTotalGrainWeight);

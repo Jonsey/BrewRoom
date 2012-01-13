@@ -2,7 +2,7 @@
 
 namespace BrewRoom.Modules.Core.Models
 {
-    public class Fermentable : Ingredient, IFermentable
+    public abstract class Fermentable : Ingredient, IFermentable
     {
         protected decimal pppg;
 

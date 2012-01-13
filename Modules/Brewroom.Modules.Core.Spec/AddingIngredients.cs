@@ -11,7 +11,7 @@ namespace Brewroom.Modules.Core.Spec
         [Test]
         public void GrainsShouldAlwaysHaveAName()
         {
-            var grain = new Fermentable("Pils Malt");
+            var grain = new StockFermentable("Pils Malt", 1.045M);
             Assert.AreEqual("Pils Malt", grain.Name);
         }
 
@@ -49,8 +49,8 @@ namespace Brewroom.Modules.Core.Spec
         [Test]
         public void ShouldBeAbleToAddGrains()
         {
-            var grain1 = new Fermentable("Pils Malt 1");
-            var grain2 = new Fermentable("Pils Malt 2");
+            var grain1 = new StockFermentable("Pils Malt 1", 1.045M);
+            var grain2 = new StockFermentable("Pils Malt 2", 1.045M);
 
             var recipe = new Recipe();
             recipe.AddFermentable(grain1, 1.KiloGram());
@@ -62,7 +62,7 @@ namespace Brewroom.Modules.Core.Spec
         [Test]
         public void ShouldCalculateStartingGravity()
         {
-            var grain1 = new Fermentable("Wheat");
+            var grain1 = new StockFermentable("Wheat", 1.035M);
 
             var recipe = new Recipe();
             recipe.SetBrewLength(new Volume(1, VolumeUnit.Gallons));
@@ -74,9 +74,9 @@ namespace Brewroom.Modules.Core.Spec
         [Test]
         public void ShouldCalculateStartingGravityWithMultipleGrains()
         {
-            var grain1 = new Fermentable("Wheat");
-            var grain2 = new Fermentable("Honey");
-            var grain3 = new Fermentable("Two-row");
+            var grain1 = new StockFermentable("Wheat", 1.045M);
+            var grain2 = new StockFermentable("Honey", 1.045M);
+            var grain3 = new StockFermentable("Two-row", 1.046M);
 
             var recipe = new Recipe();
             recipe.SetBrewLength(new Volume(3M, VolumeUnit.Gallons));
@@ -103,7 +103,7 @@ namespace Brewroom.Modules.Core.Spec
 
         private static Recipe SimpleRecipe()
         {
-            var grain1 = new Fermentable("Wheat");
+            var grain1 = new StockFermentable("Wheat", 1.045M);
             var hop = new Hop("Saaz");
             var recipe = new Recipe();
 
@@ -124,7 +124,7 @@ namespace Brewroom.Modules.Core.Spec
         [Test]
         public void ShouldCalculateBuGuRatioAsZeroIfNoHops()
         {
-            var grain1 = new Fermentable("Wheat");
+            var grain1 = new StockFermentable("Wheat", 1.045M);
             var recipe = new Recipe();
 
             recipe.SetBrewLength(1.Gallons());

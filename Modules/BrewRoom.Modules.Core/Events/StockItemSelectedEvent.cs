@@ -10,4 +10,12 @@ namespace BrewRoom.Modules.Core.Events
     public class StockItemSelectedEvent : CompositePresentationEvent<IIngredientViewModel>
     {
     }
+
+    public class AddHopToRecipeEvent : CompositePresentationEvent<IHopViewModel>
+    {
+    }
+
+    public class AddFermentableToRecipeEvent : CompositePresentationEvent<IFermentableViewModel>
+    {
+    }
 }

@@ -94,7 +94,7 @@ namespace Brewroom.Modules.Core.Spec
         [Test]
         public void RecipeGrainShouldTakePppgOfSelectedGrain()
         {
-            var grain = new Fermentable("Pils Malt", 1.045M);
+            var grain = new StockFermentable("Pils Malt", 1.045M);
             var recipe = new Recipe();
 
             recipe.AddFermentable(grain, 1.KiloGram());
@@ -103,9 +103,9 @@ namespace Brewroom.Modules.Core.Spec
         }
 
         [Test]
-        public void RecipeGrainShouldBe100PercentOfMash()
+        public void SingleRecipeGrainShouldBe100PercentOfMash()
         {
-            var grain = new Fermentable("Pils Malt", 1.045M);
+            var grain = new StockFermentable("Pils Malt", 1.045M);
             var recipe = new Recipe();
 
             recipe.AddFermentable(grain, 1.KiloGram());

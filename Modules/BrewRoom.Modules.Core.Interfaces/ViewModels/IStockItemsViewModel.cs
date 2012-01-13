@@ -18,5 +18,7 @@ namespace BrewRoom.Modules.Core.Interfaces.ViewModels
         IFermentableViewModel SelectedFermentable { get; set; }
         IHopViewModel SelectedHop { get; set; }
         DelegateCommand SaveHopCommand { get; }
+        DelegateCommand AddHopToRecipeCommand { get; }
+        DelegateCommand AddFermentableToRecipeCommand { get; }
     }
 }
