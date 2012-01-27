@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BrewRoom.Modules.Core.Interfaces.ViewModels;
+﻿using BrewRoom.Modules.Core.Interfaces.ViewModels;
 using BrewRoom.Modules.Core.ViewModels;
 using NUnit.Framework;
-using Rhino.Mocks;
 using Zymurgy.Dymensions;
 
-namespace Brewroom.Modules.Core.Spec.ViewModels
+namespace Brewroom.Modules.Core.Spec.ViewModels.EditRecipe
 {
     [TestFixture]
     public class EditRecipeSpecs : ViewModelSpecsBase
     {
-        
-
         [Test]
         public void ShouldBeAbleToremoveTheSelectedFermentableFromTheRecipe()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, _recipeRepository);
 
             vm.SelectedFermentable = grainVMs[0];
             vm.AddFermentableToRecipeCommand.Execute();
@@ -36,8 +29,8 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldAggregateFermentablesWhenAdded()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, _recipeRepository);
 
             vm.SelectedFermentable = grainVMs[0];
             vm.AddFermentableToRecipeCommand.Execute();
@@ -50,8 +43,8 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldNotAggregateFermentablesWhenAddedWithAlteredPppg()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, _recipeRepository);
 
             vm.SelectedFermentable = grainVMs[0];
             vm.AddFermentableToRecipeCommand.Execute();

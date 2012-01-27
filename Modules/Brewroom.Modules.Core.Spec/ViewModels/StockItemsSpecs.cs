@@ -14,7 +14,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldListFermentables()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             Assert.AreEqual(grainVMs, vm.Fermentables);
         }
@@ -22,7 +22,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldSelectFermentableDetails()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectedFermentable = grainVMs[0];
 
@@ -32,7 +32,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldUnSelectAnyStockItemsWhenChangingTabs()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectedFermentable = grainVMs[0];
             Assert.IsNotNull(vm.SelectedFermentable, "Stock item was not selected.");
@@ -45,7 +45,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldExposeSelectedFermentableViewModel()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectedFermentable = grainVMs[0];
 
@@ -55,7 +55,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldListHops()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             Assert.IsNotNull(vm.Hops, "View model hops is null.");
             for(int i = 0; i < hopVMs.Count; i++)
@@ -67,7 +67,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldShowHopDetailsWhenHopsAreSelected()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectHops.Execute();
 
@@ -77,7 +77,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldShowFermentableDetailsWhenFermentablesAreSelected()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectFermentables.Execute();
 
@@ -87,7 +87,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldExposeSelectedHopName()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectedHop = hopVMs[0];
 
@@ -97,7 +97,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldExposeSelectedHopAlphaAcid()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectedHop = hopVMs[0];
 
@@ -108,8 +108,8 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldAddSelectedFermentableToCurrentRecipe()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
-            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, recipeRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
+            var editRecipeVm = new EditRecipeViewModel(eventAggregator, vm, _recipeRepository);
 
             vm.SelectedHop = hopVMs[0];
             vm.AddHopToRecipeCommand.Execute();

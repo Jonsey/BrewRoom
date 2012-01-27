@@ -47,7 +47,7 @@ namespace BrewRoom.Modules.Core.Models
         public virtual Weight Weight
         {
             get { return weight; }
-            private set { weight = value; }
+            set { weight = value; }
         }
 
         public virtual decimal GravityContribution

@@ -11,8 +11,8 @@ namespace BrewRoom.Modules.Core.Data
     {
         public VolumeMap()
         {
-            Map(x => x.Value).Column("VolumeValue");
-            Map(x => x.Unit).Column("VolumeUnit");
+            Map(x => x.Value).Column("Amount");
+            Map(x => x.Unit).Column("Unit");
         }
     }
 }

@@ -105,12 +105,12 @@
     <Compile Include="Convertors\VolumeUnitConverter.cs" />
     <Compile Include="Convertors\WeightConvertor.cs" />
     <Compile Include="CoreModule.cs" />
-    <Compile Include="Data\FermentableMap.cs" />
-    <Compile Include="Data\HopMap.cs" />
     <Compile Include="Data\HopOilCharacteristicsMap.cs" />
     <Compile Include="Data\RecipeHopMap.cs" />
     <Compile Include="Data\RecipeMap.cs" />
     <Compile Include="Data\RecipeFermentableMap.cs" />
+    <Compile Include="Data\StockFermentableMap.cs" />
+    <Compile Include="Data\StockHopMap.cs" />
     <Compile Include="Data\VolumeMap.cs" />
     <Compile Include="Data\WeightMap.cs" />
     <Compile Include="Events\StockItemSelectedEvent.cs" />
@@ -120,6 +120,7 @@
     <Compile Include="Models\HopOilCharacteristics.cs" />
     <Compile Include="Models\Ingredient.cs" />
     <Compile Include="Models\StockFermentable.cs" />
+    <Compile Include="Models\StockHop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Models\RecipeFermentable.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="ViewModels\FermentableViewModel.cs" />
     <Compile Include="ViewModels\HopViewModel.cs" />
     <Compile Include="ViewModels\MashDesignerViewModel.cs" />
+    <Compile Include="ViewModels\RecipeHopViewModel.cs" />
     <Compile Include="ViewModels\StockItemsViewModel.cs" />
     <Compile Include="Views\AdminView.xaml.cs">
       <DependentUpon>AdminView.xaml</DependentUpon>

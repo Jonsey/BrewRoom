@@ -7,8 +7,8 @@ namespace BrewRoom.Modules.Core.Data
     {
         public WeightMap()
         {
-            Map(x => x.Value).Column("WeightValue");
-            Map(x => x.Unit).Column("WeightUnit");
+            Map(x => x.Value).Column("Amount");
+            Map(x => x.Unit).Column("Unit");
         }
     }
 }

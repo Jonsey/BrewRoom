@@ -12,36 +12,37 @@ namespace BrewRoom.Modules.Core.Repositories
 {
     public class StockItemsRepository : Repository, IStockItemsRepository
     {
+        
         public StockItemsRepository(ISessionFactory sessionFactory)
             : base(sessionFactory)
         {
         }
 
-        public IEnumerable<IFermentable> GetGrains()
+        public IEnumerable<IFermentable> GetStockFermentables()
         {
-            return session.Linq<StockFermentable>();
+            return Session.Linq<StockFermentable>();
         }
 
         public IEnumerable<IHop> GetHops()
         {
-            return session.Linq<Hop>();
+            return Session.Linq<StockHop>();
         }
 
         public Guid Save(IHop hop)
         {
-            using (var tran = session.BeginTransaction())
+            using (var tran = Session.BeginTransaction())
             {
                 try
                 {
-                    session.SaveOrUpdate(hop);
+                    _session.SaveOrUpdate(hop);
                     tran.Commit();
                 }
                 catch (Exception ex)
                 {
                     tran.Rollback();
-                    session.Close();
-                    session.Dispose();
-                    session = null;
+                    _session.Close();
+                    _session.Dispose();
+                    _session = null;
 
                     throw ex;
                 }
@@ -52,19 +53,19 @@ namespace BrewRoom.Modules.Core.Repositories
 
         public Guid Save(IFermentable fermentable)
         {
-            using(var tran = session.BeginTransaction())
+            using(var tran = Session.BeginTransaction())
             {
                 try
                 {
-                    session.SaveOrUpdate(fermentable);
+                    _session.SaveOrUpdate(fermentable);
                     tran.Commit();
                 }
                 catch (Exception)
                 {
                     tran.Rollback();
-                    session.Close();
-                    session.Dispose();
-                    session = null;
+                    _session.Close();
+                    _session.Dispose();
+                    _session = null;
                 }
             }
 

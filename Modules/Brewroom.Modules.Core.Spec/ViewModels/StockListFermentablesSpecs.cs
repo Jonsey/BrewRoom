@@ -19,7 +19,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldExposeSelectedFermentableName()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectedFermentable = grainVMs[1];
 
@@ -29,7 +29,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldUpdateSelectedFermentableName()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectedFermentable = grainVMs[1];
             vm.SelectedFermentable.Name = "Amber Malt changed";
@@ -40,7 +40,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [Test]
         public void ShouldExposeSelectedFermentablePppg()
         {
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectedFermentable = grainVMs[0];
 
@@ -55,15 +55,15 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         public void ShouldSaveFermentable()
         {
             var id = Guid.NewGuid();
-            stockItemsRepository.Expect(x => x.Save(Arg<Fermentable>.Is.Anything)).Return(id);
-            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, stockItemsRepository);
+            _stockItemsRepository.Expect(x => x.Save(Arg<Fermentable>.Is.Anything)).Return(id);
+            IStockItemsViewModel vm = new StockItemsViewModel(eventAggregator, _stockItemsRepository);
 
             vm.SelectedFermentable = grainVMs[0];
             grainVMs[0].Name = "Changed name";
 
             vm.SaveFermentableCommand.Execute();
 
-            stockItemsRepository.VerifyAllExpectations();
+            _stockItemsRepository.VerifyAllExpectations();
         }
 
 

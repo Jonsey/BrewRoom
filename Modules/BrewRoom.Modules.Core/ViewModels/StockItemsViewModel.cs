@@ -44,7 +44,7 @@ namespace BrewRoom.Modules.Core.ViewModels
             {
                 var result = new List<IFermentableViewModel>();
 
-                var fermentables = stockItemsRepository.GetGrains().ToList();
+                var fermentables = stockItemsRepository.GetStockFermentables().ToList();
                 fermentables.ForEach(x => result.Add(new FermentableViewModel(x)));
 
                 return result;
@@ -121,9 +121,13 @@ namespace BrewRoom.Modules.Core.ViewModels
 
         public DelegateCommand NewFermentableCommand
         {
-            get{return new DelegateCommand(NewFermentable);}
+            get { return new DelegateCommand(NewFermentable); }
         }
 
+        public DelegateCommand NewHopCommand
+        {
+            get { return new DelegateCommand(NewHop); }
+        }
         #endregion
 
         #region Private Methods
@@ -149,12 +153,12 @@ namespace BrewRoom.Modules.Core.ViewModels
             RaisePropertyChanged("IsHopDetailsVisible"); // TODO not tested
         }
 
-        private void AddSelectedHopToRecipe()
+        void AddSelectedHopToRecipe()
         {
             eventAggregator.GetEvent<AddHopToRecipeEvent>().Publish(selectedHop);
         }
 
-        private void AddSelectedFermentableToRecipe()
+        void AddSelectedFermentableToRecipe()
         {
             eventAggregator.GetEvent<AddFermentableToRecipeEvent>().Publish(selectedFermentable);
         }
@@ -178,6 +182,11 @@ namespace BrewRoom.Modules.Core.ViewModels
         void NewFermentable()
         {
             SelectedFermentable = new FermentableViewModel(new StockFermentable());
+        }
+
+        void NewHop()
+        {
+            SelectedHop = new HopViewModel(new StockHop());
         }
 
         #endregion

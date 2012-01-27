@@ -28,6 +28,7 @@ namespace BrewRoom.Modules.Core.Models
        public Hop(string name)
             : base(name)
         {
+            characteristics = new HopOilCharacteristics();
         }
 
         #endregion

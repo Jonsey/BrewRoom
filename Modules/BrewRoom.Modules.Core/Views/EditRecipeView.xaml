@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="BrewRoom.Modules.Core.Views.EditRecipeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Behaviours="clr-namespace:BrewRoom.Modules.Core.Behaviours"
              xmlns:Convertors="clr-namespace:BrewRoom.Modules.Core.Convertors"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,50 +9,46 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Convertors:WeightConvertor x:Key="wieghtConverter" />
+        <Convertors:WeightConvertor x:Key="weightConverter" />
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConvertor" />
     </UserControl.Resources>
 
-    <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, 
-AncestorType={x:Type Window}}, Path=ActualWidth}" >
+    <Grid Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=ActualWidth}">
         <DockPanel>
-            <TabControl Margin="30"  HorizontalAlignment="Stretch">
+            <TabControl Margin="30" HorizontalAlignment="Stretch">
                 <TabItem Header="Inventory">
                     <Views:StockItemsView DataContext="{Binding StockItemsViewModel}" />
                 </TabItem>
                 <TabItem Header="Recipe">
                     <StackPanel Orientation="Horizontal">
                         <StackPanel Margin="10" VerticalAlignment="Top">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Name:"/>
-                                <TextBox Text="{Binding Name}"/>
+                            <StackPanel x:Name="RecipeName" Orientation="Horizontal">
+                                <TextBlock Text="Name:" />
+                                <TextBox Text="{Binding Name}" Width="579" Margin="3"/>
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal">
-                                <StackPanel>
+                                <StackPanel x:Name="RecipeFermentableDetails">
                                     <TextBlock Padding="10,10,0,0" Text="Fermentables" />
                                     <DataGrid Width="300"
-                          Height="200"
-                          Margin="10,10,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          AutoGenerateColumns="False"
-                          DockPanel.Dock="Left"
-                          IsSynchronizedWithCurrentItem="True"
-                          ItemsSource="{Binding RecipeFermentables}"
-                          SelectedItem="{Binding SelectedFermentable}">
+                                              Height="200"
+                                              Margin="10,10,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              AutoGenerateColumns="False"
+                                              DockPanel.Dock="Left"
+                                              ItemsSource="{Binding RecipeFermentables}"
+                                              SelectedItem="{Binding SelectedFermentable}">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                                             <DataGridTextColumn Binding="{Binding GravityContribution}" Header="Potential" />
-                                            <DataGridTextColumn Binding="{Binding Weight, Converter={StaticResource wieghtConverter}}" Header="Amount" />
+                                            <DataGridTextColumn Binding="{Binding Weight, Converter={StaticResource weightConverter}}" Header="Amount" />
                                             <DataGridTextColumn Binding="{Binding PercentageOfMash, StringFormat={}#.##}" Header="%" />
                                             <DataGridTemplateColumn>
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                            <Button Content="-" 
-                                                Command="{Binding RelativeSource={RelativeSource FindAncestor, 
-AncestorType={x:Type UserControl}}, Path=ViewModel.RemoveFermentableCommand}"/>
+                                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                                            <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=ViewModel.RemoveFermentableCommand}" Content="-" />
                                                         </StackPanel>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
@@ -60,7 +57,7 @@ AncestorType={x:Type UserControl}}, Path=ViewModel.RemoveFermentableCommand}"/>
                                     </DataGrid>
                                 </StackPanel>
 
-                                <StackPanel>
+                                <StackPanel x:Name="RecipeHopDetails">
                                     <TextBlock Padding="10,10,0,0" Text="Hops" />
                                     <DataGrid Width="300"
                                               Height="200"
@@ -69,14 +66,13 @@ AncestorType={x:Type UserControl}}, Path=ViewModel.RemoveFermentableCommand}"/>
                                               VerticalAlignment="Top"
                                               AutoGenerateColumns="False"
                                               DockPanel.Dock="Left"
-                                              IsSynchronizedWithCurrentItem="True"
-                                              SelectedItem="{Binding SelectedHop}"
-                                              ItemsSource="{Binding RecipeHops}">
+                                              ItemsSource="{Binding RecipeHops}"
+                                              SelectedItem="{Binding SelectedHop}">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                                            <DataGridTextColumn Binding="{Binding Ibu}" Header="IBU" />
-                                            <DataGridTextColumn Binding="{Binding Utilization}" Header="U%" />
-                                            <DataGridTextColumn Binding="{Binding Weight, Converter={StaticResource wieghtConverter}}" Header="Amount" />
+                                            <DataGridTextColumn Binding="{Binding Ibu,StringFormat={}#.#}" Header="IBU" />
+                                            <DataGridTextColumn Binding="{Binding Utilization,StringFormat={}#.##}" Header="U%" />
+                                            <DataGridTextColumn Binding="{Binding Weight, Converter={StaticResource weightConverter}}" Header="Amount" />
                                             <DataGridTextColumn Binding="{Binding BoilTime}" Header="Boil" />
                                         </DataGrid.Columns>
                                     </DataGrid>
@@ -87,16 +83,16 @@ AncestorType={x:Type UserControl}}, Path=ViewModel.RemoveFermentableCommand}"/>
                                 <StackPanel>
                                     <TextBlock Padding="10,10,0,0" Text="Other" />
                                     <DataGrid Width="300"
-                          Height="100"
-                          Margin="10,10,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          AutoGenerateColumns="False"
-                          DockPanel.Dock="Left"
-                          ItemsSource="{Binding RecipeOthers}">
+                                              Height="100"
+                                              Margin="10,10,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              AutoGenerateColumns="False"
+                                              DockPanel.Dock="Left"
+                                              ItemsSource="{Binding RecipeOthers}">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                                            <DataGridTextColumn Binding="{Binding Weight, Converter={StaticResource wieghtConverter}}" Header="Amount" />
+                                            <DataGridTextColumn Binding="{Binding Weight, Converter={StaticResource weightConverter}}" Header="Amount" />
                                             <DataGridTextColumn Binding="{Binding BoilDuration}" Header="BoilDuration" />
                                         </DataGrid.Columns>
                                     </DataGrid>
@@ -105,13 +101,13 @@ AncestorType={x:Type UserControl}}, Path=ViewModel.RemoveFermentableCommand}"/>
                                 <StackPanel>
                                     <TextBlock Padding="10,10,0,0" Text="Yeast" />
                                     <DataGrid Width="300"
-                                        Height="100"
-                          Margin="10,10,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          AutoGenerateColumns="False"
-                          DockPanel.Dock="Left"
-                          ItemsSource="{Binding RecipeYeasts}">
+                                              Height="100"
+                                              Margin="10,10,0,0"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top"
+                                              AutoGenerateColumns="False"
+                                              DockPanel.Dock="Left"
+                                              ItemsSource="{Binding RecipeYeasts}">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                                             <DataGridTextColumn Binding="{Binding IBU}" Header="Amount" />
@@ -121,20 +117,89 @@ AncestorType={x:Type UserControl}}, Path=ViewModel.RemoveFermentableCommand}"/>
                                 </StackPanel>
                             </StackPanel>
 
-                            <Button 
-                                Content="Save" 
-                                Command="{Binding SaveRecipeCommand}" 
-                                Padding="3" 
-                                Margin="3" 
-                                HorizontalAlignment="Right"/>
+                            <Button Margin="3"
+                                    HorizontalAlignment="Right"
+                                    Command="{Binding SaveRecipeCommand}"
+                                    Content="Save"
+                                    Padding="3" />
                         </StackPanel>
 
-                        <Views:FermentableDetailsView 
-                            Visibility="{Binding IsFermentableDetailsVisible,
-                                       Converter={StaticResource booleanToVisibilityConvertor}}"/>
-                        <Views:HopDetailsView 
-                            Visibility="{Binding IsHopDetailsVisible,
-                                       Converter={StaticResource booleanToVisibilityConvertor}}"/>
+
+                        <StackPanel Visibility="{Binding IsFermentableDetailsVisible, Converter={StaticResource booleanToVisibilityConvertor}}">
+                            <Views:FermentableDetailsView />
+
+                            <Grid HorizontalAlignment="Right">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Margin="3.5"
+                                           Text="Amount" />
+                                <TextBox Grid.Row="0"
+                                         Grid.Column="1"
+                                         Width="100"
+                                         Margin="3.5"
+                                         Text="{Binding SelectedFermentable.Weight,
+                                                        Converter={StaticResource weightConverter}}" />
+
+                                <Button Grid.Row="1"
+                                        Grid.ColumnSpan="2"
+                                        Margin="3.5"
+                                        Command="{Binding UpdateFermentableCommand}"
+                                        Content="Update" />
+
+                            </Grid>
+                        </StackPanel>
+
+
+                        <StackPanel x:Name="HopDetails" Visibility="{Binding IsHopDetailsVisible, Converter={StaticResource booleanToVisibilityConvertor}}">
+                            <Views:HopDetailsView />
+
+                            <Grid HorizontalAlignment="Right">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Margin="3.5"
+                                           Text="Amount" />
+                                <TextBox Grid.Row="0"
+                                         Grid.Column="1"
+                                         Width="100"
+                                         Margin="3.5"
+                                         Text="{Binding SelectedHop.Weight,
+                                                        Converter={StaticResource weightConverter}}" />
+
+                                <TextBlock Grid.Row="1"
+                                           Margin="3.5"
+                                           Text="Boil time" />
+                                <TextBox Grid.Row="1"
+                                         Grid.Column="1"
+                                         Width="100"
+                                         Margin="3.5"
+                                         Text="{Binding SelectedHop.BoilTime}" />
+
+                                <Button Grid.Row="2"
+                                        Grid.ColumnSpan="2"
+                                        Margin="3.5"
+                                        Command="{Binding UpdateHopCommand}"
+                                        Content="Update" />
+
+                            </Grid>
+                        </StackPanel>
+
 
                         <Grid Margin="10">
                             <Grid.ColumnDefinitions>
@@ -152,92 +217,93 @@ AncestorType={x:Type UserControl}}, Path=ViewModel.RemoveFermentableCommand}"/>
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0"
-                           Grid.Column="0"
-                           Margin="3"
-                           Padding="3"
-                           Text="Brew Length" />
+                                       Grid.Column="0"
+                                       Margin="3"
+                                       Padding="3"
+                                       Text="Brew Length" />
                             <TextBox Grid.Row="0"
-                         Grid.Column="1"
-                         Width="40"
-                         Margin="3"
-                         VerticalAlignment="Center"
-                         Padding="3"
-                         Text="{Binding BrewLength}" />
+                                     Grid.Column="1"
+                                     Width="40"
+                                     Margin="3"
+                                     VerticalAlignment="Center"
+                                     Padding="3"
+                                     Text="{Binding BrewLength}" />
                             <ComboBox Grid.Row="0"
-                          Grid.Column="2"
-                          Margin="3"
-                          ItemsSource="{Binding VolumeUnits}"
-                          SelectedValue="{Binding BrewLengthUnit}" />
+                                      Grid.Column="2"
+                                      Margin="3"
+                                      ItemsSource="{Binding VolumeUnits}"
+                                      SelectedValue="{Binding BrewLengthUnit}" />
 
 
                             <TextBlock Grid.Row="1"
-                           Grid.Column="0"
-                           Margin="3"
-                           Padding="3"
-                           Text="Potential" />
+                                       Grid.Column="0"
+                                       Margin="3"
+                                       Padding="3"
+                                       Text="Potential" />
                             <TextBlock Grid.Row="1"
-                           Grid.Column="1"
-                           Margin="3"
-                           VerticalAlignment="Center"
-                           Padding="3"
-                           Text="{Binding RecipePotential}" />
+                                       Grid.Column="1"
+                                       Margin="3"
+                                       VerticalAlignment="Center"
+                                       Padding="3"
+                                       Text="{Binding RecipePotential}" />
                             <TextBlock Grid.Row="1"
-                           Grid.Column="2"
-                           Margin="3"
-                           Padding="3"
-                           Text="pppg" />
+                                       Grid.Column="2"
+                                       Margin="3"
+                                       Padding="3"
+                                       Text="pppg" />
                             <TextBlock Grid.Row="2"
-                           Grid.Column="0"
-                           Margin="3"
-                           Padding="3"
-                           Text="Bitterness" />
+                                       Grid.Column="0"
+                                       Margin="3"
+                                       Padding="3"
+                                       Text="Bitterness" />
                             <TextBlock Grid.Row="2"
-                           Grid.Column="1"
-                           Margin="3"
-                           VerticalAlignment="Center"
-                           Padding="3"
-                           Text="{Binding RecipeBitterness}" />
+                                       Grid.Column="1"
+                                       Margin="3"
+                                       VerticalAlignment="Center"
+                                       Padding="3"
+                                       Text="{Binding RecipeBitterness}" />
 
                             <TextBlock Grid.Row="3"
-                           Grid.Column="0"
-                           Margin="3"
-                           Padding="3"
-                           Text="Bu:Gu" />
+                                       Grid.Column="0"
+                                       Margin="3"
+                                       Padding="3"
+                                       Text="Bu:Gu" />
                             <TextBlock Grid.Row="3"
-                           Grid.Column="1"
-                           Margin="3"
-                           VerticalAlignment="Center"
-                           Padding="3"
-                           Text="{Binding RecipeBuGu, StringFormat={}#.##}" />
+                                       Grid.Column="1"
+                                       Margin="3"
+                                       VerticalAlignment="Center"
+                                       Padding="3"
+                                       Text="{Binding RecipeBuGu,
+                                                      StringFormat={}#.##}" />
 
                             <TextBlock Grid.Row="4"
-                           Grid.Column="0"
-                           Margin="3"
-                           Padding="3"
-                           Text="Total Fermentable" />
+                                       Grid.Column="0"
+                                       Margin="3"
+                                       Padding="3"
+                                       Text="Total Fermentable" />
                             <TextBlock Grid.Row="4"
-                           Grid.Column="1"
-                           Grid.ColumnSpan="2"
-                           Margin="3"
-                           VerticalAlignment="Center"
-                           Padding="3"
-                           Text="{Binding RecipeTotalGrainWeight,
-                                          Converter={StaticResource wieghtConverter}}" />
+                                       Grid.Column="1"
+                                       Grid.ColumnSpan="2"
+                                       Margin="3"
+                                       VerticalAlignment="Center"
+                                       Padding="3"
+                                       Text="{Binding RecipeTotalGrainWeight,
+                                                      Converter={StaticResource weightConverter}}" />
 
 
                             <TextBlock Grid.Row="5"
-                           Grid.Column="0"
-                           Margin="3"
-                           Padding="3"
-                           Text="Total Hops" />
+                                       Grid.Column="0"
+                                       Margin="3"
+                                       Padding="3"
+                                       Text="Total Hops" />
                             <TextBlock Grid.Row="5"
-                           Grid.Column="1"
-                           Grid.ColumnSpan="2"
-                           Margin="3"
-                           VerticalAlignment="Center"
-                           Padding="3"
-                           Text="{Binding RecipeTotalHopWeight,
-                                          Converter={StaticResource wieghtConverter}}" />
+                                       Grid.Column="1"
+                                       Grid.ColumnSpan="2"
+                                       Margin="3"
+                                       VerticalAlignment="Center"
+                                       Padding="3"
+                                       Text="{Binding RecipeTotalHopWeight,
+                                                      Converter={StaticResource weightConverter}}" />
                         </Grid>
                     </StackPanel>
 

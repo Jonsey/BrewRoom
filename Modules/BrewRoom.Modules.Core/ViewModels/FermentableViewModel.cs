@@ -23,8 +23,6 @@ namespace BrewRoom.Modules.Core.ViewModels
         public FermentableViewModel(IFermentable fermentable)
         {
             _fermentable = fermentable;
-            _name = fermentable.Name;
-            _pppg = fermentable.Pppg;
         } 
         #endregion
 
@@ -37,8 +35,6 @@ namespace BrewRoom.Modules.Core.ViewModels
             set { _fermentable.Name = value; }
         }
 
-        decimal _pppg;
-
         public decimal Pppg
         {
             get { return _fermentable.Pppg; }
@@ -50,7 +46,6 @@ namespace BrewRoom.Modules.Core.ViewModels
             get { return _fermentable; }
         }
 
-        private string _description;
         public string Description
         {
             get { return _fermentable.Description; }

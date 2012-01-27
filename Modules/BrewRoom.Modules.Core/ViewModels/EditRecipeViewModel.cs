@@ -88,13 +88,15 @@ namespace BrewRoom.Modules.Core.ViewModels
             }
         }
 
-        public ObservableCollection<IRecipeHop> RecipeHops
+        public ObservableCollection<IRecipeHopViewModel> RecipeHops
         {
             get
             {
                 var recipeHops = _recipe.Hops;
+                var query = from hop in recipeHops
+                            select new RecipeHopViewModel(hop);
 
-                return new ObservableCollection<IRecipeHop>(recipeHops);
+                return new ObservableCollection<IRecipeHopViewModel>(query);
             }
         }
 
@@ -105,19 +107,23 @@ namespace BrewRoom.Modules.Core.ViewModels
             set
             {
                 _selectedFermentable = value;
+                _selectedHop = null;
+                RaisePropertyChanged("SelectedHop");
                 RaisePropertyChanged("SelectedFermentable");
                 ShowFermentableDetails();
             }
         }
 
-        private IRecipeHop _selectedHop;
-        public IRecipeHop SelectedHop
+        private IRecipeHopViewModel _selectedHop;
+        public IRecipeHopViewModel SelectedHop
         {
             get { return _selectedHop; }
             set
             {
                 _selectedHop = value;
+                _selectedFermentable = null;
                 RaisePropertyChanged("SelectedHop");
+                RaisePropertyChanged("SelectedFermentable");
                 ShowHopDetails();
             }
         }
@@ -156,7 +162,6 @@ namespace BrewRoom.Modules.Core.ViewModels
             _recipe = new Recipe();
             _recipe.SetBrewLength(20.Litres());
 
-            //eventAggregator.GetEvent<StockItemSelectedEvent>().Subscribe(StockItemSelectedEventHandler);
             eventAggregator.GetEvent<AddHopToRecipeEvent>().Subscribe(AddHop);
             eventAggregator.GetEvent<AddFermentableToRecipeEvent>().Subscribe(AddFermentable);
         }
@@ -176,11 +181,22 @@ namespace BrewRoom.Modules.Core.ViewModels
                 return new DelegateCommand(SaveRecipe);
             }
         }
+
+        public DelegateCommand UpdateFermentableCommand
+        {
+            get { return new DelegateCommand(UpdateFermentable); }
+        }
+
+        public DelegateCommand UpdateHopCommand
+        {
+            get { return new DelegateCommand(UpdateHop); }
+        }
+
         #endregion
 
         #region Private Methods
 
-        private void AddHop(IHopViewModel hopViewModel)
+        void AddHop(IHopViewModel hopViewModel)
         {
             var hop = hopViewModel.Model;
             _recipe.AddHop(hop, 5.Grams(), 60);
@@ -188,6 +204,10 @@ namespace BrewRoom.Modules.Core.ViewModels
             UpdateRecipeProperties(); // todo: not covered
         }
 
+        void UpdateHop()
+        {
+            UpdateRecipeProperties();
+        }
 
         void AddFermentable(IFermentableViewModel fermentableViewModel)
         {
@@ -195,6 +215,11 @@ namespace BrewRoom.Modules.Core.ViewModels
             _recipe.AddFermentable(fermentable, 1.KiloGram(), fermentableViewModel.Pppg);
 
             UpdateRecipeProperties(); // todo: not covered
+        }
+
+        void UpdateFermentable()
+        {
+            UpdateRecipeProperties();
         }
 
         void RemoveRecipeFermentable()

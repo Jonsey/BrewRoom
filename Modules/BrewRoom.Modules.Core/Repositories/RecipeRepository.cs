@@ -16,19 +16,19 @@ namespace BrewRoom.Modules.Core.Repositories
         }
         public Guid Save(IRecipe recipe)
         {
-            using (var tran = session.BeginTransaction())
+            using (var tran = Session.BeginTransaction())
             {
                 try
                 {
-                    session.SaveOrUpdate(recipe);
+                    _session.SaveOrUpdate(recipe);
                     tran.Commit();
                 }
                 catch (Exception ex)
                 {
                     tran.Rollback();
-                    session.Close();
-                    session.Dispose();
-                    session = null;
+                    _session.Close();
+                    _session.Dispose();
+                    _session = null;
 
                     throw ex;
                 }

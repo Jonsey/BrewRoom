@@ -13,8 +13,8 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
     public class ViewModelSpecsBase
     {
         protected IEventAggregator eventAggregator;
-        protected IStockItemsRepository stockItemsRepository;
-        protected IRecipeRepository recipeRepository;
+        protected IStockItemsRepository _stockItemsRepository;
+        protected IRecipeRepository _recipeRepository;
         protected IList<IFermentableViewModel> grainVMs;
         protected IList<IHopViewModel> hopVMs;
 
@@ -35,7 +35,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
                                new FermentableViewModel(grains[1])
                            };
 
-            stockItemsRepository.Expect(x => x.GetGrains()).Return(grains).Repeat.Any();
+            _stockItemsRepository.Expect(x => x.GetStockFermentables()).Return(grains).Repeat.Any();
         }
 
         void SetupHops()
@@ -62,7 +62,7 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
                                new HopViewModel(hops[0])
                            };
 
-            stockItemsRepository.Expect(x => x.GetHops()).Return(hops).Repeat.Any();
+            _stockItemsRepository.Expect(x => x.GetHops()).Return(hops).Repeat.Any();
         }
 
         [TestFixtureSetUp]
@@ -74,8 +74,8 @@ namespace Brewroom.Modules.Core.Spec.ViewModels
         [SetUp]
         public void Init()
         {
-            stockItemsRepository = MockRepository.GenerateMock<IStockItemsRepository>();
-            recipeRepository = MockRepository.GenerateMock<IRecipeRepository>();
+            _stockItemsRepository = MockRepository.GenerateMock<IStockItemsRepository>();
+            _recipeRepository = MockRepository.GenerateMock<IRecipeRepository>();
 
             SetupFermentables();
             SetupHops();

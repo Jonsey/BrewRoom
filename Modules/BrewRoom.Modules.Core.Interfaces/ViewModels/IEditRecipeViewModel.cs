@@ -18,7 +18,7 @@ namespace BrewRoom.Modules.Core.Interfaces.ViewModels
         decimal RecipeBuGu { get; }
         Decimal RecipePotential { get; }
         ObservableCollection<IRecipeFermentable> RecipeFermentables { get; }
-        ObservableCollection<IRecipeHop> RecipeHops { get; }
+        ObservableCollection<IRecipeHopViewModel> RecipeHops { get; }
         IRecipeFermentable SelectedFermentable { get; set; }
         DelegateCommand RemoveFermentableCommand { get; }
         Weight RecipeTotalHopWeight { get; }

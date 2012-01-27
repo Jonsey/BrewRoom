@@ -59,6 +59,7 @@
     <Compile Include="Models\IHop.cs" />
     <Compile Include="ViewModels\IHopViewModel.cs" />
     <Compile Include="ViewModels\IIngredientViewModel.cs" />
+    <Compile Include="ViewModels\IRecipeHopViewModel.cs" />
     <Compile Include="ViewModels\IStockItemsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\IAdminView.cs" />

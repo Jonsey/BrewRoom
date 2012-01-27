@@ -4,7 +4,8 @@
              xmlns:Behaviours="clr-namespace:BrewRoom.Modules.Core.Behaviours"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:views="clr-namespace:BrewRoom.Modules.Core.Views" d:DesignHeight="620"
+             xmlns:views="clr-namespace:BrewRoom.Modules.Core.Views"
+             d:DesignHeight="620"
              d:DesignWidth="700"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -18,8 +19,8 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <TabControl Width="300"
-                    
+        <TabControl x:Name="InventoryList"
+                    Width="300"
                     Margin="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
@@ -35,7 +36,7 @@
                               HorizontalAlignment="Left"
                               VerticalAlignment="Stretch"
                               AutoGenerateColumns="False"
-                              Behaviours:MouseDoubleClickBehaviour.DoubleClickCommand="{Binding SelectFermentableCommand}"
+                              Behaviours:MouseDoubleClickBehaviour.DoubleClickCommand="{Binding AddFermentableToRecipeCommand}"
                               DockPanel.Dock="Left"
                               GridLinesVisibility="None"
                               IsSynchronizedWithCurrentItem="True"
@@ -46,12 +47,14 @@
                             <DataGridTextColumn Binding="{Binding Name}"
                                                 Header="Name"
                                                 IsReadOnly="True" />
-                            <DataGridTextColumn Binding="{Binding Pppg}"
+                            <DataGridTextColumn Binding="{Binding Pppg,
+                                                      StringFormat={}#.###}"
                                                 Header="Potential"
                                                 IsReadOnly="True" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Margin="3"
+                    <Button x:Name="NewFermentableButton"
+                            Margin="20"
                             Command="{Binding NewFermentableCommand}"
                             Content="New" />
                 </StackPanel>
@@ -60,34 +63,42 @@
             <TabItem x:Name="Hops"
                      Header="Hops"
                      PreviewMouseDown="Hops_PreviewMouseDown">
-                <DataGrid Width="270"
-                          Height="Auto"
-                          Margin="10,10,0,0"
-                          HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          AutoGenerateColumns="False"
-                          Behaviours:MouseDoubleClickBehaviour.DoubleClickCommand="{Binding SelectStockItemCommand}"
-                          DockPanel.Dock="Left"
-                          GridLinesVisibility="None"
-                          IsSynchronizedWithCurrentItem="True"
-                          ItemsSource="{Binding Hops}"
-                          Padding="3"
-                          SelectedItem="{Binding SelectedHop}">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Name}"
-                                            Header="Name"
-                                            IsReadOnly="True" />
-                        <DataGridTextColumn Binding="{Binding AlphaAcid}"
-                                            Header="AA"
-                                            IsReadOnly="True" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                <StackPanel>
+                    <DataGrid Width="270"
+                              Height="Auto"
+                              Margin="10,10,0,0"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              AutoGenerateColumns="False"
+                              Behaviours:MouseDoubleClickBehaviour.DoubleClickCommand="{Binding AddHopToRecipeCommand}"
+                              DockPanel.Dock="Left"
+                              GridLinesVisibility="None"
+                              IsSynchronizedWithCurrentItem="True"
+                              ItemsSource="{Binding Hops}"
+                              Padding="3"
+                              SelectedItem="{Binding SelectedHop}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}"
+                                                Header="Name"
+                                                IsReadOnly="True" />
+                            <DataGridTextColumn Binding="{Binding AlphaAcid}"
+                                                Header="AA"
+                                                IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="newHopButton"
+                            Margin="20"
+                            Command="{Binding NewHopCommand}"
+                            Content="New" />
+                </StackPanel>
+
             </TabItem>
             <TabItem x:Name="Yeast" Header="Yeast">
                 <ListBox ItemsSource="{Binding Yeasts}" />
             </TabItem>
         </TabControl>
-        <GroupBox Height="300"
+        <GroupBox x:Name="FermentableDetails"
+                  Height="300"
                   Header="Fermentable Details"
                   Padding="3"
                   Style="{StaticResource GroupBoxStyle}"
@@ -109,7 +120,7 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Height="30"
-                            Margin="0"
+                            Margin="10"
                             HorizontalAlignment="Right"
                             Orientation="Horizontal">
 
@@ -125,7 +136,8 @@
             </Grid>
         </GroupBox>
 
-        <GroupBox Height="500"
+        <GroupBox x:Name="HopDetails"
+                  Height="500"
                   Header="Hop Details"
                   Padding="3"
                   Style="{StaticResource GroupBoxStyle}"
@@ -147,7 +159,7 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
                             Height="30"
-                            Margin="0"
+                            Margin="20"
                             HorizontalAlignment="Right"
                             Orientation="Horizontal">
 
@@ -155,7 +167,7 @@
                             Command="{Binding SaveHopCommand}"
                             Content="Save" />
                     <Button Margin="3" Content="Delete" />
-                    <Button Margin="3" 
+                    <Button Margin="3"
                             Command="{Binding AddHopToRecipeCommand}"
                             Content="Add to Recipe" />
                 </StackPanel>
